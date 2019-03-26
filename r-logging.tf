@@ -1,7 +1,7 @@
 # Custom code waiting for this issue implementation https://github.com/terraform-providers/terraform-provider-azurerm/issues/1082
-# Works only for Windows
+# Works only for Windows App Service Plans
 resource "null_resource" "logging_deactivation" {
-  count = "${var.logs_destination == "none" ? 1 : 0}"
+  count = "${var.enable_storage_logging ? 0 : 1}"
 
   provisioner "local-exec" {
     command = <<CMD
@@ -12,7 +12,7 @@ resource "null_resource" "logging_deactivation" {
 }
 
 resource "null_resource" "logging_storage_activation" {
-  count = "${var.logs_destination == "storage_account" ? 1 : 0}"
+  count = "${var.enable_storage_logging ? 1 : 0}"
 
   provisioner "local-exec" {
     command = <<CMD

@@ -15,7 +15,7 @@ app_settings = {
 extra_tags={
     foo = "bar"
 }
-logs_destination="storage_account"
+enable_storage_logging="true"
 logs_retention=7
 logs_storage_account_container="webapps"
 logs_storage_account_name="my_storage_account"

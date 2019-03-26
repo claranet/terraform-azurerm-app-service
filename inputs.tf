@@ -76,9 +76,10 @@ variable "application_insights_type" {
   default     = "Web"
 }
 
-variable "logs_destination" {
-  description = "Logs destination for App Service, can be `storage_account`, `log_analytics` or `none`"
+variable "enable_storage_logging" {
+  description = "True to enable sending logs to a blob storage"
   type        = "string"
+  default     = "true"
 }
 
 variable "logs_retention" {
@@ -88,27 +89,21 @@ variable "logs_retention" {
 }
 
 variable "logs_storage_account_name" {
-  description = "Name of the Storage Account for log storage if `logs_destination` is `storage_account`"
+  description = "Name of the Storage Account if storage logging is enabled"
   type        = "string"
   default     = ""
 }
 
 variable "logs_storage_account_rg" {
-  description = "Resource group of the Storage Account for log storage if `logs_destination` is `storage_account`"
+  description = "Resource group of the Storage Account if storage logging is enabled"
   type        = "string"
   default     = ""
 }
 
 variable "logs_storage_account_container" {
-  description = "Name of the container in the Storage Account for log storage if `logs_destination` is `storage_account`"
+  description = "Name of the container in the Storage Account if storage logging is enabled"
   type        = "string"
   default     = "webapps"
-}
-
-variable "logs_log_analytics_workspace_id" {
-  description = "Id of the Log Analytics Workspace for log storage if `logs_destination` is `log_analytics`"
-  type        = "string"
-  default     = ""
 }
 
 variable "app_settings" {
