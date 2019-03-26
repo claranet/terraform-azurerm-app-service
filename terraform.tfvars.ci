@@ -1,0 +1,22 @@
+location="fr-central"
+location_short="frc"
+client_name="test"
+environment="test"
+stack="ci"
+resource_group_name="test-rg"
+kind="Windows"
+plan_sku={
+    tier = "Standard"
+    size = "S1"
+}
+app_settings = {
+    foo = "bar"
+}
+extra_tags={
+    foo = "bar"
+}
+logs_destination="storage_account"
+logs_retention=7
+logs_storage_account_container="webapps"
+logs_storage_account_name="my_storage_account"
+logs_storage_account_rg="test-rg"
