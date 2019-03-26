@@ -5,8 +5,12 @@ data "azurerm_storage_account" "logs_storage_account" {
   resource_group_name = "${var.logs_storage_account_rg}"
 }
 
-data "template_file" "log_config" {
-  template = "${file(format("%s/files/log_config.json.tpl", path.module))}"
+data "template_file" "log_config_none" {
+  template = "${file(format("%s/files/log_config_none.json.tpl", path.module))}"
+}
+
+data "template_file" "log_config_storage" {
+  template = "${file(format("%s/files/log_config_storage.json.tpl", path.module))}"
 
   vars {
     storage_account_name      = "${data.azurerm_storage_account.logs_storage_account.name}"

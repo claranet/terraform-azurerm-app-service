@@ -65,7 +65,7 @@ variable "extra_tags" {
 }
 
 variable "reserved_plan" {
-  description = "Is this App Service Plan is Reserved."
+  description = "Is the App Service Plan is Reserved."
   type        = "string"
   default     = "false"
 }

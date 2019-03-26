@@ -18,6 +18,7 @@ resource "azurerm_app_service" "app_service" {
 
   lifecycle {
     ignore_changes = [
+      "app_settings.%",
       "app_settings.DIAGNOSTICS_AZUREBLOBCONTAINERSASURL",
       "app_settings.DIAGNOSTICS_AZUREBLOBRETENTIONINDAYS",
       "app_settings.WEBSITE_HTTPLOGGING_CONTAINER_URL",

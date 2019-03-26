@@ -1,5 +1,5 @@
-{ 
-  "properties": { 
+{
+  "properties": {
     "applicationLogs": {
       "azureBlobStorage": {
         "level": "Error",
@@ -22,7 +22,7 @@
         "retentionInDays": null,
         "retentionInMb": 42
       }
-    }}, 
+    }},
     "kind": null 
-  } 
+  }
 }
