@@ -75,5 +75,5 @@ output "app_insights_application_type" {
 
 output "app_service_scaling_id" {
   description = "Id of the Azure Monitor autoscale setting associated to the App Service"
-  value       = "${azurerm_monitor_autoscale_setting.app_scaling.id}"
+  value       = "${azurerm_monitor_autoscale_setting.app_scaling.*.id}"
 }

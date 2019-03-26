@@ -146,3 +146,15 @@ variable "https_only" {
   type        = "string"
   default     = "false"
 }
+
+variable "create_default_scaling_rule" {
+  description = "True to create a default sclaing rune that allows to have high availability with more than one App Service Plan instance."
+  type        = "string"
+  default     = "true"
+}
+
+variable "instances_count" {
+  description = "Instances count for App Service if `create_default_scaling_rule` set to true"
+  type        = "string"
+  default     = "2"
+}
