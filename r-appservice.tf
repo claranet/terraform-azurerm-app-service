@@ -18,11 +18,18 @@ resource "azurerm_app_service" "app_service" {
 
   lifecycle {
     ignore_changes = [
+      # Avoid to have changes if one of settings below is set - requires to apply twice :/
       "app_settings.%",
+
+      # Automated diagnostics logs related settings
       "app_settings.DIAGNOSTICS_AZUREBLOBCONTAINERSASURL",
+
       "app_settings.DIAGNOSTICS_AZUREBLOBRETENTIONINDAYS",
       "app_settings.WEBSITE_HTTPLOGGING_CONTAINER_URL",
       "app_settings.WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+
+      # Java related settings, set at deployment
+      "app_settings.INIT_SCRIPT",
     ]
   }
 }

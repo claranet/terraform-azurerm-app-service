@@ -8,6 +8,7 @@ and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azure/app-serv
 
 ## Limitations
 * Diagnostics logs only works fine for Windows for now.
+* Untested with App Service slots
 
 ## Usage
 You can use this module by including it this way:
