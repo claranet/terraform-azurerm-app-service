@@ -4,11 +4,7 @@ client_name="test"
 environment="test"
 stack="ci"
 resource_group_name="test-rg"
-kind="Windows"
-plan_sku={
-    tier = "Standard"
-    size = "S1"
-}
+app_service_plan_id="/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/my-rg/providers/Microsoft.web/serverFarms/my-resource-name"
 app_settings = {
     foo = "bar"
 }

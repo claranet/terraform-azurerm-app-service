@@ -30,10 +30,9 @@ variable "name_prefix" {
   default     = ""
 }
 
-variable "plan_custom_name" {
-  description = "Name of the App Service Plan, generated if not set."
+variable "app_service_plan_id" {
+  description = "Id of the App Service Plan that hosts the App Service"
   type        = "string"
-  default     = ""
 }
 
 variable "app_service_custom_name" {
@@ -48,26 +47,10 @@ variable "app_insights_custom_name" {
   default     = ""
 }
 
-variable "plan_sku" {
-  description = "A sku block for App Service Plan. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service_plan.html#sku"
-  type        = "map"
-}
-
-variable "kind" {
-  description = "The kind of the App Service Plan to create. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service_plan.html#kind"
-  type        = "string"
-}
-
 variable "extra_tags" {
   description = "Extra tags to add"
   type        = "map"
   default     = {}
-}
-
-variable "reserved_plan" {
-  description = "Is the App Service Plan is Reserved."
-  type        = "string"
-  default     = "false"
 }
 
 variable "application_insights_type" {
@@ -140,16 +123,4 @@ variable "https_only" {
   description = "HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only"
   type        = "string"
   default     = "false"
-}
-
-variable "create_default_scaling_rule" {
-  description = "True to create a default sclaing rune that allows to have high availability with more than one App Service Plan instance."
-  type        = "string"
-  default     = "true"
-}
-
-variable "instances_count" {
-  description = "Instances count for App Service if `create_default_scaling_rule` set to true"
-  type        = "string"
-  default     = "2"
 }

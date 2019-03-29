@@ -1,16 +1,6 @@
 output "app_service_plan_id" {
   description = "Id of the App Service Plan"
-  value       = "${module.app_service_plan.app_service_plan_id}"
-}
-
-output "app_service_plan_name" {
-  description = "Name of the App Service Plan"
-  value       = "${module.app_service_plan.app_service_plan_name}"
-}
-
-output "app_service_plan_max_workers" {
-  description = "Maximum number of workers for the App Service Plan"
-  value       = "${module.app_service_plan.app_service_plan_max_workers}"
+  value       = "${var.app_service_plan_id}"
 }
 
 output "app_service_id" {
@@ -71,9 +61,4 @@ output "app_insights_instrumentation_key" {
 output "app_insights_application_type" {
   description = "Application Type of the Application Insights associated to the App Service"
   value       = "${azurerm_application_insights.app_insights.application_type}"
-}
-
-output "app_service_scaling_id" {
-  description = "Id of the Azure Monitor autoscale setting associated to the App Service"
-  value       = "${azurerm_monitor_autoscale_setting.app_scaling.*.id}"
 }
