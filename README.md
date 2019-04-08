@@ -21,7 +21,7 @@ module "az-region" {
 module "rg" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/rg.git?ref=vX.X.X"
 
-  azure_region = "${module.az-region.location}"
+  location     = "${module.az-region.location}"
   client_name  = "${var.client_name}"
   environment  = "${var.environment}"
   stack        = "${var.stack}"
@@ -69,7 +69,7 @@ module "app_service" {
   resource_group_name = "${module.rg.resource_group_name}"
   stack               = "${var.stack}"
 
-  app_service_plan_id = "${module.app_service_plan.app_service_plan_id}
+  app_service_plan_id = "${module.app_service_plan.app_service_plan_id}"
 
   app_settings = {
     foo = "bar"
@@ -79,7 +79,7 @@ module "app_service" {
     foo = "bar"
   }
 
-  logs_destination = "storage_account"
+  enable_storage_logging = "true"
 
   logs_retention                 = "7"
   logs_storage_account_container = "webapps"
