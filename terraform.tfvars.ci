@@ -11,6 +11,11 @@ app_settings = {
 extra_tags={
     foo = "bar"
 }
+connection_string = {
+  name  = "name-ci"
+  type  = "Custom"
+  value = "MyCustomConnectionString"
+}
 enable_storage_logging="true"
 logs_retention=7
 logs_storage_account_container="webapps"

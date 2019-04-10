@@ -8,7 +8,11 @@ resource "azurerm_app_service" "app_service" {
 
   app_settings = "${merge(local.default_app_settings, var.app_settings)}"
 
-  connection_string = "${var.connection_string}"
+  connection_string = [{
+    name  = "${lookup(var.connection_string, "name")}"
+    type  = "${lookup(var.connection_string, "type")}"
+    value = "${lookup(var.connection_string, "value")}"
+  }]
 
   client_affinity_enabled = "${var.client_affinity_enabled}"
   https_only              = "${var.https_only}"

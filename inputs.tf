@@ -102,9 +102,14 @@ variable "site_config" {
 }
 
 variable "connection_string" {
-  description = "Connection string for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string"
-  type        = "list"
-  default     = []
+  description = "Connection string for App Service (could have only one due to Terraform limitation). See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string"
+  type        = "map"
+
+  default = {
+    name  = "fake"
+    type  = "Custom"
+    value = ""
+  }
 }
 
 variable "client_affinity_enabled" {

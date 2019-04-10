@@ -8,6 +8,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 ## Limitations
 * Diagnostics logs only works fine for Windows for now.
 * Untested with App Service slots
+* Only one connection string can be set
 
 ## Usage
 You can use this module by including it this way:
@@ -100,7 +101,7 @@ module "app_service" {
 | client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | string | `"false"` | no |
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | string | `"false"` | no |
 | client\_name |  | string | n/a | yes |
-| connection\_string | Connection string for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | list | `<list>` | no |
+| connection\_string | Connection string for App Service (could have only one due to Terraform limitation). See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | map | `<map>` | no |
 | enable\_storage\_logging | True to enable sending logs to a blob storage | string | `"true"` | no |
 | environment |  | string | n/a | yes |
 | extra\_tags | Extra tags to add | map | `<map>` | no |
