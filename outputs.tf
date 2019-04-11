@@ -33,9 +33,9 @@ output "app_service_site_credential" {
   value       = "${azurerm_app_service.app_service.site_credential}"
 }
 
-output "app_service_identity" {
-  description = "Idenity block of the App Service"
-  value       = "${azurerm_app_service.app_service.identity}"
+output "app_service_identity_service_principal_id" {
+  description = "Id of the Service principal identity of the App Service"
+  value       = "${local.identity_service_principal_id}"
 }
 
 output "app_insights_id" {

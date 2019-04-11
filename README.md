@@ -128,7 +128,7 @@ module "app_service" {
 | app\_insights\_name | Name of the Application Insights associated to the App Service |
 | app\_service\_default\_site\_hostname | The Default Hostname associated with the App Service |
 | app\_service\_id | Id of the App Service |
-| app\_service\_identity | Idenity block of the App Service |
+| app\_service\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service |
 | app\_service\_outbound\_ip\_addresses | Outbound IP adresses of the App Service |
 | app\_service\_plan\_id | Id of the App Service Plan |
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |

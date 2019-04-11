@@ -21,4 +21,6 @@ locals {
     "DIAGNOSTICS_AZUREBLOBRETENTIONINDAYS" = "${var.logs_retention}"
     "WEBSITE_HTTPLOGGING_RETENTION_DAYS"   = "${var.logs_retention}"
   }
+
+  identity_service_principal_id = "${replace(jsonencode(azurerm_app_service.app_service.identity), "/(.*\"principal_id\":\"([a-z0-9-]{36})\".*)/", "$2")}"
 }

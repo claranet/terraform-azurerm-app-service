@@ -18,6 +18,10 @@ resource "azurerm_app_service" "app_service" {
   https_only              = "${var.https_only}"
   client_cert_enabled     = "${var.client_cert_enabled}"
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags = "${merge(local.default_tags, var.extra_tags)}"
 
   lifecycle {
