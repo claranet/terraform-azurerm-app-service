@@ -21,4 +21,10 @@ resource "null_resource" "logging_storage_activation" {
       curl -XPUT --silent -H "Authorization: Bearer $token" -H "Content-Type: application/json" --data "${replace(data.template_file.log_config_storage.rendered, "\"", "\\\"")}" https://management.azure.com${azurerm_app_service.app_service.id}/config/logs?api-version=2016-08-01
     CMD
   }
+
+  triggers {
+    storage_account_name      = "${var.logs_storage_account_name}"
+    storage_account_rg        = "${var.logs_storage_account_rg}"
+    storage_account_container = "${var.logs_storage_account_container}"
+  }
 }
