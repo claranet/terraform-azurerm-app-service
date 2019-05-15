@@ -1,3 +1,4 @@
-# 1.0.0 (XX/XX/2019)
+# Unreleased
 
-* AZ-41: First release
+Added
+  * AZ-41: First release

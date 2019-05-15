@@ -1,18 +1,20 @@
 # Azure App Service Web
 
-## Purpose
 This Terraform module creates an [Azure App Service Web](https://docs.microsoft.com/en-us/azure/app-service/overview) 
 associated with an [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) 
 component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azure/app-service/troubleshoot-diagnostic-logs).
 
 ## Limitations
+
 * Diagnostics logs only works fine for Windows for now.
 * Untested with App Service slots
 * Only one connection string can be set
 
 ## Usage
+
 You can use this module by including it this way:
-```
+
+```hcl
 module "az-region" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/regions.git?ref=vX.X.X"
 
@@ -48,7 +50,7 @@ module "app_service_plan" {
   client_name         = "${var.client_name}"
   environment         = "${var.environment}"
   location            = "${module.az-region.location}"
-  location_short      = "${module.az-region.location-short}"
+  location_short      = "${module.az-region.location_short}"
   resource_group_name = "${module.rg.resource_group_name}"
   stack               = "${var.stack}"
 
@@ -66,7 +68,7 @@ module "app_service" {
   client_name         = "${var.client_name}"
   environment         = "${var.environment}"
   location            = "${module.az-region.location}"
-  location_short      = "${module.az-region.location-short}"
+  location_short      = "${module.az-region.location_short}"
   resource_group_name = "${module.rg.resource_group_name}"
   stack               = "${var.stack}"
 
@@ -136,6 +138,7 @@ module "app_service" {
 | app\_service\_source\_control | Source Control information block of the App Service |
 
 ## Related documentation
+
 Terraform resource documentation: [https://www.terraform.io/docs/providers/azurerm/r/app_service.html]
 
 Microsoft Azure documentation: [https://docs.microsoft.com/en-us/azure/app-service/overview]
