@@ -1,4 +1,5 @@
 # Azure App Service Web
+[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](http://img.shields.io/badge/license-Apache%20V2-blue.svg)](LICENSE)
 
 This Terraform module creates an [Azure App Service Web](https://docs.microsoft.com/en-us/azure/app-service/overview) 
 associated with an [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) 
