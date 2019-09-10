@@ -10,6 +10,13 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 * Untested with App Service slots
 * Only one connection string can be set
 
+## Terraform version compatibility
+
+| Module version | Terraform version |
+|----------------|-------------------|
+| 2.x.x          | 0.12.x            |
+| 1.x.x          | 0.11.x            |
+
 ## Usage
 
 You can use this module by including it this way:
@@ -18,41 +25,41 @@ You can use this module by including it this way:
 module "az-region" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/regions.git?ref=vX.X.X"
 
-  azure_region = "${var.azure_region}"
+  azure_region = var.azure_region
 }
 
 module "rg" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/rg.git?ref=vX.X.X"
 
-  location     = "${module.az-region.location}"
-  client_name  = "${var.client_name}"
-  environment  = "${var.environment}"
-  stack        = "${var.stack}"
+  location     = module.az-region.location
+  client_name  = var.client_name
+  environment  = var.environment
+  stack        = var.stack
 }
 
 resource "azurerm_storage_account" "logs_storage" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
-  location                 = "${module.az-region.location}"
+  location                 = module.az-region.location
   name                     = "appservicelogs"
-  resource_group_name      = "${module.rg.resource_group_name}"
+  resource_group_name      = module.rg.resource_group_name
 }
 
 resource "azurerm_storage_container" "logs_storage_container" {
   name                 = "webapps"
-  resource_group_name  = "${module.rg.resource_group_name}"
-  storage_account_name = "${azurerm_storage_account.logs_storage.name}"
+  resource_group_name  = module.rg.resource_group_name
+  storage_account_name = azurerm_storage_account.logs_storage.name
 }
 
 module "app_service_plan" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/app-service-plan.git?ref=vX.X.X"
 
-  client_name         = "${var.client_name}"
-  environment         = "${var.environment}"
-  location            = "${module.az-region.location}"
-  location_short      = "${module.az-region.location_short}"
-  resource_group_name = "${module.rg.resource_group_name}"
-  stack               = "${var.stack}"
+  client_name         = var.client_name
+  environment         = var.environment
+  location            = module.az-region.location
+  location_short      = module.az-region.location_short
+  resource_group_name = module.rg.resource_group_name
+  stack               = var.stack
 
   sku = {
     tier = "Standard"
@@ -65,14 +72,14 @@ module "app_service_plan" {
 module "app_service" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/app-service-web.git?ref=vX.X.X"
 
-  client_name         = "${var.client_name}"
-  environment         = "${var.environment}"
-  location            = "${module.az-region.location}"
-  location_short      = "${module.az-region.location_short}"
-  resource_group_name = "${module.rg.resource_group_name}"
-  stack               = "${var.stack}"
+  client_name         = var.client_name
+  environment         = var.environment
+  location            = module.az-region.location
+  location_short      = module.az-region.location_short
+  resource_group_name = module.rg.resource_group_name
+  stack               = var.stack
 
-  app_service_plan_id = "${module.app_service_plan.app_service_plan_id}"
+  app_service_plan_id = module.app_service_plan.app_service_plan_id
 
   app_settings = {
     foo = "bar"
@@ -86,8 +93,8 @@ module "app_service" {
 
   logs_retention                 = "7"
   logs_storage_account_container = "webapps"
-  logs_storage_account_name      = "${azurerm_storage_account.logs_storage.name}"
-  logs_storage_account_rg        = "${azurerm_storage_account.logs_storage.resource_group_name}"
+  logs_storage_account_name      = azurerm_storage_account.logs_storage.name
+  logs_storage_account_rg        = azurerm_storage_account.logs_storage.resource_group_name
 }
 ```
 
