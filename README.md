@@ -1,5 +1,5 @@
 # Azure App Service Web
-[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](http://img.shields.io/badge/license-Apache%20V2-blue.svg)](LICENSE)
+[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/app-service-web/azurerm/)
 
 This Terraform module creates an [Azure App Service Web](https://docs.microsoft.com/en-us/azure/app-service/overview) 
 associated with an [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) 
@@ -27,13 +27,15 @@ You can use this module by including it this way:
 
 ```hcl
 module "azure-region" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/regions.git?ref=vX.X.X"
+  source  = "claranet/regions/azurerm"
+  version = "x.x.x"
 
   azure_region = var.azure_region
 }
 
 module "rg" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/rg.git?ref=vX.X.X"
+  source  = "claranet/rg/azurerm"
+  version = "x.x.x"
 
   location     = module.azure-region.location
   client_name  = var.client_name
@@ -70,7 +72,8 @@ resource "azurerm_storage_share" "assets_share" {
 }
 
 module "app_service_plan" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/app-service-plan.git?ref=vX.X.X"
+  source  = "claranet/app-service-plan/azurerm"
+  version = "x.x.x"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -88,7 +91,8 @@ module "app_service_plan" {
 }
 
 module "app_service" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/app-service-web.git?ref=vX.X.X"
+  source  = "claranet/app-service-web/azurerm"
+  version = "x.x.x"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -190,6 +194,6 @@ module "app_service" {
 
 ## Related documentation
 
-Terraform resource documentation: [https://www.terraform.io/docs/providers/azurerm/r/app_service.html]
+Terraform resource documentation: [www.terraform.io/docs/providers/azurerm/r/app_service.html](https://www.terraform.io/docs/providers/azurerm/r/app_service.html)
 
-Microsoft Azure documentation: [https://docs.microsoft.com/en-us/azure/app-service/overview]
+Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/app-service/overview](https://docs.microsoft.com/en-us/azure/app-service/overview)

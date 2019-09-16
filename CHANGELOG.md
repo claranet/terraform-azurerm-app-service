@@ -8,6 +8,7 @@ Added
 Changed
   * AZ-143: Support ip restriction
   * AZ-133: Use diagnostics settings for logs 
+  * AZ-119: Revamp README and publish this module to Terraform registry
 
 # v2.0.0 - 2019-10-29
 
