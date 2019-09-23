@@ -4,7 +4,8 @@ Added
   * AZ-121: Implement backup feature
   * AZ-158: Manage authentication settings
   * AZ-118: Add LICENSE, NOTICE & Github badges
-	  
+  * AZ-119: Add CONTRIBUTING.md doc and `terraform-wrapper` usage with the module
+
 Changed
   * AZ-143: Support ip restriction
   * AZ-133: Use diagnostics settings for logs 

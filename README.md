@@ -23,7 +23,9 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 
 ## Usage
 
-You can use this module by including it this way:
+This module is optimized to work with the [Claranet terraform-wrapper](https://github.com/claranet/terraform-wrapper) tool
+which set some terraform variables in the environment needed by this module.
+More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
 
 ```hcl
 module "azure-region" {
