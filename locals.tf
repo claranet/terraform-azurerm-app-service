@@ -22,15 +22,7 @@ locals {
   )
 
   default_app_settings = {
-    "APPLICATION_INSIGHTS_IKEY"            = azurerm_application_insights.app_insights.instrumentation_key
-    "APPINSIGHTS_INSTRUMENTATIONKEY"       = azurerm_application_insights.app_insights.instrumentation_key
-    "DIAGNOSTICS_AZUREBLOBRETENTIONINDAYS" = var.logs_retention
-    "WEBSITE_HTTPLOGGING_RETENTION_DAYS"   = var.logs_retention
-
-    # Mandatory tho use the "ignore_changes" trick on maps, cf documentation
-    # https://www.terraform.io/docs/configuration/resources.html#lifecycle-lifecycle-customizations
-    "DIAGNOSTICS_AZUREBLOBCONTAINERSASURL" = "<placeholder>"
-    "WEBSITE_HTTPLOGGING_CONTAINER_URL"    = "<placeholder>"
-    "INIT_SCRIPT"                          = "<placeholder>"
+    "APPLICATION_INSIGHTS_IKEY"      = azurerm_application_insights.app_insights.instrumentation_key
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.app_insights.instrumentation_key
   }
 }

@@ -10,12 +10,16 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 * Untested with App Service slots
 * Only one connection string can be set
 
+## Requirements
+ 
+* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.31
+
 ## Terraform version compatibility
 
 | Module version | Terraform version |
 |----------------|-------------------|
-| 2.x.x          | 0.12.x            |
-| 1.x.x          | 0.11.x            |
+| >= 2.x.x       | 0.12.x            |
+| < 2.x.x        | 0.11.x            |
 
 ## Usage
 

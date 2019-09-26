@@ -62,12 +62,4 @@ resource "azurerm_app_service" "app_service" {
   }
 
   tags = merge(local.default_tags, var.extra_tags)
-
-  lifecycle {
-    ignore_changes = [
-      app_settings["DIAGNOSTICS_AZUREBLOBCONTAINERSASURL"],
-      app_settings["WEBSITE_HTTPLOGGING_CONTAINER_URL"],
-      app_settings["INIT_SCRIPT"],
-    ]
-  }
 }
