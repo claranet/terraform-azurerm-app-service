@@ -26,7 +26,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 You can use this module by including it this way:
 
 ```hcl
-module "az-region" {
+module "azure-region" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/regions.git?ref=vX.X.X"
 
   azure_region = var.azure_region
@@ -35,7 +35,7 @@ module "az-region" {
 module "rg" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/rg.git?ref=vX.X.X"
 
-  location     = module.az-region.location
+  location     = module.azure-region.location
   client_name  = var.client_name
   environment  = var.environment
   stack        = var.stack
@@ -44,7 +44,7 @@ module "rg" {
 resource "azurerm_storage_account" "logs_storage" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
-  location                 = module.az-region.location
+  location                 = module.azure-region.location
   name                     = "appservicelogs"
   resource_group_name      = module.rg.resource_group_name
 }
@@ -60,8 +60,8 @@ module "app_service_plan" {
 
   client_name         = var.client_name
   environment         = var.environment
-  location            = module.az-region.location
-  location_short      = module.az-region.location_short
+  location            = module.azure-region.location
+  location_short      = module.azure-region.location_short
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
@@ -78,8 +78,8 @@ module "app_service" {
 
   client_name         = var.client_name
   environment         = var.environment
-  location            = module.az-region.location
-  location_short      = module.az-region.location_short
+  location            = module.azure-region.location
+  location_short      = module.azure-region.location_short
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
