@@ -61,8 +61,8 @@ variable "application_insights_type" {
 
 variable "enable_storage_logging" {
   description = "\"true\" to enable sending logs to a blob storage"
-  type        = string
-  default     = "true"
+  type        = bool
+  default     = true
 }
 
 variable "logs_retention" {
@@ -145,8 +145,8 @@ variable "https_only" {
 
 variable "enable_backup" {
   description = "\"true\" to enable App Service backup"
-  type        = string
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "backup_frequency_interval" {

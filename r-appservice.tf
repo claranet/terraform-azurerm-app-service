@@ -62,7 +62,7 @@ resource "azurerm_app_service" "app_service" {
   }
 
   dynamic "logs" {
-    for_each = var.enable_storage_logging == "true" ? list("fake") : []
+    for_each = var.enable_storage_logging ? list("fake") : []
     content {
       application_logs {
         azure_blob_storage {
@@ -106,4 +106,12 @@ resource "azurerm_app_service" "app_service" {
   }
 
   tags = merge(local.default_tags, var.extra_tags)
+
+  lifecycle {
+    ignore_changes = [
+      logs[0].application_logs[0].azure_blob_storage[0].sas_url,
+      logs[0].http_logs[0].azure_blob_storage[0].sas_url,
+      backup[0].storage_account_url,
+    ]
+  }
 }
