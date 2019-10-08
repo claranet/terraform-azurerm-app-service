@@ -62,7 +62,7 @@ resource "azurerm_app_service" "app_service" {
   }
 
   dynamic "logs" {
-    for_each = var.enable_storage_logging ? list("fake") : []
+    for_each = local.enable_storage_logging ? list("fake") : []
     content {
       application_logs {
         azure_blob_storage {
@@ -75,6 +75,18 @@ resource "azurerm_app_service" "app_service" {
         azure_blob_storage {
           retention_in_days = var.logs_retention
           sas_url           = module.logs_sas_token.storage_account_sas_container_uri
+        }
+      }
+    }
+  }
+
+  dynamic "logs" {
+    for_each = local.enable_storage_logging ? [] : list("fake")
+    content {
+      http_logs {
+        file_system {
+          retention_in_days = var.logs_retention
+          retention_in_mb   = 100
         }
       }
     }
