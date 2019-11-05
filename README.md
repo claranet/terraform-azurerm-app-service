@@ -115,12 +115,7 @@ module "app_service" {
     }
   ]
 
-  enable_storage_logging = "true"
-
-  logs_retention                 = "7"
-  logs_storage_account_container = "webapps"
-  logs_storage_account_name      = azurerm_storage_account.logs_storage.name
-  logs_storage_account_rg        = azurerm_storage_account.logs_storage.resource_group_name
+  logs_storage_account_id = azurerm_storage_account.logs_storage.id
 }
 ```
 
@@ -145,18 +140,17 @@ module "app_service" {
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | string | `"false"` | no |
 | client\_name |  | string | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | list(map(string)) | `[]` | no |
-| enable\_backup | "true" to enable App Service backup | string | `"false"` | no |
-| enable\_storage\_logging | "true" to enable sending logs to a blob storage | string | `"true"` | no |
+| enable\_backup | "true" to enable App Service backup | bool | `"false"` | no |
+| enable\_logging | Boolean flag to specify whether logging is enabled | bool | `"true"` | no |
+| enable\_storage\_logging | "true" to enable sending logs to a blob storage | bool | `"true"` | no |
 | environment |  | string | n/a | yes |
 | extra\_tags | Extra tags to add | map(string) | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | string | `"false"` | no |
 | location | Azure location for App Service. | string | n/a | yes |
 | location\_short | Short string for Azure location. | string | n/a | yes |
-| logs\_level | Logs level. Can be Error, Warning, Information, Verbose and Off | string | `"Warning"` | no |
-| logs\_retention | Logs retention in days | string | `"30"` | no |
-| logs\_storage\_account\_container | Name of the container in the Storage Account if storage logging is enabled | string | `"webapps"` | no |
-| logs\_storage\_account\_name | Name of the Storage Account if storage logging is enabled | string | `""` | no |
-| logs\_storage\_account\_rg | Resource group of the Storage Account if storage logging is enabled | string | `""` | no |
+| logs\_log\_analytics\_workspace\_id | Log Analytics Workspace id for logs | string | `"null"` | no |
+| logs\_storage\_account\_id | Storage Account id for logs | string | `"null"` | no |
+| logs\_storage\_retention | Retention in days for logs on Storage Account | string | `"30"` | no |
 | mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | list(map(string)) | `[]` | no |
 | name\_prefix | Optional prefix for the generated name | string | `""` | no |
 | resource\_group\_name |  | string | n/a | yes |

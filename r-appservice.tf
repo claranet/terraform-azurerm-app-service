@@ -61,37 +61,6 @@ resource "azurerm_app_service" "app_service" {
     type = "SystemAssigned"
   }
 
-  dynamic "logs" {
-    for_each = local.enable_storage_logging ? list("fake") : []
-    content {
-      application_logs {
-        azure_blob_storage {
-          level             = var.logs_level
-          retention_in_days = var.logs_retention
-          sas_url           = module.logs_sas_token.storage_account_sas_container_uri
-        }
-      }
-      http_logs {
-        azure_blob_storage {
-          retention_in_days = var.logs_retention
-          sas_url           = module.logs_sas_token.storage_account_sas_container_uri
-        }
-      }
-    }
-  }
-
-  dynamic "logs" {
-    for_each = local.enable_storage_logging ? [] : list("fake")
-    content {
-      http_logs {
-        file_system {
-          retention_in_days = var.logs_retention
-          retention_in_mb   = 100
-        }
-      }
-    }
-  }
-
   dynamic "backup" {
     for_each = var.enable_backup == "true" ? list("fake") : []
     content {
@@ -121,8 +90,6 @@ resource "azurerm_app_service" "app_service" {
 
   lifecycle {
     ignore_changes = [
-      logs[0].application_logs[0].azure_blob_storage[0].sas_url,
-      logs[0].http_logs[0].azure_blob_storage[0].sas_url,
       backup[0].storage_account_url,
     ]
   }

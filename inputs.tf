@@ -59,40 +59,28 @@ variable "application_insights_type" {
   default     = "Web"
 }
 
-variable "enable_storage_logging" {
-  description = "\"true\" to enable sending logs to a blob storage"
+variable "enable_logging" {
+  description = "Boolean flag to specify whether logging is enabled"
   type        = bool
   default     = true
 }
 
-variable "logs_retention" {
-  description = "Logs retention in days"
+variable "logs_storage_retention" {
+  description = "Retention in days for logs on Storage Account"
   type        = string
   default     = "30"
 }
 
-variable "logs_level" {
-  description = "Logs level. Can be Error, Warning, Information, Verbose and Off"
+variable "logs_storage_account_id" {
+  description = "Storage Account id for logs"
   type        = string
-  default     = "Warning"
+  default     = null
 }
 
-variable "logs_storage_account_name" {
-  description = "Name of the Storage Account if storage logging is enabled"
+variable "logs_log_analytics_workspace_id" {
+  description = "Log Analytics Workspace id for logs"
   type        = string
-  default     = ""
-}
-
-variable "logs_storage_account_rg" {
-  description = "Resource group of the Storage Account if storage logging is enabled"
-  type        = string
-  default     = ""
-}
-
-variable "logs_storage_account_container" {
-  description = "Name of the container in the Storage Account if storage logging is enabled"
-  type        = string
-  default     = "webapps"
+  default     = null
 }
 
 variable "app_settings" {
