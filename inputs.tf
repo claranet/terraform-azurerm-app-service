@@ -107,6 +107,12 @@ variable "connection_strings" {
   default     = []
 }
 
+variable "authorized_ips" {
+  description = "IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
+  type        = list(map(string))
+  default     = []
+}
+
 variable "client_affinity_enabled" {
   description = "Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled"
   type        = string
