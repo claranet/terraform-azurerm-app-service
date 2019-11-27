@@ -14,6 +14,7 @@ resource "azurerm_app_service" "app_service" {
       dotnet_framework_version  = lookup(site_config.value, "dotnet_framework_version", null)
       ftps_state                = lookup(site_config.value, "ftps_state", null)
       http2_enabled             = lookup(site_config.value, "http2_enabled", null)
+      ip_restriction            = concat(local.subnets, local.cidrs)
       java_container            = lookup(site_config.value, "java_container", null)
       java_container_version    = lookup(site_config.value, "java_container_version", null)
       java_version              = lookup(site_config.value, "java_version", null)
@@ -36,15 +37,6 @@ resource "azurerm_app_service" "app_service" {
         content {
           allowed_origins     = cors.value.allowed_origins
           support_credentials = lookup(cors.value, "support_credentials", null)
-        }
-      }
-
-      dynamic "ip_restriction" {
-        for_each = var.authorized_ips
-        content {
-          ip_address                = lookup(ip_restriction.value, "ip_address", null)
-          subnet_mask               = lookup(ip_restriction.value, "subnet_mask", null)
-          virtual_network_subnet_id = lookup(ip_restriction.value, "virtual_network_subnet_id", null)
         }
       }
     }
