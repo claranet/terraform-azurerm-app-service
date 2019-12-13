@@ -1,7 +1,8 @@
-# v2.0.1 - Unreleased
+# Unreleased
 
 Added
   * AZ-121: Implement backup feature
+  * AZ-158: Manage authentication settings
 
 Changed
   * AZ-143: Support ip restriction

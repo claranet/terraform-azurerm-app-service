@@ -178,3 +178,20 @@ variable "mount_points" {
   type        = list(map(string))
   default     = []
 }
+
+variable "auth_settings" {
+  description = "Authentication settings. Issuer URL is generated thanks to the tenant ID. For active_directory block, the allowed_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings"
+  default     = {}
+}
+
+variable "auth_default_provider" {
+  description = "The default provider to use when multiple providers have been set up. Possible values are AzureActiveDirectory, Facebook, Google, MicrosoftAccount and Twitter."
+  type        = string
+  default     = null
+}
+
+variable "auth_unauthenticated_client_action" {
+  description = "The action to take when an unauthenticated client attempts to access the app. Possible values are AllowAnonymous and RedirectToLoginPage."
+  type        = string
+  default     = null
+}
