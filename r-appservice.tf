@@ -56,22 +56,22 @@ resource "azurerm_app_service" "app_service" {
   }
 
   dynamic "auth_settings" {
-    for_each = var.auth_settings.enabled ? [var.auth_settings] : []
-    content {
-      enabled             = auth_settings.value.enabled
-      issuer              = format("https://sts.windows.net/%s/", data.azurerm_client_config.main.tenant_id)
-      token_store_enabled = var.auth_settings.token_store_enabled
+    for_each = var.auth_settings == null ? [] : list(var.auth_settings)
 
-      unauthenticated_client_action = coalesce(var.auth_unauthenticated_client_action, "RedirectToLoginPage")
-      default_provider              = coalesce(var.auth_default_provider, "AzureActiveDirectory")
+    content {
+      enabled                       = local.auth_settings.enabled
+      issuer                        = format("https://sts.windows.net/%s/", data.azurerm_client_config.main.tenant_id)
+      token_store_enabled           = lookup(auth_settings.value, "token_store_enabled", false)
+      unauthenticated_client_action = lookup(auth_settings.value, "unauthenticated_client_action", "RedirectToLoginPage")
+      default_provider              = lookup(auth_settings.value, "default_provider", "AzureActiveDirectory")
 
       dynamic "active_directory" {
-        for_each = [auth_settings.value.active_directory]
+        for_each = local.auth_settings.active_directory == [] ? [] : list(local.auth_settings.active_directory)
 
         content {
-          client_id         = active_directory.value.client_id
-          client_secret     = active_directory.value.client_secret
-          allowed_audiences = formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)])
+          client_id         = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_id
+          client_secret     = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_secret
+          allowed_audiences = local.auth_settings.active_directory == [] ? null : formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)])
         }
       }
     }

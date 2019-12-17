@@ -39,4 +39,11 @@ locals {
     subnet_mask               = null
     virtual_network_subnet_id = subnet
   }]
+
+  auth_settings = merge(
+    {
+      enabled          = false
+      active_directory = []
+    },
+  var.auth_settings)
 }
