@@ -184,3 +184,10 @@ variable "auth_settings" {
   type        = any
   default     = {}
 }
+
+variable "custom_hostnames" {
+  type        = list(string)
+  default     = []
+  description = "List of custom hostnames to use for the web app."
+}
+

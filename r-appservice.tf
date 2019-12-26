@@ -71,7 +71,7 @@ resource "azurerm_app_service" "app_service" {
         content {
           client_id         = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_id
           client_secret     = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_secret
-          allowed_audiences = local.auth_settings.active_directory == [] ? null : formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)])
+          allowed_audiences = local.auth_settings.active_directory == [] ? null : concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), var.custom_hostnames)
         }
       }
     }

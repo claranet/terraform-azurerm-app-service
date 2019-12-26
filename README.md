@@ -112,6 +112,8 @@ module "app_service" {
     }
   }
 
+  custom_hostnames = ["https://www.example.com"]
+
   extra_tags = {
     foo = "bar"
   }
@@ -151,6 +153,7 @@ module "app_service" {
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `string` | `"false"` | no |
 | client\_name | n/a | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
+| custom\_hostnames | List of custom hostnames to use for the web app. | list(string) | `[]` | no |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
 | enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
 | environment | n/a | `string` | n/a | yes |
