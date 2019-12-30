@@ -185,9 +185,9 @@ variable "auth_settings" {
   default     = {}
 }
 
-variable "custom_hostnames" {
+variable "auth_settings_additional_domains" {
   type        = list(string)
   default     = []
-  description = "List of custom hostnames to use for the web app."
+  description = "List of additional allowed domains to consider when validating JSON Web Tokens issued by Azure Active Directory."
 }
 

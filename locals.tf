@@ -42,8 +42,12 @@ locals {
 
   auth_settings = merge(
     {
-      enabled          = false
-      active_directory = []
+      enabled                       = false
+      issuer                        = format("https://sts.windows.net/%s/", data.azurerm_client_config.main.tenant_id)
+      token_store_enabled           = false
+      unauthenticated_client_action = "RedirectToLoginPage"
+      default_provider              = "AzureActiveDirectory"
+      active_directory              = []
     },
   var.auth_settings)
 }
