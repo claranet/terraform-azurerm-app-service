@@ -47,7 +47,15 @@ locals {
       token_store_enabled           = false
       unauthenticated_client_action = "RedirectToLoginPage"
       default_provider              = "AzureActiveDirectory"
-      active_directory              = []
+      active_directory              = null
     },
   var.auth_settings)
+
+  auth_settings_active_directory = merge(
+    {
+      client_id         = null
+      client_secret     = null
+      allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), var.auth_settings_additional_domains)
+    },
+  local.auth_settings.active_directory == null ? {} : var.auth_settings.active_directory)
 }
