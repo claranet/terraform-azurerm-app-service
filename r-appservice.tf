@@ -55,24 +55,19 @@ resource "azurerm_app_service" "app_service" {
     }
   }
 
-  dynamic "auth_settings" {
-    for_each = list(local.auth_settings)
+  auth_settings {
+    enabled                       = local.auth_settings.enabled
+    issuer                        = local.auth_settings.issuer
+    token_store_enabled           = local.auth_settings.token_store_enabled
+    unauthenticated_client_action = local.auth_settings.unauthenticated_client_action
+    default_provider              = local.auth_settings.default_provider
 
-    content {
-      enabled                       = local.auth_settings.enabled
-      issuer                        = local.auth_settings.issuer
-      token_store_enabled           = local.auth_settings.token_store_enabled
-      unauthenticated_client_action = local.auth_settings.unauthenticated_client_action
-      default_provider              = local.auth_settings.default_provider
-
-      dynamic "active_directory" {
-        for_each = local.auth_settings.active_directory == [] ? [] : list(local.auth_settings.active_directory)
-
-        content {
-          client_id         = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_id
-          client_secret     = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_secret
-          allowed_audiences = local.auth_settings.active_directory == [] ? null : concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), var.auth_settings_additional_domains)
-        }
+    dynamic "active_directory" {
+      for_each = local.auth_settings.active_directory == [] ? [] : list(local.auth_settings.active_directory)
+      content {
+        client_id         = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_id
+        client_secret     = local.auth_settings.active_directory == [] ? null : local.auth_settings.active_directory.client_secret
+        allowed_audiences = local.auth_settings.active_directory == [] ? null : concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), var.auth_settings_additional_domains)
       }
     }
   }
