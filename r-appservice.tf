@@ -65,9 +65,9 @@ resource "azurerm_app_service" "app_service" {
     dynamic "active_directory" {
       for_each = local.auth_settings_active_directory.client_id == null ? [] : list(local.auth_settings_active_directory)
       content {
-        client_id         = local.auth_settings_active_directory == [] ? null : local.auth_settings_active_directory.client_id
-        client_secret     = local.auth_settings_active_directory == [] ? null : local.auth_settings_active_directory.client_secret
-        allowed_audiences = local.auth_settings_active_directory == [] ? null : local.auth_settings_active_directory.allowed_audiences
+        client_id         = local.auth_settings_active_directory.client_id
+        client_secret     = local.auth_settings_active_directory.client_secret
+        allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), local.auth_settings_active_directory.allowed_audiences)
       }
     }
   }

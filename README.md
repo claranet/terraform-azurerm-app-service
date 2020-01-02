@@ -109,10 +109,9 @@ module "app_service" {
     active_directory = {
       client_id         = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
       client_secret     = "xxxxxxxxxxxxxxxxxxxxx"
+      allowed_audiences = ["https://www.example.com"]
     }
   }
-
-  auth_settings_additional_domains = ["https://www.example.com"]
 
   extra_tags = {
     foo = "bar"
@@ -143,7 +142,6 @@ module "app_service" {
 | auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For active\_directory block, the allowed\_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings | `any` | `{}` | no |
 | authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
-| auth\_settings\_additional\_domains | List of additional allowed domains to consider when validating JSON Web Tokens issued by Azure Active Directory. | list(string) | `[]` | no |
 | backup\_custom\_name | Custom name for backup | `string` | n/a | yes |
 | backup\_frequency\_interval | Frequency interval for the App Service backup. | `number` | `1` | no |
 | backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | `string` | `"Day"` | no |

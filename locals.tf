@@ -55,7 +55,13 @@ locals {
     {
       client_id         = null
       client_secret     = null
-      allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), var.auth_settings_additional_domains)
+      allowed_audiences = []
     },
-  local.auth_settings.active_directory == null ? {} : var.auth_settings.active_directory)
+  local.auth_settings.active_directory == null ? local.auth_settings_ad_default : var.auth_settings.active_directory)
+
+  auth_settings_ad_default = {
+    client_id         = null
+    client_secret     = null
+    allowed_audiences = []
+  }
 }
