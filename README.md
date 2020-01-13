@@ -102,7 +102,7 @@ module "app_service" {
 }
 ```
 
-## Inputs 
+## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
@@ -129,7 +129,7 @@ module "app_service" {
 | logs\_storage\_account\_rg | Resource group of the Storage Account if storage logging is enabled | string | `""` | no |
 | name\_prefix | Optional prefix for the generated name | string | `""` | no |
 | resource\_group\_name |  | string | n/a | yes |
-| site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config | map(string) | `{}` | no |
+| site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | map(string) | `{}` | no |
 | stack |  | string | n/a | yes |
 
 ## Outputs
@@ -144,6 +144,7 @@ module "app_service" {
 | app\_service\_default\_site\_hostname | The Default Hostname associated with the App Service |
 | app\_service\_id | Id of the App Service |
 | app\_service\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service |
+| app\_service\_name | Name of the App Service |
 | app\_service\_outbound\_ip\_addresses | Outbound IP adresses of the App Service |
 | app\_service\_plan\_id | Id of the App Service Plan |
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |
