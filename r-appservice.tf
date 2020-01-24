@@ -56,11 +56,12 @@ resource "azurerm_app_service" "app_service" {
   }
 
   auth_settings {
-    enabled                       = local.auth_settings.enabled
-    issuer                        = local.auth_settings.issuer
-    token_store_enabled           = local.auth_settings.token_store_enabled
-    unauthenticated_client_action = local.auth_settings.unauthenticated_client_action
-    default_provider              = local.auth_settings.default_provider
+    enabled                        = local.auth_settings.enabled
+    issuer                         = local.auth_settings.issuer
+    token_store_enabled            = local.auth_settings.token_store_enabled
+    unauthenticated_client_action  = local.auth_settings.unauthenticated_client_action
+    default_provider               = local.auth_settings.default_provider
+    allowed_external_redirect_urls = local.auth_settings.allowed_external_redirect_urls
 
     dynamic "active_directory" {
       for_each = local.auth_settings_active_directory.client_id == null ? [] : list(local.auth_settings_active_directory)
