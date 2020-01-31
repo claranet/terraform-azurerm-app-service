@@ -61,5 +61,69 @@ resource "azurerm_app_service" "app_service" {
     type = "SystemAssigned"
   }
 
+  dynamic "logs" {
+    for_each = local.enable_storage_logging ? list("fake") : []
+    content {
+      application_logs {
+        azure_blob_storage {
+          level             = var.logs_level
+          retention_in_days = var.logs_retention
+          sas_url           = module.logs_sas_token.storage_account_sas_container_uri
+        }
+      }
+      http_logs {
+        azure_blob_storage {
+          retention_in_days = var.logs_retention
+          sas_url           = module.logs_sas_token.storage_account_sas_container_uri
+        }
+      }
+    }
+  }
+
+  dynamic "logs" {
+    for_each = local.enable_storage_logging ? [] : list("fake")
+    content {
+      http_logs {
+        file_system {
+          retention_in_days = var.logs_retention
+          retention_in_mb   = 100
+        }
+      }
+    }
+  }
+
+  dynamic "backup" {
+    for_each = var.enable_backup == "true" ? list("fake") : []
+    content {
+      name                = coalesce(var.backup_custom_name, "DefaultBackup")
+      storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
+
+      schedule {
+        frequency_interval = var.backup_frequency_interval
+        frequency_unit     = var.backup_frequency_unit
+      }
+    }
+  }
+
+  dynamic "storage_account" {
+    for_each = var.mount_points
+    content {
+      name         = lookup(storage_account.value, "name", format("%s-%s", storage_account.value["account_name"], storage_account.value["share_name"]))
+      type         = lookup(storage_account.value, "type", "AzureFiles")
+      account_name = lookup(storage_account.value, "account_name", null)
+      share_name   = lookup(storage_account.value, "share_name", null)
+      access_key   = lookup(storage_account.value, "access_key", null)
+      mount_path   = lookup(storage_account.value, "mount_path", null)
+    }
+  }
+
   tags = merge(local.default_tags, var.extra_tags)
+
+  lifecycle {
+    ignore_changes = [
+      logs[0].application_logs[0].azure_blob_storage[0].sas_url,
+      logs[0].http_logs[0].azure_blob_storage[0].sas_url,
+      backup[0].storage_account_url,
+    ]
+  }
 }

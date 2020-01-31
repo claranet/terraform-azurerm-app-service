@@ -8,11 +8,10 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 
 * Diagnostics logs only works fine for Windows for now.
 * Untested with App Service slots
-* Only one connection string can be set
 
 ## Requirements
  
-* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.31
+* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.34
 
 ## Terraform version compatibility
 
@@ -55,6 +54,20 @@ resource "azurerm_storage_container" "logs_storage_container" {
   storage_account_name = azurerm_storage_account.logs_storage.name
 }
 
+resource "azurerm_storage_account" "assets_storage" {
+  account_replication_type = "LRS"
+  account_tier             = "Standard"
+  location                 = module.azure-region.location
+  name                     = "appserviceassets"
+  resource_group_name      = module.rg.resource_group_name
+}
+
+resource "azurerm_storage_share" "assets_share" {
+  name                 = "assets"
+  storage_account_name = azurerm_storage_account.assets_storage.name
+  quota                = 50
+}
+
 module "app_service_plan" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/app-service-plan.git?ref=vX.X.X"
 
@@ -93,6 +106,15 @@ module "app_service" {
     foo = "bar"
   }
 
+  mount_points = [
+    {
+      account_name = azurerm_storage_account.assets_storage.name
+      share_name   = azurerm_storage_share.assets_share.name
+      access_key   = azurerm_storage_account.assets_storage.primary_access_key
+      mount_path   = "/var/www/html/assets"
+    }
+  ]
+
   enable_storage_logging = "true"
 
   logs_retention                 = "7"
@@ -113,20 +135,29 @@ module "app_service" {
 | application\_insights\_type | Application type for Application Insights resource | string | `"Web"` | no |
 | authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | list(string) | `[]` | no |
 | authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | list(string) | `[]` | no |
+| backup\_custom\_name | Custom name for backup | string | `"null"` | no |
+| backup\_frequency\_interval | Frequency interval for the App Service backup. | number | `"1"` | no |
+| backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | string | `"Day"` | no |
+| backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | string | `"webapps"` | no |
+| backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | string | `"null"` | no |
+| backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | string | `"null"` | no |
 | client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | string | `"false"` | no |
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | string | `"false"` | no |
 | client\_name |  | string | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | list(map(string)) | `[]` | no |
-| enable\_storage\_logging | True to enable sending logs to a blob storage | string | `"true"` | no |
+| enable\_backup | "true" to enable App Service backup | string | `"false"` | no |
+| enable\_storage\_logging | "true" to enable sending logs to a blob storage | string | `"true"` | no |
 | environment |  | string | n/a | yes |
 | extra\_tags | Extra tags to add | map(string) | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | string | `"false"` | no |
 | location | Azure location for App Service. | string | n/a | yes |
 | location\_short | Short string for Azure location. | string | n/a | yes |
+| logs\_level | Logs level. Can be Error, Warning, Information, Verbose and Off | string | `"Warning"` | no |
 | logs\_retention | Logs retention in days | string | `"30"` | no |
 | logs\_storage\_account\_container | Name of the container in the Storage Account if storage logging is enabled | string | `"webapps"` | no |
 | logs\_storage\_account\_name | Name of the Storage Account if storage logging is enabled | string | `""` | no |
 | logs\_storage\_account\_rg | Resource group of the Storage Account if storage logging is enabled | string | `""` | no |
+| mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | list(map(string)) | `[]` | no |
 | name\_prefix | Optional prefix for the generated name | string | `""` | no |
 | resource\_group\_name |  | string | n/a | yes |
 | site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | map(string) | `{}` | no |

@@ -26,6 +26,10 @@ locals {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.app_insights.instrumentation_key
   }
 
+  app_service_plan_name = split("/", var.app_service_plan_id)[8]
+
+  enable_storage_logging = data.azurerm_app_service_plan.plan.kind == "Windows" ? var.enable_storage_logging : false
+
   cidrs = [for cidr in var.authorized_ips : {
     ip_address                = split("/", cidr)[0]
     subnet_mask               = cidrnetmask(cidr)

@@ -1,7 +1,11 @@
 # v2.0.1 - Unreleased
 
+Added
+  * AZ-121: Implement backup feature
+
 Changed
   * AZ-143: Support ip restriction
+  * AZ-121: Change logs implementation to use provider
 
 # v2.0.0 - 2019-10-29
 

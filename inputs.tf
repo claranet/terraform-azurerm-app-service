@@ -60,15 +60,21 @@ variable "application_insights_type" {
 }
 
 variable "enable_storage_logging" {
-  description = "True to enable sending logs to a blob storage"
-  type        = string
-  default     = "true"
+  description = "\"true\" to enable sending logs to a blob storage"
+  type        = bool
+  default     = true
 }
 
 variable "logs_retention" {
   description = "Logs retention in days"
   type        = string
   default     = "30"
+}
+
+variable "logs_level" {
+  description = "Logs level. Can be Error, Warning, Information, Verbose and Off"
+  type        = string
+  default     = "Warning"
 }
 
 variable "logs_storage_account_name" {
@@ -135,4 +141,52 @@ variable "https_only" {
   description = "HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only"
   type        = string
   default     = "false"
+}
+
+variable "enable_backup" {
+  description = "\"true\" to enable App Service backup"
+  type        = bool
+  default     = false
+}
+
+variable "backup_frequency_interval" {
+  description = "Frequency interval for the App Service backup."
+  type        = number
+  default     = 1
+}
+
+variable "backup_frequency_unit" {
+  description = "Frequency unit for the App Service backup. Possible values are Day or Hour."
+  type        = string
+  default     = "Day"
+}
+
+variable "backup_storage_account_name" {
+  description = "Storage account name to use if App Service backup is enabled."
+  type        = string
+  default     = null
+}
+
+variable "backup_storage_account_rg" {
+  description = "Storage account resource group to use if App Service backup is enabled."
+  type        = string
+  default     = null
+}
+
+variable "backup_storage_account_container" {
+  description = "Name of the container in the Storage Account if App Service backup is enabled"
+  type        = string
+  default     = "webapps"
+}
+
+variable "backup_custom_name" {
+  description = "Custom name for backup"
+  type        = string
+  default     = null
+}
+
+variable "mount_points" {
+  description = "Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account"
+  type        = list(map(string))
+  default     = []
 }

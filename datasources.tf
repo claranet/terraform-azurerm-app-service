@@ -1,23 +1,25 @@
 data "azurerm_subscription" "current_subscription" {
 }
 
-data "azurerm_storage_account" "logs_storage_account" {
-  name                = var.logs_storage_account_name
-  resource_group_name = var.logs_storage_account_rg
-
-  count = var.enable_storage_logging ? 1 : 0
+data "azurerm_app_service_plan" "plan" {
+  name                = local.app_service_plan_name
+  resource_group_name = var.resource_group_name
 }
 
-data "template_file" "log_config_none" {
-  template = file(format("%s/files/log_config_none.json.tpl", path.module))
+module "backup_sas_token" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/storage-sas-token.git?ref=v2.0.0"
+
+  enabled              = var.enable_backup
+  resource_group_name  = var.backup_storage_account_rg
+  storage_account_name = var.backup_storage_account_name
+  storage_container    = var.backup_storage_account_container
 }
 
-data "template_file" "log_config_storage" {
-  template = file(format("%s/files/log_config_storage.json.tpl", path.module))
+module "logs_sas_token" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/storage-sas-token.git?ref=v2.0.0"
 
-  vars = {
-    storage_account_name      = var.logs_storage_account_name
-    storage_account_container = var.logs_storage_account_container
-    logs_retention            = var.logs_retention
-  }
+  enabled              = local.enable_storage_logging
+  resource_group_name  = var.logs_storage_account_rg
+  storage_account_name = var.logs_storage_account_name
+  storage_container    = var.logs_storage_account_container
 }
