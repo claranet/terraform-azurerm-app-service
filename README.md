@@ -122,40 +122,39 @@ module "app_service" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| app\_insights\_custom\_name | Name of the Application Insights, generated if not set. | string | `""` | no |
-| app\_service\_custom\_name | Name of the App Service, generated if not set. | string | `""` | no |
-| app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | string | n/a | yes |
-| app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | map(string) | `{}` | no |
-| application\_insights\_type | Application type for Application Insights resource | string | `"Web"` | no |
-| authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | list(string) | `[]` | no |
-| authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | list(string) | `[]` | no |
-| backup\_custom\_name | Custom name for backup | string | `"null"` | no |
-| backup\_frequency\_interval | Frequency interval for the App Service backup. | number | `"1"` | no |
-| backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | string | `"Day"` | no |
-| backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | string | `"webapps"` | no |
-| backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | string | `"null"` | no |
-| backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | string | `"null"` | no |
-| client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | string | `"false"` | no |
-| client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | string | `"false"` | no |
-| client\_name |  | string | n/a | yes |
-| connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | list(map(string)) | `[]` | no |
-| enable\_backup | "true" to enable App Service backup | bool | `"false"` | no |
-| enable\_logging | Boolean flag to specify whether logging is enabled | bool | `"true"` | no |
-| enable\_storage\_logging | "true" to enable sending logs to a blob storage | bool | `"true"` | no |
-| environment |  | string | n/a | yes |
-| extra\_tags | Extra tags to add | map(string) | `{}` | no |
-| https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | string | `"false"` | no |
-| location | Azure location for App Service. | string | n/a | yes |
-| location\_short | Short string for Azure location. | string | n/a | yes |
-| logs\_log\_analytics\_workspace\_id | Log Analytics Workspace id for logs | string | `"null"` | no |
-| logs\_storage\_account\_id | Storage Account id for logs | string | `"null"` | no |
-| logs\_storage\_retention | Retention in days for logs on Storage Account | string | `"30"` | no |
-| mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | list(map(string)) | `[]` | no |
-| name\_prefix | Optional prefix for the generated name | string | `""` | no |
-| resource\_group\_name |  | string | n/a | yes |
-| site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | map(string) | `{}` | no |
-| stack |  | string | n/a | yes |
+|------|-------------|------|---------|:-----:|
+| app\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
+| app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
+| app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | `string` | n/a | yes |
+| app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
+| application\_insights\_type | Application type for Application Insights resource | `string` | `"Web"` | no |
+| authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
+| authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
+| backup\_custom\_name | Custom name for backup | `string` | n/a | yes |
+| backup\_frequency\_interval | Frequency interval for the App Service backup. | `number` | `1` | no |
+| backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | `string` | `"Day"` | no |
+| backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | `string` | `"webapps"` | no |
+| backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | n/a | yes |
+| backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | n/a | yes |
+| client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | `string` | `"false"` | no |
+| client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `string` | `"false"` | no |
+| client\_name | n/a | `string` | n/a | yes |
+| connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
+| enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
+| enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
+| environment | n/a | `string` | n/a | yes |
+| extra\_tags | Extra tags to add | `map(string)` | `{}` | no |
+| https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `string` | `"false"` | no |
+| location | Azure location for App Service. | `string` | n/a | yes |
+| location\_short | Short string for Azure location. | `string` | n/a | yes |
+| logs\_log\_analytics\_workspace\_id | Log Analytics Workspace id for logs | `string` | n/a | yes |
+| logs\_storage\_account\_id | Storage Account id for logs | `string` | n/a | yes |
+| logs\_storage\_retention | Retention in days for logs on Storage Account | `string` | `"30"` | no |
+| mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | `list(map(string))` | `[]` | no |
+| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
+| resource\_group\_name | n/a | `string` | n/a | yes |
+| site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | `map(string)` | `{}` | no |
+| stack | n/a | `string` | n/a | yes |
 
 ## Outputs
 
