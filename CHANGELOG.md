@@ -5,7 +5,7 @@ Added
 
 Changed
   * AZ-143: Support ip restriction
-  * AZ-121: Change logs implementation to use provider
+  * AZ-133: Use diagnostics settings for logs 
 
 # v2.0.0 - 2019-10-29
 
