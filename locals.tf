@@ -25,4 +25,16 @@ locals {
     "APPLICATION_INSIGHTS_IKEY"      = azurerm_application_insights.app_insights.instrumentation_key
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.app_insights.instrumentation_key
   }
+
+  cidrs = [for cidr in var.authorized_ips : {
+    ip_address                = split("/", cidr)[0]
+    subnet_mask               = cidrnetmask(cidr)
+    virtual_network_subnet_id = null
+  }]
+
+  subnets = [for subnet in var.authorized_subnet_ids : {
+    ip_address                = null
+    subnet_mask               = null
+    virtual_network_subnet_id = subnet
+  }]
 }

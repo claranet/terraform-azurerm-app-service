@@ -96,7 +96,7 @@ variable "app_settings" {
 }
 
 variable "site_config" {
-  description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config"
+  description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block."
   type        = map(string)
   default     = {}
 }
@@ -104,6 +104,18 @@ variable "site_config" {
 variable "connection_strings" {
   description = "Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string"
   type        = list(map(string))
+  default     = []
+}
+
+variable "authorized_ips" {
+  description = "IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
+  type        = list(string)
+  default     = []
+}
+
+variable "authorized_subnet_ids" {
+  description = "Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
+  type        = list(string)
   default     = []
 }
 

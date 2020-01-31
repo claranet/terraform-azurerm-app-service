@@ -1,3 +1,8 @@
+# v2.0.1 - Unreleased
+
+Changed
+  * AZ-143: Support ip restriction
+
 # v2.0.0 - 2019-10-29
 
 Breaking

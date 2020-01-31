@@ -14,7 +14,7 @@ resource "azurerm_app_service" "app_service" {
       dotnet_framework_version  = lookup(site_config.value, "dotnet_framework_version", null)
       ftps_state                = lookup(site_config.value, "ftps_state", null)
       http2_enabled             = lookup(site_config.value, "http2_enabled", null)
-      ip_restriction            = lookup(site_config.value, "ip_restriction", null)
+      ip_restriction            = concat(local.subnets, local.cidrs)
       java_container            = lookup(site_config.value, "java_container", null)
       java_container_version    = lookup(site_config.value, "java_container_version", null)
       java_version              = lookup(site_config.value, "java_version", null)
