@@ -102,6 +102,17 @@ module "app_service" {
     foo = "bar"
   }
 
+  auth_settings = {
+    enabled             = true
+    token_store_enabled = true
+
+    active_directory = {
+      client_id         = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+      client_secret     = "xxxxxxxxxxxxxxxxxxxxx"
+      allowed_audiences = ["https://www.example.com"]
+    }
+  }
+
   extra_tags = {
     foo = "bar"
   }
@@ -128,6 +139,7 @@ module "app_service" {
 | app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | `string` | n/a | yes |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_type | Application type for Application Insights resource | `string` | `"Web"` | no |
+| auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For active\_directory block, the allowed\_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings | `any` | `{}` | no |
 | authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | backup\_custom\_name | Custom name for backup | `string` | n/a | yes |

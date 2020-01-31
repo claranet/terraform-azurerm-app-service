@@ -178,3 +178,9 @@ variable "mount_points" {
   type        = list(map(string))
   default     = []
 }
+
+variable "auth_settings" {
+  description = "Authentication settings. Issuer URL is generated thanks to the tenant ID. For active_directory block, the allowed_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings"
+  type        = any
+  default     = {}
+}
