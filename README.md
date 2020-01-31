@@ -1,4 +1,5 @@
 # Azure App Service Web
+[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/app-service-web/azurerm/)
 
 This Terraform module creates an [Azure App Service Web](https://docs.microsoft.com/en-us/azure/app-service/overview) 
 associated with an [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) 
@@ -22,17 +23,21 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 
 ## Usage
 
-You can use this module by including it this way:
+This module is optimized to work with the [Claranet terraform-wrapper](https://github.com/claranet/terraform-wrapper) tool
+which set some terraform variables in the environment needed by this module.
+More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
 
 ```hcl
 module "azure-region" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/regions.git?ref=vX.X.X"
+  source  = "claranet/regions/azurerm"
+  version = "x.x.x"
 
   azure_region = var.azure_region
 }
 
 module "rg" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/rg.git?ref=vX.X.X"
+  source  = "claranet/rg/azurerm"
+  version = "x.x.x"
 
   location     = module.azure-region.location
   client_name  = var.client_name
@@ -69,7 +74,8 @@ resource "azurerm_storage_share" "assets_share" {
 }
 
 module "app_service_plan" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/app-service-plan.git?ref=vX.X.X"
+  source  = "claranet/app-service-plan/azurerm"
+  version = "x.x.x"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -87,7 +93,8 @@ module "app_service_plan" {
 }
 
 module "app_service" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/app-service-web.git?ref=vX.X.X"
+  source  = "claranet/app-service-web/azurerm"
+  version = "x.x.x"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -150,23 +157,23 @@ module "app_service" {
 | backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | n/a | yes |
 | client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | `string` | `"false"` | no |
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `string` | `"false"` | no |
-| client\_name | n/a | `string` | n/a | yes |
+| client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
 | enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
-| environment | n/a | `string` | n/a | yes |
+| environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `string` | `"false"` | no |
-| location | Azure location for App Service. | `string` | n/a | yes |
+| location | Azure location. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
 | logs\_log\_analytics\_workspace\_id | Log Analytics Workspace id for logs | `string` | n/a | yes |
 | logs\_storage\_account\_id | Storage Account id for logs | `string` | n/a | yes |
 | logs\_storage\_retention | Retention in days for logs on Storage Account | `string` | `"30"` | no |
 | mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | `list(map(string))` | `[]` | no |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
-| resource\_group\_name | n/a | `string` | n/a | yes |
+| resource\_group\_name | Resource group name | `string` | n/a | yes |
 | site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | `map(string)` | `{}` | no |
-| stack | n/a | `string` | n/a | yes |
+| stack | Project stack name | `string` | n/a | yes |
 
 ## Outputs
 
@@ -189,6 +196,6 @@ module "app_service" {
 
 ## Related documentation
 
-Terraform resource documentation: [https://www.terraform.io/docs/providers/azurerm/r/app_service.html]
+Terraform resource documentation: [www.terraform.io/docs/providers/azurerm/r/app_service.html](https://www.terraform.io/docs/providers/azurerm/r/app_service.html)
 
-Microsoft Azure documentation: [https://docs.microsoft.com/en-us/azure/app-service/overview]
+Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/app-service/overview](https://docs.microsoft.com/en-us/azure/app-service/overview)
