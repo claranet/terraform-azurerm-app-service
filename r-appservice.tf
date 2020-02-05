@@ -114,3 +114,26 @@ resource "azurerm_app_service" "app_service" {
     ]
   }
 }
+
+resource "azurerm_app_service_certificate" "app_service_certificate" {
+  for_each = {
+    for k, v in var.custom_hostnames :
+    k => v if v != null
+  }
+
+  name                = each.key
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  pfx_blob            = filebase64(each.value.certificate_file)
+  password            = each.value.certificate_password
+}
+
+resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
+  for_each = var.custom_hostnames
+
+  hostname            = each.key
+  app_service_name    = azurerm_app_service.app_service.name
+  resource_group_name = var.resource_group_name
+  ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, false) != false ? "SniEnabled" : null
+  thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, false) != false ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : null
+}

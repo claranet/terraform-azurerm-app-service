@@ -188,3 +188,8 @@ variable "auth_settings" {
   type        = any
   default     = {}
 }
+
+variable "custom_hostnames" {
+  type    = map(any)
+  default = {}
+}
