@@ -120,6 +120,16 @@ module "app_service" {
     }
   }
 
+  custom_domains = {
+  # Custom domain with SSL certificate
+    "example.com" = {
+      certificate_file     = "./example.com.pfx"
+      certificate_password = "xxxxxxxxx"
+    }
+  # Custom domain without SSL certificate
+    "example2.com" = null
+  }
+
   extra_tags = {
     foo = "bar"
   }
@@ -146,7 +156,7 @@ module "app_service" {
 | app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | `string` | n/a | yes |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_type | Application type for Application Insights resource | `string` | `"Web"` | no |
-| auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For active\_directory block, the allowed\_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings | `any` | `{}` | no |
+| auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For active\_directory block, the allowed\_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings | `map` | `{}` | no |
 | authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | backup\_custom\_name | Custom name for backup | `string` | n/a | yes |
@@ -159,6 +169,7 @@ module "app_service" {
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `string` | `"false"` | no |
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
+| custom\_domains | Custom domains and SSL certificates of the App Service. | `map(map(string))` | n/a | yes |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
 | enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
 | environment | Project environment | `string` | n/a | yes |

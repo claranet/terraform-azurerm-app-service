@@ -189,7 +189,8 @@ variable "auth_settings" {
   default     = {}
 }
 
-variable "custom_hostnames" {
-  type    = map(any)
-  default = {}
+variable "custom_domains" {
+  description = "Custom domains and SSL certificates of the App Service."
+  type        = map(map(string))
+  default     = null
 }

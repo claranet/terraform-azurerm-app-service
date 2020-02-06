@@ -116,20 +116,20 @@ resource "azurerm_app_service" "app_service" {
 }
 
 resource "azurerm_app_service_certificate" "app_service_certificate" {
-  for_each = {
-    for k, v in var.custom_hostnames :
+  for_each = var.custom_domains != null ? {
+    for k, v in var.custom_domains :
     k => v if v != null
-  }
+  } : {}
 
   name                = each.key
   resource_group_name = var.resource_group_name
   location            = var.location
-  pfx_blob            = filebase64(each.value.certificate_file)
-  password            = each.value.certificate_password
+  pfx_blob            = each.value.certificate_file != null ? filebase64(each.value.certificate_file) : null
+  password            = each.value.certificate_password != null ? each.value.certificate_password : null
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
-  for_each = var.custom_hostnames
+  for_each = var.custom_domains != null ? var.custom_domains : {}
 
   hostname            = each.key
   app_service_name    = azurerm_app_service.app_service.name
