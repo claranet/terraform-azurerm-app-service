@@ -16,6 +16,17 @@ connection_strings = [{
   type  = "Custom"
   value = "MyCustomConnectionString"
 }]
+custom_domains = {
+  "example.com" = {
+    certificate_file     = "./example.com.pfx"
+    certificate_password = "examplepassword"
+  }
+  "example2.com" = {
+    certificate_keyvault_secret_id = data.azurerm_key_vault_secret.my_keyvault.id
+    certificate_password           = "example2password"
+  }
+  "example3.com" = null
+}
 enable_logging=true
 logs_retention=7
 logs_storage_account_id="/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-test/providers/Microsoft.Storage/storageAccounts/storageaccountname"
