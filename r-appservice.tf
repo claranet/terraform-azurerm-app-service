@@ -124,8 +124,9 @@ resource "azurerm_app_service_certificate" "app_service_certificate" {
   name                = each.key
   resource_group_name = var.resource_group_name
   location            = var.location
-  pfx_blob            = each.value.certificate_file != null ? filebase64(each.value.certificate_file) : null
-  password            = each.value.certificate_password != null ? each.value.certificate_password : null
+  pfx_blob            = contains(keys(each.value), "certificate_file") ? filebase64(each.value.certificate_file) : null
+  password            = contains(keys(each.value), "certificate_file") ? each.value.certificate_password : null
+  key_vault_secret_id = contains(keys(each.value), "certificate_keyvault_certificate_id") ? each.value.certificate_keyvault_certificate_id : null
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {

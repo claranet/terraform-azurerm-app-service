@@ -121,10 +121,14 @@ module "app_service" {
   }
 
   custom_domains = {
-  # Custom domain with SSL certificate
+  # Custom domain with SSL certificate file
     "example.com" = {
       certificate_file     = "./example.com.pfx"
       certificate_password = "xxxxxxxxx"
+    }
+  # Custom domain with SSL certificate stored in a keyvault
+    "example.com" = {
+      certificate_keyvault_id = data.azurerm_key_vault_secret.my_keyvault.id
     }
   # Custom domain without SSL certificate
     "example2.com" = null
@@ -169,7 +173,7 @@ module "app_service" {
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `string` | `"false"` | no |
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
-| custom\_domains | Custom domains and SSL certificates of the App Service. | `map(map(string))` | n/a | yes |
+| custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | n/a | yes |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
 | enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
 | environment | Project environment | `string` | n/a | yes |
