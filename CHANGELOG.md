@@ -1,4 +1,4 @@
-# Unreleased
+# v2.1.1 - 2020-02-11
 
 Changed
   * AZ-177: Fix backup declaration
