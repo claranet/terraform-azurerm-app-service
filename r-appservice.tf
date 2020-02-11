@@ -82,7 +82,7 @@ resource "azurerm_app_service" "app_service" {
   }
 
   dynamic "backup" {
-    for_each = var.enable_backup == "true" ? list("fake") : []
+    for_each = var.enable_backup ? list("fake") : []
     content {
       name                = coalesce(var.backup_custom_name, "DefaultBackup")
       storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
