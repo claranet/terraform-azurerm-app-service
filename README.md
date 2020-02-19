@@ -8,7 +8,8 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 ## Limitations
 
 * Diagnostics logs only works fine for Windows for now.
-* Untested with App Service slots
+* Untested with App Service slots.
+* Using a single certificate file on multiple domains with the `custom_domains` variable is not supported. Use a Key Vault certificate instead.
 
 ## Requirements
  
