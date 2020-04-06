@@ -1,4 +1,4 @@
-# Unreleased
+# v2.2.0 - 2020-04-06
 
 Added
   * AZ-176: Implement certificate and custom hostname binding features
