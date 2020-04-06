@@ -3,6 +3,9 @@
 Added
   * AZ-176: Implement certificate and custom hostname binding features
 
+Fixed
+  * AZ-194 : Fix site\_config type
+
 # v2.1.1 - 2020-02-11
 
 Changed
@@ -18,7 +21,7 @@ Added
 
 Changed
   * AZ-143: Support ip restriction
-  * AZ-133: Use diagnostics settings for logs 
+  * AZ-133: Use diagnostics settings for logs
   * AZ-119: Revamp README and publish this module to Terraform registry
 
 # v2.0.0 - 2019-10-29
