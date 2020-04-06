@@ -1,25 +1,23 @@
 # Azure App Service Web
 [![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/app-service-web/azurerm/)
 
-This Terraform module creates an [Azure App Service Web](https://docs.microsoft.com/en-us/azure/app-service/overview) 
-associated with an [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) 
+This Terraform module creates an [Azure App Service Web](https://docs.microsoft.com/en-us/azure/app-service/overview)
+associated with an [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
 component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azure/app-service/troubleshoot-diagnostic-logs).
 
 ## Limitations
 
 * Diagnostics logs only works fine for Windows for now.
-* Untested with App Service slots
+* Untested with App Service slots.
+* Using a single certificate file on multiple domains with the `custom_domains` variable is not supported. Use a Key Vault certificate instead.
 
-## Requirements
- 
-* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.34
+## Version compatibility
 
-## Terraform version compatibility
-
-| Module version | Terraform version |
-|----------------|-------------------|
-| >= 2.x.x       | 0.12.x            |
-| < 2.x.x        | 0.11.x            |
+| Module version    | Terraform version | AzureRM version |
+|-------------------|-------------------|-----------------|
+| >= 3.x.x          | 0.12.x            | >= 2.0          |
+| >= 2.x.x, < 3.x.x | 0.12.x            | <  2.0          |
+| <  2.x.x          | 0.11.x            | <  2.0          |
 
 ## Usage
 
@@ -120,6 +118,20 @@ module "app_service" {
     }
   }
 
+  custom_domains = {
+  # Custom domain with SSL certificate file
+    "example.com" = {
+      certificate_file     = "./example.com.pfx"
+      certificate_password = "xxxxxxxxx"
+    }
+  # Custom domain with SSL certificate stored in a keyvault
+    "example.com" = {
+      certificate_keyvault_id = data.azurerm_key_vault_secret.my_keyvault.id
+    }
+  # Custom domain without SSL certificate
+    "example2.com" = null
+  }
+
   extra_tags = {
     foo = "bar"
   }
@@ -140,7 +152,7 @@ module "app_service" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | app\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | `string` | n/a | yes |
@@ -149,16 +161,17 @@ module "app_service" {
 | auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For active\_directory block, the allowed\_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings | `any` | `{}` | no |
 | authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
-| backup\_custom\_name | Custom name for backup | `string` | n/a | yes |
+| backup\_custom\_name | Custom name for backup | `string` | `null` | no |
 | backup\_frequency\_interval | Frequency interval for the App Service backup. | `number` | `1` | no |
 | backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | `string` | `"Day"` | no |
 | backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | `string` | `"webapps"` | no |
-| backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | n/a | yes |
-| backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | n/a | yes |
+| backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | `null` | no |
+| backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | `null` | no |
 | client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | `string` | `"false"` | no |
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `string` | `"false"` | no |
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
+| custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
 | enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
 | environment | Project environment | `string` | n/a | yes |
@@ -166,8 +179,8 @@ module "app_service" {
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `string` | `"false"` | no |
 | location | Azure location. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
-| logs\_log\_analytics\_workspace\_id | Log Analytics Workspace id for logs | `string` | n/a | yes |
-| logs\_storage\_account\_id | Storage Account id for logs | `string` | n/a | yes |
+| logs\_log\_analytics\_workspace\_id | Log Analytics Workspace id for logs | `string` | `null` | no |
+| logs\_storage\_account\_id | Storage Account id for logs | `string` | `null` | no |
 | logs\_storage\_retention | Retention in days for logs on Storage Account | `string` | `"30"` | no |
 | mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | `list(map(string))` | `[]` | no |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |

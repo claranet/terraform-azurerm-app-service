@@ -188,3 +188,9 @@ variable "auth_settings" {
   type        = any
   default     = {}
 }
+
+variable "custom_domains" {
+  description = "Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file."
+  type        = map(map(string))
+  default     = null
+}
