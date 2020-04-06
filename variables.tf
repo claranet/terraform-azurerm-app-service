@@ -95,7 +95,7 @@ variable "app_settings" {
 
 variable "site_config" {
   description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block."
-  type        = map(string)
+  type        = any
   default     = {}
 }
 
