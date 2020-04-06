@@ -11,16 +11,13 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 * Untested with App Service slots.
 * Using a single certificate file on multiple domains with the `custom_domains` variable is not supported. Use a Key Vault certificate instead.
 
-## Requirements
+## Version compatibility
 
-* [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.34
-
-## Terraform version compatibility
-
-| Module version | Terraform version |
-|----------------|-------------------|
-| >= 2.x.x       | 0.12.x            |
-| < 2.x.x        | 0.11.x            |
+| Module version    | Terraform version | AzureRM version |
+|-------------------|-------------------|-----------------|
+| >= 3.x.x          | 0.12.x            | >= 2.0          |
+| >= 2.x.x, < 3.x.x | 0.12.x            | <  2.0          |
+| <  2.x.x          | 0.11.x            | <  2.0          |
 
 ## Usage
 
