@@ -30,7 +30,6 @@ resource "azurerm_app_service" "app_service" {
       remote_debugging_version  = lookup(site_config.value, "remote_debugging_version", null)
       scm_type                  = lookup(site_config.value, "scm_type", null)
       use_32_bit_worker_process = lookup(site_config.value, "use_32_bit_worker_process", null)
-      virtual_network_name      = lookup(site_config.value, "virtual_network_name", null)
       websockets_enabled        = lookup(site_config.value, "websockets_enabled", null)
       windows_fx_version        = lookup(site_config.value, "windows_fx_version", null)
 

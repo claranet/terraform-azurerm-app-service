@@ -60,7 +60,7 @@ variable "extra_tags" {
 variable "application_insights_type" {
   description = "Application type for Application Insights resource"
   type        = string
-  default     = "Web"
+  default     = "web"
 }
 
 variable "enable_logging" {
