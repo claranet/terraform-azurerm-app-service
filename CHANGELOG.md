@@ -1,3 +1,9 @@
+# v3.0.0 - Unreleased
+Added
+  * AZ-221: Add health_check_path site_config parameter
+Breaking
+  * AZ-221: AzureRM provider 2.0 compatibility
+
 # v2.2.0 - 2020-04-06
 
 Added

@@ -29,14 +29,12 @@ locals {
   app_service_plan_name = split("/", var.app_service_plan_id)[8]
 
   cidrs = [for cidr in var.authorized_ips : {
-    ip_address                = split("/", cidr)[0]
-    subnet_mask               = cidrnetmask(cidr)
+    ip_address                = cidr
     virtual_network_subnet_id = null
   }]
 
   subnets = [for subnet in var.authorized_subnet_ids : {
     ip_address                = null
-    subnet_mask               = null
     virtual_network_subnet_id = subnet
   }]
 

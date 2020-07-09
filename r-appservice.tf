@@ -15,6 +15,7 @@ resource "azurerm_app_service" "app_service" {
       default_documents         = lookup(site_config.value, "default_documents", null)
       dotnet_framework_version  = lookup(site_config.value, "dotnet_framework_version", null)
       ftps_state                = lookup(site_config.value, "ftps_state", null)
+      health_check_path         = lookup(site_config.value, "health_check_path", null)
       http2_enabled             = lookup(site_config.value, "http2_enabled", null)
       ip_restriction            = concat(local.subnets, local.cidrs)
       java_container            = lookup(site_config.value, "java_container", null)
@@ -30,7 +31,6 @@ resource "azurerm_app_service" "app_service" {
       remote_debugging_version  = lookup(site_config.value, "remote_debugging_version", null)
       scm_type                  = lookup(site_config.value, "scm_type", null)
       use_32_bit_worker_process = lookup(site_config.value, "use_32_bit_worker_process", null)
-      virtual_network_name      = lookup(site_config.value, "virtual_network_name", null)
       websockets_enabled        = lookup(site_config.value, "websockets_enabled", null)
       windows_fx_version        = lookup(site_config.value, "windows_fx_version", null)
 
