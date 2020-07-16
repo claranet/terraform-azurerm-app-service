@@ -172,6 +172,7 @@ module "app_service" {
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
+| diag\_settings\_custom\_name | Custom name of of the diagnostics settings, generated if not set  | `string` | `""` | no |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
 | enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
 | environment | Project environment | `string` | n/a | yes |

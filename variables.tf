@@ -45,6 +45,12 @@ variable "app_service_custom_name" {
   default     = ""
 }
 
+variable "diag_settings_custom_name" {
+  description = "Name of the diagnostic settings, generated if not set."
+  type        = string
+  default     = ""
+}
+
 variable "app_insights_custom_name" {
   description = "Name of the Application Insights, generated if not set."
   type        = string

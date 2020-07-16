@@ -1,3 +1,8 @@
+# v3.0.1 - 2020-07-16
+
+Added
+  * AZ-241: Add diag_settings_custom_name parameter
+
 # v3.0.0 - 2020-07-09
 
 Added
