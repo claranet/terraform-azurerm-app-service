@@ -1,12 +1,12 @@
-# v3.0.1 - 2020-07-16
+# v3.1.0 - unreleased
 
 Added
-  * AZ-241: Add diag_settings_custom_name parameter
+  * AZ-241: Add `diag_settings_custom_name` parameter
 
 # v3.0.0 - 2020-07-09
 
 Added
-  * AZ-221: Add health_check_path site_config parameter
+  * AZ-221: Add `health_check_path site_config` parameter
 
 Breaking
   * AZ-221: AzureRM provider 2.0 compatibility
@@ -17,7 +17,7 @@ Added
   * AZ-176: Implement certificate and custom hostname binding features
 
 Fixed
-  * AZ-194 : Fix site\_config type
+  * AZ-194: Fix `site_config` type
 
 # v2.1.1 - 2020-02-11
 
