@@ -1,4 +1,4 @@
-# v3.1.0 - unreleased
+# v3.1.0 - 2020-07-30
 
 Added
   * AZ-241: Add `diag_settings_custom_name` parameter
