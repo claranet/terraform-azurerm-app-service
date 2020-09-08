@@ -189,7 +189,6 @@ module "app_service" {
 | resource\_group\_name | Resource group name | `string` | n/a | yes |
 | scm\_authorized\_ips | SCM IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
 | scm\_authorized\_subnet\_ids | SCM subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
-| scm\_use\_main\_ip\_restriction | IP security restrictions for scm to use rules defined by `authorized_subnet_ids` and `authorized_ips`. | `bool` | `true` | no |
 | site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | `any` | `{}` | no |
 | stack | Project stack name | `string` | n/a | yes |
 
