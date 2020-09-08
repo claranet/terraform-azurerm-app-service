@@ -123,6 +123,24 @@ variable "authorized_subnet_ids" {
   default     = []
 }
 
+variable "scm_use_main_ip_restriction" {
+  description = "IP security restrictions for scm to use rules defined by `authorized_subnet_ids` and `authorized_ips`."
+  type        = bool
+  default     = true
+}
+
+variable "scm_authorized_ips" {
+  description = "SCM IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction"
+  type        = list(string)
+  default     = []
+}
+
+variable "scm_authorized_subnet_ids" {
+  description = "SCM subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction"
+  type        = list(string)
+  default     = []
+}
+
 variable "client_affinity_enabled" {
   description = "Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled"
   type        = string

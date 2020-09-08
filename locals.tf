@@ -52,6 +52,24 @@ locals {
     action                    = "Allow"
   }]
 
+  scm_cidrs = [for cidr in var.scm_authorized_ips : {
+    name                      = "scm_ip_restriction_cidr_${join("", [1, index(var.scm_authorized_ips, cidr)])}"
+    ip_address                = cidr
+    virtual_network_subnet_id = null
+    subnet_id                 = null
+    priority                  = join("", [1, index(var.scm_authorized_ips, cidr)])
+    action                    = "Allow"
+  }]
+
+  scm_subnets = [for subnet in var.scm_authorized_subnet_ids : {
+    name                      = "scm_ip_restriction_subnet_${join("", [1, index(var.scm_authorized_subnet_ids, subnet)])}"
+    ip_address                = null
+    virtual_network_subnet_id = subnet
+    subnet_id                 = subnet
+    priority                  = join("", [1, index(var.scm_authorized_subnet_ids, subnet)])
+    action                    = "Allow"
+  }]
+
   auth_settings = merge(
     {
       enabled                        = false
