@@ -1,5 +1,8 @@
 # v3.1.1 - unreleased
 
+Added
+  * AZ-265: Add `scm_ip_restriction` attribute
+
 Updated
   * AZ-133: README update for logs storage declaration
 
