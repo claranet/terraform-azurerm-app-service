@@ -43,18 +43,19 @@ module "rg" {
   stack        = var.stack
 }
 
-resource "azurerm_storage_account" "logs_storage" {
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-  location                 = module.azure-region.location
-  name                     = "appservicelogs"
-  resource_group_name      = module.rg.resource_group_name
-}
+module "run-common" {
+  source  = "claranet/run-common/azurerm"
+  version = "x.x.x"
 
-resource "azurerm_storage_container" "logs_storage_container" {
-  name                 = "webapps"
-  resource_group_name  = module.rg.resource_group_name
-  storage_account_name = azurerm_storage_account.logs_storage.name
+  client_name    = var.client_name
+  location       = module.azure-region.location
+  location_short = module.azure-region.location_short
+  environment    = var.environment
+  stack          = var.stack
+
+  resource_group_name = module.rg.resource_group_name
+
+  tenant_id = var.azure_tenant_id
 }
 
 resource "azurerm_storage_account" "assets_storage" {
@@ -145,7 +146,7 @@ module "app_service" {
     }
   ]
 
-  logs_storage_account_id = azurerm_storage_account.logs_storage.id
+  logs_storage_account_id = module.run-common.logs_storage_account_id
 }
 ```
 
