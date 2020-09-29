@@ -1,3 +1,8 @@
+# v3.1.1 - unreleased
+
+Updated
+  * AZ-133: README update for logs storage declaration
+
 # v3.1.0 - 2020-07-30
 
 Added
