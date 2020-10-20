@@ -140,3 +140,9 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
   ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, false) != false ? "SniEnabled" : null
   thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, false) != false ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : null
 }
+
+resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
+  count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
+  app_service_id = azurerm_app_service.app_service.id
+  subnet_id      = var.app_service_vnet_integration_subnet_id
+}

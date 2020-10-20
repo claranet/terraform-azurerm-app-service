@@ -212,3 +212,9 @@ variable "custom_domains" {
   type        = map(map(string))
   default     = null
 }
+
+variable "app_service_vnet_integration_subnet_id" {
+  description = "Id of the subnet to associate with the app service"
+  type        = string
+  default     = null
+}
