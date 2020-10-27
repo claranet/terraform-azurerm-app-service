@@ -142,6 +142,7 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
+  depends_on     = [azurerm_app_service.app_service]
   count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
   app_service_id = var.app_service_plan_id
   subnet_id      = var.app_service_vnet_integration_subnet_id
