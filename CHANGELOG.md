@@ -3,6 +3,9 @@
 Updated
   * AZ-133: README update for logs storage declaration
 
+Fixed
+  * AZ-263: Update ip_restriction block with new attributes
+
 # v3.1.0 - 2020-07-30
 
 Added
