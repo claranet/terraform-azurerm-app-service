@@ -57,6 +57,12 @@ variable "app_insights_custom_name" {
   default     = ""
 }
 
+variable "app_insights_instrumentation_key" {
+  description = "Use another application insight instead of deploying a new one."
+  type        = string
+  default     = null
+}
+
 variable "extra_tags" {
   description = "Extra tags to add"
   type        = map(string)

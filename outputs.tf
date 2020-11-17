@@ -45,25 +45,25 @@ output "app_service_identity_service_principal_id" {
 
 output "app_insights_id" {
   description = "Id of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.id
+  value       = var.app_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.id : ""
 }
 
 output "app_insights_name" {
   description = "Name of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.name
+  value       = var.app_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.name : ""
 }
 
 output "app_insights_app_id" {
   description = "App id of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.app_id
+  value       = var.app_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.app_id : ""
 }
 
 output "app_insights_instrumentation_key" {
   description = "Instrumentation key of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.instrumentation_key
+  value       = var.app_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.instrumentation_key : var.app_insights_instrumentation_key
 }
 
 output "app_insights_application_type" {
   description = "Application Type of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.application_type
+  value       = var.app_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.application_type : ""
 }

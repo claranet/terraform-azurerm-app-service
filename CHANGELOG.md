@@ -27,6 +27,9 @@ Updated
 Fixed
   * AZ-263: Update `ip_restriction` block with new attributes
 
+Added
+  * AZ-374: Add option to create or not the application insight
+  
 # v3.1.0 - 2020-07-30
 
 Added
