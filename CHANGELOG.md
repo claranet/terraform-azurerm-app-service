@@ -1,5 +1,8 @@
 # v3.1.1 - unreleased
 
+Added
+  * AZ-265: Add SCM IP restriction feature
+
 Updated
   * AZ-133: README update for logs storage declaration
 
