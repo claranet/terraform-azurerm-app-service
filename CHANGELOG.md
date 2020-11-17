@@ -1,4 +1,4 @@
-# v3.1.1 - unreleased
+# v3.2.0 - 2020-11-17
 
 Added
   * AZ-265: Add SCM IP restriction feature
