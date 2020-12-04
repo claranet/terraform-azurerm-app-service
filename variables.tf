@@ -58,7 +58,7 @@ variable "app_insights_custom_name" {
 }
 
 variable "app_insights_instrumentation_key" {
-  description = "Use another application insight instead of deploying a new one."
+  description = "Use another application insights instead of deploying a new one."
   type        = string
   default     = null
 }
