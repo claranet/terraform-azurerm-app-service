@@ -10,6 +10,7 @@ Changed
 
 Added
   * AZ-331: VNet integration
+  * AZ-374: Allow disabling application insight deployment.
 
 # v3.2.1/v4.0.0 - 2020-11-19
 

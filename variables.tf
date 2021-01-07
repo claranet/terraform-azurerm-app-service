@@ -63,6 +63,12 @@ variable "app_insights_instrumentation_key" {
   default     = null
 }
 
+variable "app_insights_enabled" {
+  description = "Enable or disable the application insight deployment"
+  type        = bool
+  default     = true
+}
+
 variable "extra_tags" {
   description = "Extra tags to add"
   type        = map(string)

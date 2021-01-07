@@ -156,6 +156,7 @@ module "app_service" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | app\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
+| app\_insights\_enabled | Enable or disable the application insight deployment | `bool` | `true` | no |
 | app\_insights\_instrumentation\_key | Use another application insights instead of deploying a new one. | `string` | `null` | no |
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | `string` | n/a | yes |

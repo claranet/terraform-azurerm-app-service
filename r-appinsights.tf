@@ -1,5 +1,5 @@
 resource "azurerm_application_insights" "app_insights" {
-  count               = var.app_insights_instrumentation_key == null ? 1 : 0
+  count               = var.app_insights_enabled && var.app_insights_instrumentation_key == null ? 1 : 0
   name                = local.app_insights_name
   location            = var.location
   resource_group_name = var.resource_group_name
