@@ -161,8 +161,8 @@ module "app_service" {
 | app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the app service | `string` | `null` | no |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
-| application\_insights\_enabled | Use Application Insights in this App Service | `bool` | `true` | no |
-| application\_insights\_instrumentation\_key | Existing Application Insights instrumentation key instead of deploying a new resource. | `string` | `null` | no |
+| application\_insights\_enabled | Use Application Insights for this App Service | `bool` | `true` | no |
+| application\_insights\_id | ID of the existing Application Insights to use instead of deploying a new one. | `string` | `null` | no |
 | application\_insights\_type | Application type for Application Insights resource | `string` | `"web"` | no |
 | auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For active\_directory block, the allowed\_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings | `any` | `{}` | no |
 | authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
