@@ -17,9 +17,9 @@ resource "azurerm_app_service" "app_service" {
       ftps_state                  = lookup(site_config.value, "ftps_state", null)
       health_check_path           = lookup(site_config.value, "health_check_path", null)
       http2_enabled               = lookup(site_config.value, "http2_enabled", null)
-      ip_restriction              = concat(local.subnets, local.cidrs)
+      ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
       scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
-      scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs)
+      scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.service_tags)
       java_container              = lookup(site_config.value, "java_container", null)
       java_container_version      = lookup(site_config.value, "java_container_version", null)
       java_version                = lookup(site_config.value, "java_version", null)
