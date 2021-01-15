@@ -1,3 +1,8 @@
+# unreleased
+
+Added
+  * AZ-424: Add Service Tags (AzureRM v2.42+)
+
 # v4.1.0 - 2021-01-15
 
 Changed
@@ -5,7 +10,6 @@ Changed
 
 Added
   * AZ-331: VNet integration
-  * AZ-424: Add Service Tags (AzureRM 2.42+)
 
 # v3.2.1/v4.0.0 - 2020-11-19
 
