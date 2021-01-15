@@ -1,7 +1,7 @@
-# Unreleased
+# v4.1.0 - 2021-01-15
 
 Changed
-  * AZ-398: Force lowercases on default generated name
+  * AZ-398: Force lowercase on default generated name
 
 Added
   * AZ-331: VNet integration
