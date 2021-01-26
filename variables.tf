@@ -52,19 +52,25 @@ variable "diag_settings_custom_name" {
 }
 
 variable "app_insights_custom_name" {
+  description = "Deprecated, use `application_insights_custom_name``"
+  type        = string
+  default     = ""
+}
+
+variable "application_insights_custom_name" {
   description = "Name of the Application Insights, generated if not set."
   type        = string
   default     = ""
 }
 
-variable "app_insights_instrumentation_key" {
-  description = "Use another application insights instead of deploying a new one."
+variable "application_insights_instrumentation_key" {
+  description = "Existing Application Insights instrumentation key instead of deploying a new resource."
   type        = string
   default     = null
 }
 
-variable "app_insights_enabled" {
-  description = "Enable or disable the application insight deployment"
+variable "application_insights_enabled" {
+  description = "Use Application Insights in this App Service"
   type        = bool
   default     = true
 }

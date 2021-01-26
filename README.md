@@ -155,13 +155,14 @@ module "app_service" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| app\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
-| app\_insights\_enabled | Enable or disable the application insight deployment | `bool` | `true` | no |
-| app\_insights\_instrumentation\_key | Use another application insights instead of deploying a new one. | `string` | `null` | no |
+| app\_insights\_custom\_name | Deprecated, use `application_insights_custom_name` | `string` | `""` | no |
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | `string` | n/a | yes |
 | app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the app service | `string` | `null` | no |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
+| application\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
+| application\_insights\_enabled | Use Application Insights in this App Service | `bool` | `true` | no |
+| application\_insights\_instrumentation\_key | Existing Application Insights instrumentation key instead of deploying a new resource. | `string` | `null` | no |
 | application\_insights\_type | Application type for Application Insights resource | `string` | `"web"` | no |
 | auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For active\_directory block, the allowed\_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings | `any` | `{}` | no |
 | authorized\_ips | IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
@@ -202,11 +203,11 @@ module "app_service" {
 
 | Name | Description |
 |------|-------------|
-| app\_insights\_app\_id | App id of the Application Insights associated to the App Service |
-| app\_insights\_application\_type | Application Type of the Application Insights associated to the App Service |
-| app\_insights\_id | Id of the Application Insights associated to the App Service |
-| app\_insights\_instrumentation\_key | Instrumentation key of the Application Insights associated to the App Service |
-| app\_insights\_name | Name of the Application Insights associated to the App Service |
+| app\_insights\_app\_id | Deprecated, use `application_insights_app_id` |
+| app\_insights\_application\_type | Deprecated, use `application_insights_application_type` |
+| app\_insights\_id | Deprecated, use `application_insights_id` |
+| app\_insights\_instrumentation\_key | Deprecated, use `application_insights_instrumentation_key` |
+| app\_insights\_name | Deprecated, use `application_insights_name` |
 | app\_service\_default\_site\_hostname | The Default Hostname associated with the App Service |
 | app\_service\_id | Id of the App Service |
 | app\_service\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service |
@@ -216,6 +217,11 @@ module "app_service" {
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |
 | app\_service\_site\_credential | Site credential block of the App Service |
 | app\_service\_source\_control | Source Control information block of the App Service |
+| application\_insights\_app\_id | App id of the Application Insights associated to the App Service |
+| application\_insights\_application\_type | Application Type of the Application Insights associated to the App Service |
+| application\_insights\_id | Id of the Application Insights associated to the App Service |
+| application\_insights\_instrumentation\_key | Instrumentation key of the Application Insights associated to the App Service |
+| application\_insights\_name | Name of the Application Insights associated to the App Service |
 
 ## Related documentation
 

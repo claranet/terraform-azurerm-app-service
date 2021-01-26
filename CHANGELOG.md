@@ -2,6 +2,7 @@
 
 Added
   * AZ-424: Add Service Tags (AzureRM v2.42+)
+  * AZ-374: Allow disabling Application Insights deployment.
 
 # v4.1.0 - 2021-01-15
 
@@ -10,7 +11,6 @@ Changed
 
 Added
   * AZ-331: VNet integration
-  * AZ-374: Allow disabling application insight deployment.
 
 # v3.2.1/v4.0.0 - 2020-11-19
 
@@ -28,9 +28,6 @@ Updated
 Fixed
   * AZ-263: Update `ip_restriction` block with new attributes
 
-Added
-  * AZ-374: Add option to create or not the application insights
-  
 # v3.1.0 - 2020-07-30
 
 Added
