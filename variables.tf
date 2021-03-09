@@ -63,14 +63,14 @@ variable "application_insights_custom_name" {
   default     = ""
 }
 
-variable "application_insights_instrumentation_key" {
-  description = "Existing Application Insights instrumentation key instead of deploying a new resource."
+variable "application_insights_id" {
+  description = "ID of the existing Application Insights to use instead of deploying a new one."
   type        = string
   default     = null
 }
 
 variable "application_insights_enabled" {
-  description = "Use Application Insights in this App Service"
+  description = "Use Application Insights for this App Service"
   type        = bool
   default     = true
 }
