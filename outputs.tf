@@ -44,26 +44,51 @@ output "app_service_identity_service_principal_id" {
 }
 
 output "app_insights_id" {
+  description = "Deprecated, use `application_insights_id`"
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.id : ""
+}
+
+output "application_insights_id" {
   description = "Id of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.id
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.id : ""
 }
 
 output "app_insights_name" {
+  description = "Deprecated, use `application_insights_name`"
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.name : ""
+}
+
+output "application_insights_name" {
   description = "Name of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.name
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.name : ""
 }
 
 output "app_insights_app_id" {
+  description = "Deprecated, use `application_insights_app_id`"
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.app_id : ""
+}
+
+output "application_insights_app_id" {
   description = "App id of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.app_id
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.app_id : ""
 }
 
 output "app_insights_instrumentation_key" {
+  description = "Deprecated, use `application_insights_instrumentation_key`"
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.instrumentation_key : var.application_insights_instrumentation_key
+}
+
+output "application_insights_instrumentation_key" {
   description = "Instrumentation key of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.instrumentation_key
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.instrumentation_key : var.application_insights_instrumentation_key
 }
 
 output "app_insights_application_type" {
+  description = "Deprecated, use `application_insights_application_type`"
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.application_type : ""
+}
+
+output "application_insights_application_type" {
   description = "Application Type of the Application Insights associated to the App Service"
-  value       = azurerm_application_insights.app_insights.application_type
+  value       = var.application_insights_instrumentation_key == null ? azurerm_application_insights.app_insights.0.application_type : ""
 }

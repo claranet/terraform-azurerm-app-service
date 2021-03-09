@@ -15,13 +15,13 @@ locals {
 
   app_service_name = coalesce(var.app_service_custom_name, "${local.default_name}-web")
 
-  app_insights_name = coalesce(var.app_insights_custom_name, "${local.default_name}-ai")
+  app_insights_name = coalesce(var.application_insights_custom_name, var.app_insights_custom_name, "${local.default_name}-ai")
 
   diag_settings_name = coalesce(var.diag_settings_custom_name, "${local.default_name}-diag")
 
   default_app_settings = {
-    "APPLICATION_INSIGHTS_IKEY"      = azurerm_application_insights.app_insights.instrumentation_key
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.app_insights.instrumentation_key
+    "APPLICATION_INSIGHTS_IKEY"      = var.application_insights_instrumentation_key == null && var.application_insights_enabled ? azurerm_application_insights.app_insights.0.instrumentation_key : var.application_insights_instrumentation_key
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.application_insights_instrumentation_key == null && var.application_insights_enabled ? azurerm_application_insights.app_insights.0.instrumentation_key : var.application_insights_instrumentation_key
   }
 
   app_service_plan_name = split("/", var.app_service_plan_id)[8]
