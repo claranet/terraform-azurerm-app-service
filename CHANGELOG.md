@@ -3,6 +3,7 @@
 Added
   * AZ-424: Add Service Tags (AzureRM v2.42+)
   * AZ-374: Allow disabling Application Insights deployment
+  * AZ-423: Use connection string for Application Insights integration (changed variable from key to id)
 
 # v4.1.0 - 2021-01-15
 
