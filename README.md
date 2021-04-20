@@ -147,7 +147,10 @@ module "app_service" {
     }
   ]
 
-  logs_storage_account_id = module.run-common.logs_storage_account_id
+  logs_destinations_ids = [
+    data.terraform_remote_state.run.outputs.logs_storage_account_id,
+    data.terraform_remote_state.run.outputs.log_analytics_workspace_id
+  ]
 }
 ```
 
@@ -181,15 +184,15 @@ module "app_service" {
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
 | diag\_settings\_custom\_name | Custom name of the diagnostics settings, generated if not set. | `string` | `""` | no |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
-| enable\_logging | Boolean flag to specify whether logging is enabled | `bool` | `true` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `string` | `"false"` | no |
 | location | Azure location. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
-| logs\_log\_analytics\_workspace\_id | Log Analytics Workspace id for logs | `string` | `null` | no |
-| logs\_storage\_account\_id | Storage Account id for logs | `string` | `null` | no |
-| logs\_storage\_retention | Retention in days for logs on Storage Account | `string` | `"30"` | no |
+| logs\_categories | Log categories to send to destinations. | `list(string)` | `null` | no |
+| logs\_destinations\_ids | List of destination resources Ids for logs diagnostics destination. Can be Storage Account, Log Analytics Workspace and Event Hub. No more than one of each can be set. Empty list to disable logging. | `list(string)` | `null` | no |
+| logs\_metrics\_categories | Metrics categories to send to destinations. | `list(string)` | `null` | no |
+| logs\_retention\_days | Number of days to keep logs on storage account | `number` | `30` | no |
 | mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | `list(map(string))` | `[]` | no |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | resource\_group\_name | Resource group name | `string` | n/a | yes |

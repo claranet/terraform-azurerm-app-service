@@ -76,11 +76,13 @@ output "application_insights_app_id" {
 output "app_insights_instrumentation_key" {
   description = "Deprecated, use `application_insights_instrumentation_key`"
   value       = try(local.app_insights.instrumentation_key, null)
+  sensitive   = true
 }
 
 output "application_insights_instrumentation_key" {
   description = "Instrumentation key of the Application Insights associated to the App Service"
   value       = try(local.app_insights.instrumentation_key, null)
+  sensitive   = true
 }
 
 output "app_insights_application_type" {
