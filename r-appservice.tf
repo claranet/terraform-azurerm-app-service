@@ -66,7 +66,7 @@ resource "azurerm_app_service" "app_service" {
     allowed_external_redirect_urls = local.auth_settings.allowed_external_redirect_urls
 
     dynamic "active_directory" {
-      for_each = local.auth_settings_active_directory.client_id == null ? [] : list(local.auth_settings_active_directory)
+      for_each = local.auth_settings_active_directory.client_id == null ? [] : [local.auth_settings_active_directory]
       content {
         client_id         = local.auth_settings_active_directory.client_id
         client_secret     = local.auth_settings_active_directory.client_secret
@@ -84,7 +84,7 @@ resource "azurerm_app_service" "app_service" {
   }
 
   dynamic "backup" {
-    for_each = var.enable_backup ? list("fake") : []
+    for_each = var.enable_backup ? [1] : []
     content {
       name                = coalesce(var.backup_custom_name, "DefaultBackup")
       storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
