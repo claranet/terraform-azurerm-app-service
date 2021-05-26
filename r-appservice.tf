@@ -92,7 +92,7 @@ resource "azurerm_app_service" "app_service" {
       schedule {
         frequency_interval       = var.backup_frequency_interval
         frequency_unit           = var.backup_frequency_unit
-        retention_period_in_days = var.retention_period_in_days
+        retention_period_in_days = var.backup_retention_period_in_days
       }
     }
   }
