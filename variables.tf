@@ -171,6 +171,12 @@ variable "backup_frequency_interval" {
   default     = 1
 }
 
+variable "backup_retention_period_in_days" {
+  description = "Retention in days for the App Service backup."
+  type        = number
+  default     = 30
+}
+
 variable "backup_frequency_unit" {
   description = "Frequency unit for the App Service backup. Possible values are Day or Hour."
   type        = string

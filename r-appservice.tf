@@ -90,8 +90,9 @@ resource "azurerm_app_service" "app_service" {
       storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
 
       schedule {
-        frequency_interval = var.backup_frequency_interval
-        frequency_unit     = var.backup_frequency_unit
+        frequency_interval       = var.backup_frequency_interval
+        frequency_unit           = var.backup_frequency_unit
+        retention_period_in_days = var.backup_retention_period_in_days
       }
     }
   }

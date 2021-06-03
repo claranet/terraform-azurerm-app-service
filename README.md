@@ -174,6 +174,7 @@ module "app_service" {
 | backup\_custom\_name | Custom name for backup | `string` | `null` | no |
 | backup\_frequency\_interval | Frequency interval for the App Service backup. | `number` | `1` | no |
 | backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | `string` | `"Day"` | no |
+| backup\_retention\_period\_in\_days | Retention in days for backup | `number` | 30 | no |
 | backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | `string` | `"webapps"` | no |
 | backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | `null` | no |
 | backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | `null` | no |
