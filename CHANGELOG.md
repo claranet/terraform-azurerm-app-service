@@ -6,6 +6,9 @@ Changed
 Breaking
   * AZ-160: Unify diagnostics settings on all Claranet modules
 
+Added
+  * AZ-500: Add backup retention period in days argument
+
 # v4.2.0 - 2021-03-09
 
 Added
