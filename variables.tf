@@ -87,30 +87,6 @@ variable "application_insights_type" {
   default     = "web"
 }
 
-variable "enable_logging" {
-  description = "Boolean flag to specify whether logging is enabled"
-  type        = bool
-  default     = true
-}
-
-variable "logs_storage_retention" {
-  description = "Retention in days for logs on Storage Account"
-  type        = string
-  default     = "30"
-}
-
-variable "logs_storage_account_id" {
-  description = "Storage Account id for logs"
-  type        = string
-  default     = null
-}
-
-variable "logs_log_analytics_workspace_id" {
-  description = "Log Analytics Workspace id for logs"
-  type        = string
-  default     = null
-}
-
 variable "app_settings" {
   description = "Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings"
   type        = map(string)
@@ -247,4 +223,27 @@ variable "app_service_vnet_integration_subnet_id" {
   description = "Id of the subnet to associate with the app service"
   type        = string
   default     = null
+}
+
+variable "logs_destinations_ids" {
+  type        = list(string)
+  description = "List of destination resources Ids for logs diagnostics destination. Can be Storage Account, Log Analytics Workspace and Event Hub. No more than one of each can be set. Empty list to disable logging."
+}
+
+variable "logs_categories" {
+  type        = list(string)
+  description = "Log categories to send to destinations."
+  default     = null
+}
+
+variable "logs_metrics_categories" {
+  type        = list(string)
+  description = "Metrics categories to send to destinations."
+  default     = null
+}
+
+variable "logs_retention_days" {
+  type        = number
+  description = "Number of days to keep logs on storage account"
+  default     = 30
 }

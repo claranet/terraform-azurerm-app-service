@@ -1,7 +1,10 @@
-# v4.3.0 - unreelased
+# v4.3.0 - Unreleased
 
 Changed
   * AZ-495: Module code upgrade, now compatible with Terraform `0.15+`
+
+Breaking
+  * AZ-160: Unify diagnostics settings on all Claranet modules
 
 # v4.2.0 - 2021-03-09
 
