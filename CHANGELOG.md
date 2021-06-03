@@ -1,4 +1,4 @@
-# v4.3.0 - Unreleased
+# v4.3.0 - 2021-06-03
 
 Changed
   * AZ-495: Module code upgrade, now compatible with Terraform `0.15+`
