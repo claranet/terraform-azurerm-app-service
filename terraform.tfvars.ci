@@ -22,7 +22,7 @@ custom_domains = {
     certificate_password = "examplepassword"
   }
   "example2.com" = {
-    certificate_keyvault_secret_id = data.azurerm_key_vault_secret.my_keyvault.id
+    certificate_keyvault_certificate_id = "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/my-rg/providers/Microsoft.KeyVault/vaults/my-keyvault"
     certificate_password           = "example2password"
   }
   "example3.com" = null
@@ -31,5 +31,5 @@ enable_logging=true
 logs_retention=7
 logs_storage_account_id="/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-test/providers/Microsoft.Storage/storageAccounts/storageaccountname"
 enable_backup=true
-backup_storage_account_name=storageaccountname
-backup_storage_account_rg=rg-test
+backup_storage_account_name="storageaccountname"
+backup_storage_account_rg="rg-test"
