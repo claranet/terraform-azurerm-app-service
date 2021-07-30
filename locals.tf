@@ -37,6 +37,7 @@ locals {
     subnet_id                 = null
     priority                  = join("", [1, index(var.authorized_ips, cidr)])
     action                    = "Allow"
+    headers                   = null
   }]
 
   subnets = [for subnet in var.authorized_subnet_ids : {
@@ -68,6 +69,7 @@ locals {
     subnet_id                 = null
     priority                  = join("", [1, index(var.scm_authorized_ips, cidr)])
     action                    = "Allow"
+    headers                   = null
   }]
 
   scm_subnets = [for subnet in var.scm_authorized_subnet_ids : {
