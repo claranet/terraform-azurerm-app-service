@@ -1,9 +1,9 @@
 # UNRELEASED
 Fixed
-  * AZ-534: Add IP restrictions headers variables
-  * AZ-534: Diagnostics settings can now be named correctly
-  * AZ-534: Fix scm_ip_restriction service tags
-  * AZ-534: Fix linter issues
+  * AZ-548: Add IP restrictions headers variables
+  * AZ-548: Diagnostics settings can now be named correctly
+  * AZ-548: Fix SCM IP restriction service tags
+  * AZ-548: Fix other linter issues
 # v4.3.0 - 2021-06-03
 
 Changed
