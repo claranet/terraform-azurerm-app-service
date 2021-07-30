@@ -154,6 +154,32 @@ module "app_service" {
 }
 ```
 
+## Providers
+
+| Name | Version |
+|------|---------|
+| azurerm | 2.70.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| backup\_sas\_token | claranet/storage-sas-token/azurerm | 2.0.0 |
+| diagnostics | claranet/diagnostic-settings/azurerm | 4.0.1 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_app_service.app_service](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service) | resource |
+| [azurerm_app_service_certificate.app_service_certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_certificate) | resource |
+| [azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
+| [azurerm_app_service_virtual_network_swift_connection.app_service_vnet_integration](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
+| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
+| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
+| [azurerm_client_config.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+| [azurerm_subscription.current_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -174,7 +200,7 @@ module "app_service" {
 | backup\_custom\_name | Custom name for backup | `string` | `null` | no |
 | backup\_frequency\_interval | Frequency interval for the App Service backup. | `number` | `1` | no |
 | backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | `string` | `"Day"` | no |
-| backup\_retention\_period\_in\_days | Retention in days for backup | `number` | 30 | no |
+| backup\_retention\_period\_in\_days | Retention in days for the App Service backup. | `number` | `30` | no |
 | backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | `string` | `"webapps"` | no |
 | backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | `null` | no |
 | backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | `null` | no |
