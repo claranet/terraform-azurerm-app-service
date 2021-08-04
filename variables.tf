@@ -45,10 +45,10 @@ variable "app_service_custom_name" {
   default     = ""
 }
 
-variable "diag_settings_custom_name" {
-  description = "Custom name of the diagnostics settings, generated if not set."
+variable "custom_diagnostic_settings_name" {
+  description = "Custom name of the diagnostics settings, name will be 'default' if not set."
   type        = string
-  default     = ""
+  default     = "default"
 }
 
 variable "app_insights_custom_name" {
@@ -123,6 +123,12 @@ variable "authorized_service_tags" {
   default     = []
 }
 
+variable "ip_restriction_headers" {
+  description = "IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers"
+  type        = map(list(string))
+  default     = null
+}
+
 variable "scm_authorized_ips" {
   description = "SCM IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction"
   type        = list(string)
@@ -139,6 +145,12 @@ variable "scm_authorized_service_tags" {
   description = "SCM Service Tags restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction"
   type        = list(string)
   default     = []
+}
+
+variable "scm_ip_restriction_headers" {
+  description = "IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers"
+  type        = map(list(string))
+  default     = null
 }
 
 variable "client_affinity_enabled" {

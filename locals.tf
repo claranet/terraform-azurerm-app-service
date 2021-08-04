@@ -19,13 +19,20 @@ locals {
 
   app_insights = try(data.azurerm_application_insights.app_insights[0], try(azurerm_application_insights.app_insights[0], {}))
 
-  diag_settings_name = coalesce(var.diag_settings_custom_name, "${local.default_name}-diag")
-
   default_app_settings = var.application_insights_enabled ? {
     APPLICATION_INSIGHTS_IKEY             = try(local.app_insights.instrumentation_key, "")
     APPINSIGHTS_INSTRUMENTATIONKEY        = try(local.app_insights.instrumentation_key, "")
     APPLICATIONINSIGHTS_CONNECTION_STRING = try(local.app_insights.connection_string, "")
   } : {}
+
+  ip_restriction_headers = var.ip_restriction_headers != null ? [
+    {
+      x_azure_fdid      = try(var.ip_restriction_headers.x_azure_fdid, [])
+      x_fd_health_probe = try(var.ip_restriction_headers.x_fd_health_probe, [])
+      x_forwarded_for   = try(var.ip_restriction_headers.x_forwarded_for, [])
+      x_forwarded_host  = try(var.ip_restriction_headers.x_forwarded_host, [])
+    }
+  ] : []
 
   cidrs = [for cidr in var.authorized_ips : {
     name                      = "ip_restriction_cidr_${join("", [1, index(var.authorized_ips, cidr)])}"
@@ -35,7 +42,7 @@ locals {
     subnet_id                 = null
     priority                  = join("", [1, index(var.authorized_ips, cidr)])
     action                    = "Allow"
-    headers                   = null
+    headers                   = local.ip_restriction_headers
   }]
 
   subnets = [for subnet in var.authorized_subnet_ids : {
@@ -46,6 +53,7 @@ locals {
     subnet_id                 = subnet
     priority                  = join("", [1, index(var.authorized_subnet_ids, subnet)])
     action                    = "Allow"
+    headers                   = local.ip_restriction_headers
   }]
 
   service_tags = [for service_tag in var.authorized_service_tags : {
@@ -56,8 +64,17 @@ locals {
     subnet_id                 = null
     priority                  = join("", [1, index(var.authorized_service_tags, service_tag)])
     action                    = "Allow"
+    headers                   = local.ip_restriction_headers
   }]
 
+  scm_ip_restriction_headers = var.scm_ip_restriction_headers != null ? [
+    {
+      x_azure_fdid      = try(var.scm_ip_restriction_headers.x_azure_fdid, null)
+      x_fd_health_probe = try(var.scm_ip_restriction_headers.x_fd_health_probe, null)
+      x_forwarded_for   = try(var.scm_ip_restriction_headers.x_forwarded_for, null)
+      x_forwarded_host  = try(var.scm_ip_restriction_headers.x_forwarded_host, null)
+    }
+  ] : []
 
   scm_cidrs = [for cidr in var.scm_authorized_ips : {
     name                      = "scm_ip_restriction_cidr_${join("", [1, index(var.scm_authorized_ips, cidr)])}"
@@ -67,7 +84,7 @@ locals {
     subnet_id                 = null
     priority                  = join("", [1, index(var.scm_authorized_ips, cidr)])
     action                    = "Allow"
-    headers                   = null
+    headers                   = local.scm_ip_restriction_headers
   }]
 
   scm_subnets = [for subnet in var.scm_authorized_subnet_ids : {
@@ -78,6 +95,7 @@ locals {
     subnet_id                 = subnet
     priority                  = join("", [1, index(var.scm_authorized_subnet_ids, subnet)])
     action                    = "Allow"
+    headers                   = local.scm_ip_restriction_headers
   }]
 
   scm_service_tags = [for service_tag in var.scm_authorized_service_tags : {
@@ -88,6 +106,7 @@ locals {
     subnet_id                 = null
     priority                  = join("", [1, index(var.scm_authorized_service_tags, service_tag)])
     action                    = "Allow"
+    headers                   = local.scm_ip_restriction_headers
   }]
 
   auth_settings = merge(

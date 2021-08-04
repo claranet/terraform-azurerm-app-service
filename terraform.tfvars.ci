@@ -33,3 +33,10 @@ logs_storage_account_id="/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/res
 enable_backup=true
 backup_storage_account_name="storageaccountname"
 backup_storage_account_rg="rg-test"
+custom_diagnostic_settings_name="diag-custom-name"
+ip_restriction_headers = {
+  x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
+}
+scm_ip_restriction_headers = {
+  x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
+}
