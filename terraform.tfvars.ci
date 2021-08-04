@@ -34,6 +34,7 @@ enable_backup=true
 backup_storage_account_name="storageaccountname"
 backup_storage_account_rg="rg-test"
 custom_diagnostic_settings_name="diag-custom-name"
+authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
 ip_restriction_headers = {
   x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
 }

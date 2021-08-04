@@ -134,6 +134,15 @@ module "app_service" {
     "example2.com" = null
   }
 
+  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+
+  ip_restriction_headers = {
+    x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
+  }
+  scm_ip_restriction_headers = {
+    x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
+  }
+
   extra_tags = {
     foo = "bar"
   }

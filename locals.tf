@@ -25,14 +25,15 @@ locals {
     APPLICATIONINSIGHTS_CONNECTION_STRING = try(local.app_insights.connection_string, "")
   } : {}
 
-  ip_restriction_headers = var.ip_restriction_headers != null ? [
-    {
-      x_azure_fdid      = try(var.ip_restriction_headers.x_azure_fdid, [])
-      x_fd_health_probe = try(var.ip_restriction_headers.x_fd_health_probe, [])
-      x_forwarded_for   = try(var.ip_restriction_headers.x_forwarded_for, [])
-      x_forwarded_host  = try(var.ip_restriction_headers.x_forwarded_host, [])
-    }
-  ] : []
+
+  default_ip_restrictions_headers = {
+    x_azure_fdid      = null
+    x_fd_health_probe = null
+    x_forwarded_for   = null
+    x_forwarded_host  = null
+  }
+
+  ip_restriction_headers = var.ip_restriction_headers != null ? [merge(local.default_ip_restrictions_headers, var.ip_restriction_headers)] : []
 
   cidrs = [for cidr in var.authorized_ips : {
     name                      = "ip_restriction_cidr_${join("", [1, index(var.authorized_ips, cidr)])}"
@@ -67,14 +68,7 @@ locals {
     headers                   = local.ip_restriction_headers
   }]
 
-  scm_ip_restriction_headers = var.scm_ip_restriction_headers != null ? [
-    {
-      x_azure_fdid      = try(var.scm_ip_restriction_headers.x_azure_fdid, null)
-      x_fd_health_probe = try(var.scm_ip_restriction_headers.x_fd_health_probe, null)
-      x_forwarded_for   = try(var.scm_ip_restriction_headers.x_forwarded_for, null)
-      x_forwarded_host  = try(var.scm_ip_restriction_headers.x_forwarded_host, null)
-    }
-  ] : []
+  scm_ip_restriction_headers = var.scm_ip_restriction_headers != null ? [merge(local.default_ip_restrictions_headers, var.scm_ip_restriction_headers)] : []
 
   scm_cidrs = [for cidr in var.scm_authorized_ips : {
     name                      = "scm_ip_restriction_cidr_${join("", [1, index(var.scm_authorized_ips, cidr)])}"
