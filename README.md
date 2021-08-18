@@ -134,6 +134,15 @@ module "app_service" {
     "example2.com" = null
   }
 
+  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+
+  ip_restriction_headers = {
+    x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
+  }
+  scm_ip_restriction_headers = {
+    x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
+  }
+
   extra_tags = {
     foo = "bar"
   }
@@ -153,6 +162,32 @@ module "app_service" {
   ]
 }
 ```
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| azurerm | 2.70.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| backup\_sas\_token | claranet/storage-sas-token/azurerm | 2.0.0 |
+| diagnostics | claranet/diagnostic-settings/azurerm | 4.0.1 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_app_service.app_service](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service) | resource |
+| [azurerm_app_service_certificate.app_service_certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_certificate) | resource |
+| [azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
+| [azurerm_app_service_virtual_network_swift_connection.app_service_vnet_integration](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
+| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
+| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
+| [azurerm_client_config.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+| [azurerm_subscription.current_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Inputs
 
@@ -174,7 +209,7 @@ module "app_service" {
 | backup\_custom\_name | Custom name for backup | `string` | `null` | no |
 | backup\_frequency\_interval | Frequency interval for the App Service backup. | `number` | `1` | no |
 | backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | `string` | `"Day"` | no |
-| backup\_retention\_period\_in\_days | Retention in days for backup | `number` | 30 | no |
+| backup\_retention\_period\_in\_days | Retention in days for the App Service backup. | `number` | `30` | no |
 | backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | `string` | `"webapps"` | no |
 | backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | `null` | no |
 | backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | `null` | no |
@@ -182,12 +217,13 @@ module "app_service" {
 | client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `string` | `"false"` | no |
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
+| custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
-| diag\_settings\_custom\_name | Custom name of the diagnostics settings, generated if not set. | `string` | `""` | no |
 | enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `string` | `"false"` | no |
+| ip\_restriction\_headers | IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers | `map(list(string))` | `null` | no |
 | location | Azure location. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
 | logs\_categories | Log categories to send to destinations. | `list(string)` | `null` | no |
@@ -200,6 +236,7 @@ module "app_service" {
 | scm\_authorized\_ips | SCM IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
 | scm\_authorized\_service\_tags | SCM Service Tags restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
 | scm\_authorized\_subnet\_ids | SCM subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
+| scm\_ip\_restriction\_headers | IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers | `map(list(string))` | `null` | no |
 | site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | `any` | `{}` | no |
 | stack | Project stack name | `string` | n/a | yes |
 
