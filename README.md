@@ -14,8 +14,9 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 ## Version compatibility
 
 | Module version | Terraform version | AzureRM version |
-|----------------|-------------------| --------------- |
-| >= 4.x.x       | 0.13.x            | >= 2.0          |
+| -------------- | ----------------- | --------------- |
+| >= 5.x.x       | 0.15.x & 1.0.x    | >= 2.42         |
+| >= 4.x.x       | 0.13.x            | >= 2.42         |
 | >= 3.x.x       | 0.12.x            | >= 2.0          |
 | >= 2.x.x       | 0.12.x            | < 2.0           |
 | <  2.x.x       | 0.11.x            | < 2.0           |
@@ -163,11 +164,12 @@ module "app_service" {
 }
 ```
 
+<!-- BEGIN_TF_DOCS -->
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | 2.70.0 |
+| azurerm | >= 2.42 |
 
 ## Modules
 
@@ -263,9 +265,7 @@ module "app_service" {
 | application\_insights\_id | Id of the Application Insights associated to the App Service |
 | application\_insights\_instrumentation\_key | Instrumentation key of the Application Insights associated to the App Service |
 | application\_insights\_name | Name of the Application Insights associated to the App Service |
-
+<!-- END_TF_DOCS -->
 ## Related documentation
-
-Terraform resource documentation: [www.terraform.io/docs/providers/azurerm/r/app_service.html](https://www.terraform.io/docs/providers/azurerm/r/app_service.html)
 
 Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/app-service/overview](https://docs.microsoft.com/en-us/azure/app-service/overview)
