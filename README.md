@@ -58,6 +58,8 @@ module "run-common" {
   resource_group_name = module.rg.resource_group_name
 
   tenant_id = var.azure_tenant_id
+
+  monitoring_function_splunk_token = null
 }
 
 resource "azurerm_storage_account" "assets_storage" {
@@ -84,6 +86,11 @@ module "app_service_plan" {
   location_short      = module.azure-region.location_short
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
+
+  logs_destinations_ids = [
+    module.run-common.logs_storage_account_id,
+    module.run-common.log_analytics_workspace_id
+  ]
 
   sku = {
     tier = "Standard"
