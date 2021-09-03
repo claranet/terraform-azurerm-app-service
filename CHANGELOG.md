@@ -1,4 +1,4 @@
-# UNRELEASED
+# v4.3.1 - 2021-09-03
 
 Fixed
   * AZ-548: Add IP restrictions headers variables
