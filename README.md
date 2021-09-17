@@ -11,12 +11,13 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 * Untested with App Service slots.
 * Using a single certificate file on multiple domains with the `custom_domains` variable is not supported. Use a Key Vault certificate instead.
 
-## Version compatibility
+<!-- BEGIN_TF_DOCS -->
+## Global versionning rule for Claranet Azure modules
 
 | Module version | Terraform version | AzureRM version |
 | -------------- | ----------------- | --------------- |
-| >= 5.x.x       | 0.15.x & 1.0.x    | >= 2.42         |
-| >= 4.x.x       | 0.13.x            | >= 2.42         |
+| >= 5.x.x       | 0.15.x & 1.0.x    | >= 2.0          |
+| >= 4.x.x       | 0.13.x            | >= 2.0          |
 | >= 3.x.x       | 0.12.x            | >= 2.0          |
 | >= 2.x.x       | 0.12.x            | < 2.0           |
 | <  2.x.x       | 0.11.x            | < 2.0           |
@@ -28,7 +29,7 @@ which set some terraform variables in the environment needed by this module.
 More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
 
 ```hcl
-module "azure-region" {
+module "azure_region" {
   source  = "claranet/regions/azurerm"
   version = "x.x.x"
 
@@ -39,19 +40,19 @@ module "rg" {
   source  = "claranet/rg/azurerm"
   version = "x.x.x"
 
-  location     = module.azure-region.location
-  client_name  = var.client_name
-  environment  = var.environment
-  stack        = var.stack
+  location    = module.azure_region.location
+  client_name = var.client_name
+  environment = var.environment
+  stack       = var.stack
 }
 
-module "run-common" {
+module "run_common" {
   source  = "claranet/run-common/azurerm"
   version = "x.x.x"
 
   client_name    = var.client_name
-  location       = module.azure-region.location
-  location_short = module.azure-region.location_short
+  location       = module.azure_region.location
+  location_short = module.azure_region.location_short
   environment    = var.environment
   stack          = var.stack
 
@@ -65,7 +66,7 @@ module "run-common" {
 resource "azurerm_storage_account" "assets_storage" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
-  location                 = module.azure-region.location
+  location                 = module.azure_region.location
   name                     = "appserviceassets"
   resource_group_name      = module.rg.resource_group_name
 }
@@ -82,14 +83,14 @@ module "app_service_plan" {
 
   client_name         = var.client_name
   environment         = var.environment
-  location            = module.azure-region.location
-  location_short      = module.azure-region.location_short
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
   logs_destinations_ids = [
-    module.run-common.logs_storage_account_id,
-    module.run-common.log_analytics_workspace_id
+    module.run_common.logs_storage_account_id,
+    module.run_common.log_analytics_workspace_id
   ]
 
   sku = {
@@ -106,8 +107,8 @@ module "app_service" {
 
   client_name         = var.client_name
   environment         = var.environment
-  location            = module.azure-region.location
-  location_short      = module.azure-region.location_short
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
@@ -129,16 +130,16 @@ module "app_service" {
   }
 
   custom_domains = {
-  # Custom domain with SSL certificate file
+    # Custom domain with SSL certificate file
     "example.com" = {
       certificate_file     = "./example.com.pfx"
       certificate_password = "xxxxxxxxx"
     }
-  # Custom domain with SSL certificate stored in a keyvault
+    # Custom domain with SSL certificate stored in a keyvault
     "example.com" = {
-      certificate_keyvault_id = data.azurerm_key_vault_secret.my_keyvault.id
+      certificate_keyvault_id = var.certificate_keyvault_id
     }
-  # Custom domain without SSL certificate
+    # Custom domain without SSL certificate
     "example2.com" = null
   }
 
@@ -165,13 +166,13 @@ module "app_service" {
   ]
 
   logs_destinations_ids = [
-    data.terraform_remote_state.run.outputs.logs_storage_account_id,
-    data.terraform_remote_state.run.outputs.log_analytics_workspace_id
+    module.run_common.logs_storage_account_id,
+    module.run_common.log_analytics_workspace_id
   ]
 }
+
 ```
 
-<!-- BEGIN_TF_DOCS -->
 ## Providers
 
 | Name | Version |
