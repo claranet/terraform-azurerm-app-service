@@ -12,7 +12,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 * Using a single certificate file on multiple domains with the `custom_domains` variable is not supported. Use a Key Vault certificate instead.
 
 <!-- BEGIN_TF_DOCS -->
-## Global versionning rule for Claranet Azure modules
+## Global versioning rule for Claranet Azure modules
 
 | Module version | Terraform version | AzureRM version |
 | -------------- | ----------------- | --------------- |
