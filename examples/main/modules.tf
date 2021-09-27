@@ -121,6 +121,11 @@ module "app_service" {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
   }
 
+  staging_slot_enabled = true
+  staging_slot_custom_app_settings = {
+    John = "Doe"
+  }
+
   extra_tags = {
     foo = "bar"
   }

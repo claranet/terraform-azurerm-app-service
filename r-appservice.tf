@@ -118,6 +118,94 @@ resource "azurerm_app_service" "app_service" {
   }
 }
 
+resource "azurerm_app_service_slot" "app_service_slot" {
+  count = var.staging_slot_enabled ? 1 : 0
+
+  name                = "new-version"
+  app_service_name    = azurerm_app_service.app_service.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  app_service_plan_id = var.app_service_plan_id
+
+  dynamic "site_config" {
+    for_each = [merge(local.default_site_config, var.site_config)]
+
+    content {
+      always_on                   = lookup(site_config.value, "always_on", null)
+      app_command_line            = lookup(site_config.value, "app_command_line", null)
+      default_documents           = lookup(site_config.value, "default_documents", null)
+      dotnet_framework_version    = lookup(site_config.value, "dotnet_framework_version", null)
+      ftps_state                  = lookup(site_config.value, "ftps_state", null)
+      health_check_path           = lookup(site_config.value, "health_check_path", null)
+      http2_enabled               = lookup(site_config.value, "http2_enabled", null)
+      ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
+      scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
+      scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+      java_container              = lookup(site_config.value, "java_container", null)
+      java_container_version      = lookup(site_config.value, "java_container_version", null)
+      java_version                = lookup(site_config.value, "java_version", null)
+      linux_fx_version            = lookup(site_config.value, "linux_fx_version", null)
+      local_mysql_enabled         = lookup(site_config.value, "local_mysql_enabled", null)
+      managed_pipeline_mode       = lookup(site_config.value, "managed_pipeline_mode", null)
+      min_tls_version             = lookup(site_config.value, "min_tls_version", null)
+      php_version                 = lookup(site_config.value, "php_version", null)
+      python_version              = lookup(site_config.value, "python_version", null)
+      remote_debugging_enabled    = lookup(site_config.value, "remote_debugging_enabled", null)
+      remote_debugging_version    = lookup(site_config.value, "remote_debugging_version", null)
+      scm_type                    = lookup(site_config.value, "scm_type", null)
+      use_32_bit_worker_process   = lookup(site_config.value, "use_32_bit_worker_process", null)
+      websockets_enabled          = lookup(site_config.value, "websockets_enabled", null)
+      windows_fx_version          = lookup(site_config.value, "windows_fx_version", null)
+
+      dynamic "cors" {
+        for_each = lookup(site_config.value, "cors", [])
+        content {
+          allowed_origins     = cors.value.allowed_origins
+          support_credentials = lookup(cors.value, "support_credentials", null)
+        }
+      }
+    }
+  }
+
+  app_settings = var.staging_slot_custom_app_settings == {} ? var.app_settings : var.staging_slot_custom_app_settings
+
+  dynamic "connection_string" {
+    for_each = var.connection_strings
+    content {
+      name  = lookup(connection_string.value, "name", null)
+      type  = lookup(connection_string.value, "type", null)
+      value = lookup(connection_string.value, "value", null)
+    }
+  }
+
+  auth_settings {
+    enabled                        = local.auth_settings.enabled
+    issuer                         = local.auth_settings.issuer
+    token_store_enabled            = local.auth_settings.token_store_enabled
+    unauthenticated_client_action  = local.auth_settings.unauthenticated_client_action
+    default_provider               = local.auth_settings.default_provider
+    allowed_external_redirect_urls = local.auth_settings.allowed_external_redirect_urls
+
+    dynamic "active_directory" {
+      for_each = local.auth_settings_active_directory.client_id == null ? [] : [local.auth_settings_active_directory]
+      content {
+        client_id         = local.auth_settings_active_directory.client_id
+        client_secret     = local.auth_settings_active_directory.client_secret
+        allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), local.auth_settings_active_directory.allowed_audiences)
+      }
+    }
+  }
+
+  client_affinity_enabled = var.client_affinity_enabled
+  https_only              = var.https_only
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = merge(local.default_tags, var.extra_tags)
+}
+
 resource "azurerm_app_service_certificate" "app_service_certificate" {
   for_each = var.custom_domains != null ? {
     for k, v in var.custom_domains :
@@ -145,6 +233,15 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
 resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
   depends_on     = [azurerm_app_service.app_service]
   count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
+  app_service_id = azurerm_app_service.app_service.id
+  subnet_id      = var.app_service_vnet_integration_subnet_id
+}
+
+resource "azurerm_app_service_slot_virtual_network_swift_connection" "app_service_slot_vnet_integration" {
+  depends_on = [azurerm_app_service_slot.app_service_slot]
+  count      = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
+
+  slot_name      = azurerm_app_service_slot.app_service_slot[0].name
   app_service_id = azurerm_app_service.app_service.id
   subnet_id      = var.app_service_vnet_integration_subnet_id
 }
