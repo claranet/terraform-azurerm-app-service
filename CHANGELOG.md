@@ -3,6 +3,9 @@
 Changed
   * AZ-572: Revamp examples and improve CI
 
+Added
+  * AZ-554: Add slot option
+
 # v4.3.1 - 2021-09-03
 
 Fixed
