@@ -272,6 +272,12 @@ variable "staging_slot_enabled" {
   default     = true
 }
 
+variable "staging_slot_custom_name" {
+  type        = string
+  description = "Custom name of the app service slot"
+  default     = null
+}
+
 variable "staging_slot_custom_app_settings" {
   type        = map(string)
   description = "Override staging slot with custom app settings"

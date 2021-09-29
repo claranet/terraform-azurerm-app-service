@@ -121,7 +121,7 @@ resource "azurerm_app_service" "app_service" {
 resource "azurerm_app_service_slot" "app_service_slot" {
   count = var.staging_slot_enabled ? 1 : 0
 
-  name                = "staging-slot"
+  name                = var.staging_slot_custom_name == null ? "staging-slot" : var.staging_slot_custom_name
   app_service_name    = azurerm_app_service.app_service.name
   location            = var.location
   resource_group_name = var.resource_group_name
