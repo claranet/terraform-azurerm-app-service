@@ -275,6 +275,7 @@ module "app_service" {
 | app\_service\_plan\_id | Id of the App Service Plan |
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |
 | app\_service\_site\_credential | Site credential block of the App Service |
+| app\_service\_slot\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service slot |
 | app\_service\_source\_control | Source Control information block of the App Service |
 | application\_insights\_app\_id | App id of the Application Insights associated to the App Service |
 | application\_insights\_application\_type | Application Type of the Application Insights associated to the App Service |
