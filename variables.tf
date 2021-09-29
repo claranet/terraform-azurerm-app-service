@@ -275,5 +275,5 @@ variable "staging_slot_enabled" {
 variable "staging_slot_custom_app_settings" {
   type        = map(string)
   description = "Override staging slot with custom app settings"
-  default     = {}
+  default     = null
 }

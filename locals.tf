@@ -8,6 +8,8 @@ locals {
     always_on = "true"
   }
 
+  site_config = merge(local.default_site_config, var.site_config)
+
   name_prefix  = var.name_prefix != "" ? replace(var.name_prefix, "/[a-z0-9]$/", "$0-") : ""
   default_name = lower("${local.name_prefix}${var.stack}-${var.client_name}-${var.location_short}-${var.environment}")
 
@@ -25,6 +27,7 @@ locals {
     APPLICATIONINSIGHTS_CONNECTION_STRING = try(local.app_insights.connection_string, "")
   } : {}
 
+  app_settings = merge(local.default_app_settings, var.app_settings)
 
   default_ip_restrictions_headers = {
     x_azure_fdid      = null

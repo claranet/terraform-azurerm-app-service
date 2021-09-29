@@ -7,7 +7,7 @@ resource "azurerm_app_service" "app_service" {
   app_service_plan_id = var.app_service_plan_id
 
   dynamic "site_config" {
-    for_each = [merge(local.default_site_config, var.site_config)]
+    for_each = [local.site_config]
 
     content {
       always_on                   = lookup(site_config.value, "always_on", null)
@@ -46,7 +46,7 @@ resource "azurerm_app_service" "app_service" {
     }
   }
 
-  app_settings = merge(local.default_app_settings, var.app_settings)
+  app_settings = local.app_settings
 
   dynamic "connection_string" {
     for_each = var.connection_strings
@@ -121,15 +121,14 @@ resource "azurerm_app_service" "app_service" {
 resource "azurerm_app_service_slot" "app_service_slot" {
   count = var.staging_slot_enabled ? 1 : 0
 
-  name                = "new-version"
+  name                = "staging-slot"
   app_service_name    = azurerm_app_service.app_service.name
   location            = var.location
   resource_group_name = var.resource_group_name
   app_service_plan_id = var.app_service_plan_id
 
   dynamic "site_config" {
-    for_each = [merge(local.default_site_config, var.site_config)]
-
+    for_each = [local.site_config]
     content {
       always_on                   = lookup(site_config.value, "always_on", null)
       app_command_line            = lookup(site_config.value, "app_command_line", null)
@@ -167,7 +166,7 @@ resource "azurerm_app_service_slot" "app_service_slot" {
     }
   }
 
-  app_settings = var.staging_slot_custom_app_settings == {} ? var.app_settings : var.staging_slot_custom_app_settings
+  app_settings = var.staging_slot_custom_app_settings == null ? local.app_settings : merge(local.default_app_settings, var.staging_slot_custom_app_settings)
 
   dynamic "connection_string" {
     for_each = var.connection_strings
@@ -231,16 +230,13 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
-  depends_on     = [azurerm_app_service.app_service]
   count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
   app_service_id = azurerm_app_service.app_service.id
   subnet_id      = var.app_service_vnet_integration_subnet_id
 }
 
 resource "azurerm_app_service_slot_virtual_network_swift_connection" "app_service_slot_vnet_integration" {
-  depends_on = [azurerm_app_service_slot.app_service_slot]
-  count      = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
-
+  count          = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
   slot_name      = azurerm_app_service_slot.app_service_slot[0].name
   app_service_id = azurerm_app_service.app_service.id
   subnet_id      = var.app_service_vnet_integration_subnet_id
