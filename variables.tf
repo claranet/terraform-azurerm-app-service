@@ -269,7 +269,7 @@ variable "logs_retention_days" {
 variable "staging_slot_enabled" {
   type        = bool
   description = "Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot"
-  default     = false
+  default     = true
 }
 
 variable "staging_slot_custom_app_settings" {
