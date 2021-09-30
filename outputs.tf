@@ -45,12 +45,12 @@ output "app_service_identity_service_principal_id" {
 
 output "app_service_slot_name" {
   description = "Name of the App Service slot"
-  value       = azurerm_app_service_slot.app_service_slot[0].name
+  value       = try(azurerm_app_service_slot.app_service_slot[0].name, null)
 }
 
 output "app_service_slot_identity_service_principal_id" {
   description = "Id of the Service principal identity of the App Service slot"
-  value       = azurerm_app_service_slot.app_service_slot[0].identity[0].principal_id
+  value       = try(azurerm_app_service_slot.app_service_slot[0].identity[0].principal_id, null)
 }
 
 output "app_insights_id" {
