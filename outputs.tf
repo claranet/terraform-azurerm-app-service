@@ -43,6 +43,16 @@ output "app_service_identity_service_principal_id" {
   value       = azurerm_app_service.app_service.identity[0].principal_id
 }
 
+output "app_service_slot_name" {
+  description = "Name of the App Service slot"
+  value       = try(azurerm_app_service_slot.app_service_slot[0].name, null)
+}
+
+output "app_service_slot_identity_service_principal_id" {
+  description = "Id of the Service principal identity of the App Service slot"
+  value       = try(azurerm_app_service_slot.app_service_slot[0].identity[0].principal_id, null)
+}
+
 output "app_insights_id" {
   description = "Deprecated, use `application_insights_id`"
   value       = try(local.app_insights.id, null)

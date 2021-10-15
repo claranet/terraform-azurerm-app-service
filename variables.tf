@@ -265,3 +265,21 @@ variable "logs_retention_days" {
   description = "Number of days to keep logs on storage account"
   default     = 30
 }
+
+variable "staging_slot_enabled" {
+  type        = bool
+  description = "Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot"
+  default     = true
+}
+
+variable "staging_slot_custom_name" {
+  type        = string
+  description = "Custom name of the app service slot"
+  default     = null
+}
+
+variable "staging_slot_custom_app_settings" {
+  type        = map(string)
+  description = "Override staging slot with custom app settings"
+  default     = null
+}

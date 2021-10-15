@@ -152,6 +152,10 @@ module "app_service" {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
   }
 
+  staging_slot_custom_app_settings = {
+    John = "Doe"
+  }
+
   extra_tags = {
     foo = "bar"
   }
@@ -193,6 +197,8 @@ module "app_service" {
 | [azurerm_app_service.app_service](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service) | resource |
 | [azurerm_app_service_certificate.app_service_certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_certificate) | resource |
 | [azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
+| [azurerm_app_service_slot.app_service_slot](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot) | resource |
+| [azurerm_app_service_slot_virtual_network_swift_connection.app_service_slot_vnet_integration](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot_virtual_network_swift_connection) | resource |
 | [azurerm_app_service_virtual_network_swift_connection.app_service_vnet_integration](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
@@ -249,6 +255,9 @@ module "app_service" {
 | scm\_ip\_restriction\_headers | IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers | `map(list(string))` | `null` | no |
 | site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | `any` | `{}` | no |
 | stack | Project stack name | `string` | n/a | yes |
+| staging\_slot\_custom\_app\_settings | Override staging slot with custom app settings | `map(string)` | `null` | no |
+| staging\_slot\_custom\_name | Custom name of the app service slot | `string` | `null` | no |
+| staging\_slot\_enabled | Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
 
 ## Outputs
 
@@ -267,6 +276,8 @@ module "app_service" {
 | app\_service\_plan\_id | Id of the App Service Plan |
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |
 | app\_service\_site\_credential | Site credential block of the App Service |
+| app\_service\_slot\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service slot |
+| app\_service\_slot\_name | Name of the App Service slot |
 | app\_service\_source\_control | Source Control information block of the App Service |
 | application\_insights\_app\_id | App id of the Application Insights associated to the App Service |
 | application\_insights\_application\_type | Application Type of the Application Insights associated to the App Service |
