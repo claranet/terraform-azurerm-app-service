@@ -1,10 +1,10 @@
-# Unreleased
-
-Changed
-  * AZ-572: Revamp examples and improve CI
+# v4.4.0 - 2021-10-15
 
 Added
   * AZ-554: Add slot option
+
+Changed
+  * AZ-572: Revamp examples and improve CI
 
 # v4.3.1 - 2021-09-03
 
