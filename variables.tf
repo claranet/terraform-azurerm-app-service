@@ -64,7 +64,7 @@ variable "application_insights_custom_name" {
 }
 
 variable "application_insights_sampling_percentage" {
-  description = "Specifies the percentage of sampled datas for Application Insights"
+  description = "Specifies the percentage of sampled datas for Application Insights. Documentation [here](https://docs.microsoft.com/en-us/azure/azure-monitor/app/sampling#ingestion-sampling)"
   type        = number
   default     = 100
 }
