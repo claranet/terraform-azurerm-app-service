@@ -1,3 +1,8 @@
+# unreleased
+
+Added
+  * AZ-584: Allow to configure Application Insight's percentage sampling data
+
 # v4.4.0 - 2021-10-15
 
 Added
