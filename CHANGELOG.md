@@ -2,6 +2,7 @@
 
 Fixed
   * AZ-603: Terraform 1.1 compatibility
+  * AZ-589: Avoid plan drift when specifying Diagnostic Settings categories
 
 # v4.5.0 - 2021-10-25
 

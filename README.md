@@ -188,7 +188,7 @@ module "app_service" {
 | Name | Source | Version |
 |------|--------|---------|
 | backup\_sas\_token | claranet/storage-sas-token/azurerm | 2.0.0 |
-| diagnostics | claranet/diagnostic-settings/azurerm | 4.0.1 |
+| diagnostics | claranet/diagnostic-settings/azurerm | 4.0.3 |
 
 ## Resources
 
