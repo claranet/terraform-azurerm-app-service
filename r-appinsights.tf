@@ -14,6 +14,8 @@ resource "azurerm_application_insights" "app_insights" {
 
   application_type = var.application_insights_type
 
+  sampling_percentage = var.application_insights_sampling_percentage
+
   tags = merge(
     local.default_tags,
     var.extra_tags,
