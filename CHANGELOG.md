@@ -1,3 +1,8 @@
+# Unreleased
+
+Fixed
+  * AZ-603: Terraform 1.1 compatibility
+
 # v4.5.0 - 2021-10-25
 
 Added

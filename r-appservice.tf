@@ -225,8 +225,8 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
   hostname            = each.key
   app_service_name    = azurerm_app_service.app_service.name
   resource_group_name = var.resource_group_name
-  ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, false) != false ? "SniEnabled" : null
-  thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, false) != false ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : null
+  ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? "SniEnabled" : null
+  thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : null
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
