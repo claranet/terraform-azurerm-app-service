@@ -1,6 +1,6 @@
 module "diagnostics" {
   source  = "claranet/diagnostic-settings/azurerm"
-  version = "4.0.1"
+  version = "4.0.3"
 
   name                  = var.custom_diagnostic_settings_name
   resource_id           = azurerm_app_service.app_service.id
