@@ -36,12 +36,6 @@ variable "staging_slot_custom_name" {
   default     = null
 }
 
-variable "custom_diagnostic_settings_name" {
-  description = "Custom name of the diagnostics settings, name will be 'default' if not set."
-  type        = string
-  default     = "default"
-}
-
 variable "backup_custom_name" {
   description = "Custom name for backup"
   type        = string

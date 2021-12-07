@@ -17,13 +17,3 @@ resource "azurecaf_name" "application_insights" {
   clean_input   = true
   separator     = "-"
 }
-
-resource "azurecaf_name" "app_service_staging_slot" {
-  name          = var.stack
-  resource_type = "azurerm_app_service_slot"
-  prefixes      = var.name_prefix == "" ? null : [local.name_prefix]
-  suffixes      = compact([var.client_name, var.location_short, var.environment, local.name_suffix, "staging"])
-  use_slug      = var.use_caf_naming
-  clean_input   = true
-  separator     = "-"
-}
