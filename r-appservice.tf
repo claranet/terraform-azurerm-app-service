@@ -87,7 +87,7 @@ resource "azurerm_app_service" "app_service" {
   dynamic "backup" {
     for_each = var.enable_backup ? [1] : []
     content {
-      name                = coalesce(var.backup_custom_name, "DefaultBackup")
+      name                = local.backup_name
       storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
 
       schedule {
@@ -122,7 +122,7 @@ resource "azurerm_app_service" "app_service" {
 resource "azurerm_app_service_slot" "app_service_slot" {
   count = var.staging_slot_enabled ? 1 : 0
 
-  name                = var.staging_slot_custom_name == null ? "staging-slot" : var.staging_slot_custom_name
+  name                = local.staging_slot_name
   app_service_name    = azurerm_app_service.app_service.name
   location            = var.location
   resource_group_name = var.resource_group_name

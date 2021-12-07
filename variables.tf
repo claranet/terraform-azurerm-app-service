@@ -28,39 +28,9 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "name_prefix" {
-  description = "Optional prefix for the generated name"
-  type        = string
-  default     = ""
-}
-
 variable "app_service_plan_id" {
   description = "Id of the App Service Plan that hosts the App Service"
   type        = string
-}
-
-variable "app_service_custom_name" {
-  description = "Name of the App Service, generated if not set."
-  type        = string
-  default     = ""
-}
-
-variable "custom_diagnostic_settings_name" {
-  description = "Custom name of the diagnostics settings, name will be 'default' if not set."
-  type        = string
-  default     = "default"
-}
-
-variable "app_insights_custom_name" {
-  description = "Deprecated, use `application_insights_custom_name``"
-  type        = string
-  default     = ""
-}
-
-variable "application_insights_custom_name" {
-  description = "Name of the Application Insights, generated if not set."
-  type        = string
-  default     = ""
 }
 
 variable "application_insights_sampling_percentage" {
@@ -177,8 +147,10 @@ variable "https_only" {
   default     = "false"
 }
 
+# Backup options
+
 variable "enable_backup" {
-  description = "\"true\" to enable App Service backup"
+  description = "`true` to enable App Service backup"
   type        = bool
   default     = false
 }
@@ -201,14 +173,14 @@ variable "backup_frequency_unit" {
   default     = "Day"
 }
 
-variable "backup_storage_account_name" {
-  description = "Storage account name to use if App Service backup is enabled."
+variable "backup_storage_account_rg" {
+  description = "Storage account resource group to use if App Service backup is enabled."
   type        = string
   default     = null
 }
 
-variable "backup_storage_account_rg" {
-  description = "Storage account resource group to use if App Service backup is enabled."
+variable "backup_storage_account_name" {
+  description = "Storage account name to use if App Service backup is enabled."
   type        = string
   default     = null
 }
@@ -217,12 +189,6 @@ variable "backup_storage_account_container" {
   description = "Name of the container in the Storage Account if App Service backup is enabled"
   type        = string
   default     = "webapps"
-}
-
-variable "backup_custom_name" {
-  description = "Custom name for backup"
-  type        = string
-  default     = null
 }
 
 variable "mount_points" {
@@ -249,39 +215,10 @@ variable "app_service_vnet_integration_subnet_id" {
   default     = null
 }
 
-variable "logs_destinations_ids" {
-  type        = list(string)
-  description = "List of destination resources Ids for logs diagnostics destination. Can be Storage Account, Log Analytics Workspace and Event Hub. No more than one of each can be set. Empty list to disable logging."
-}
-
-variable "logs_categories" {
-  type        = list(string)
-  description = "Log categories to send to destinations."
-  default     = null
-}
-
-variable "logs_metrics_categories" {
-  type        = list(string)
-  description = "Metrics categories to send to destinations."
-  default     = null
-}
-
-variable "logs_retention_days" {
-  type        = number
-  description = "Number of days to keep logs on storage account"
-  default     = 30
-}
-
 variable "staging_slot_enabled" {
   type        = bool
   description = "Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot"
   default     = true
-}
-
-variable "staging_slot_custom_name" {
-  type        = string
-  description = "Custom name of the app service slot"
-  default     = null
 }
 
 variable "staging_slot_custom_app_settings" {
