@@ -115,7 +115,16 @@ module "app_service" {
   app_service_plan_id = module.app_service_plan.app_service_plan_id
 
   app_settings = {
-    foo = "bar"
+    DOCKER_REGISTRY_SERVER_URL = "https://myacr.azurecr.io"
+    FOO                        = "bar"
+  }
+
+  site_config = {
+    linux_fx_version = "DOCKER|myacr.azurecr.io/myrepository/image:tag"
+    http2_enabled    = true
+
+    # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
+    acr_use_managed_identity_credentials = true
   }
 
   auth_settings = {
@@ -181,7 +190,7 @@ module "app_service" {
 
 | Name | Version |
 |------|---------|
-| azurerm | >= 2.42 |
+| azurerm | >= 2.71 |
 
 ## Modules
 
