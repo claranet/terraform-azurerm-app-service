@@ -1,3 +1,8 @@
+# Unreleased
+
+Added
+  * AZ-638: Add `acr_use_managed_identity_credentials` site_config option (AzureRM v2.71+)
+
 # v4.5.1 - 2021-11-23
 
 Fixed
