@@ -190,6 +190,7 @@ module "app_service" {
 
 | Name | Version |
 |------|---------|
+| azurecaf | ~> 1.1 |
 | azurerm | >= 2.71 |
 
 ## Modules
@@ -197,12 +198,14 @@ module "app_service" {
 | Name | Source | Version |
 |------|--------|---------|
 | backup\_sas\_token | claranet/storage-sas-token/azurerm | 2.0.0 |
-| diagnostics | claranet/diagnostic-settings/azurerm | 4.0.3 |
+| diagnostics | claranet/diagnostic-settings/azurerm | 5.0.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [azurecaf_name.app_service_web](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
+| [azurecaf_name.application_insights](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
 | [azurerm_app_service.app_service](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service) | resource |
 | [azurerm_app_service_certificate.app_service_certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_certificate) | resource |
 | [azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
@@ -218,7 +221,6 @@ module "app_service" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| app\_insights\_custom\_name | Deprecated, use `application_insights_custom_name` | `string` | `""` | no |
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_plan\_id | Id of the App Service Plan that hosts the App Service | `string` | n/a | yes |
 | app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the app service | `string` | `null` | no |
@@ -245,7 +247,7 @@ module "app_service" {
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
 | custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
-| enable\_backup | "true" to enable App Service backup | `bool` | `false` | no |
+| enable\_backup | `true` to enable App Service backup | `bool` | `false` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `string` | `"false"` | no |
@@ -258,6 +260,7 @@ module "app_service" {
 | logs\_retention\_days | Number of days to keep logs on storage account | `number` | `30` | no |
 | mount\_points | Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | `list(map(string))` | `[]` | no |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
+| name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
 | resource\_group\_name | Resource group name | `string` | n/a | yes |
 | scm\_authorized\_ips | SCM IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
 | scm\_authorized\_service\_tags | SCM Service Tags restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
@@ -268,6 +271,7 @@ module "app_service" {
 | staging\_slot\_custom\_app\_settings | Override staging slot with custom app settings | `map(string)` | `null` | no |
 | staging\_slot\_custom\_name | Custom name of the app service slot | `string` | `null` | no |
 | staging\_slot\_enabled | Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
+| use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 
 ## Outputs
 

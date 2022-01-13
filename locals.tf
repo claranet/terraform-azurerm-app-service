@@ -10,14 +10,7 @@ locals {
 
   site_config = merge(local.default_site_config, var.site_config)
 
-  name_prefix  = var.name_prefix != "" ? replace(var.name_prefix, "/[a-z0-9]$/", "$0-") : ""
-  default_name = lower("${local.name_prefix}${var.stack}-${var.client_name}-${var.location_short}-${var.environment}")
-
   app_service_id = "/subscriptions/${data.azurerm_subscription.current_subscription.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Web/sites/${local.app_service_name}"
-
-  app_service_name = coalesce(var.app_service_custom_name, "${local.default_name}-web")
-
-  app_insights_name = coalesce(var.application_insights_custom_name, var.app_insights_custom_name, "${local.default_name}-ai")
 
   app_insights = try(data.azurerm_application_insights.app_insights[0], try(azurerm_application_insights.app_insights[0], {}))
 
