@@ -51,12 +51,6 @@ variable "application_insights_enabled" {
   default     = true
 }
 
-variable "extra_tags" {
-  description = "Extra tags to add"
-  type        = map(string)
-  default     = {}
-}
-
 variable "application_insights_type" {
   description = "Application type for Application Insights resource"
   type        = string
