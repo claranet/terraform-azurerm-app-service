@@ -1,3 +1,10 @@
+# Unreleased
+
+Breaking
+  * AZ-717: Split module in two sub-module to handle AzureRM provider `v3.0` new resources (Linux and Windows are now separated)
+  * AZ-717: Bump minimum Terraform and Provider version
+  * AZ-717: `service-plan` module is now included by default (Same behavior as `function-app` module)
+
 # v5.1.0 - 2022-02-03
 
 Added

@@ -1,41 +1,32 @@
 data "azurerm_client_config" "main" {}
 
-resource "azurerm_app_service" "app_service" {
+resource "azurerm_linux_web_app" "app_service_linux" {
   name                = local.app_service_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  app_service_plan_id = var.app_service_plan_id
+  service_plan_id     = var.service_plan_id
 
   dynamic "site_config" {
     for_each = [local.site_config]
 
     content {
-      acr_use_managed_identity_credentials = lookup(site_config.value, "acr_use_managed_identity_credentials", null)
-      always_on                            = lookup(site_config.value, "always_on", null)
-      app_command_line                     = lookup(site_config.value, "app_command_line", null)
-      default_documents                    = lookup(site_config.value, "default_documents", null)
-      dotnet_framework_version             = lookup(site_config.value, "dotnet_framework_version", null)
-      ftps_state                           = lookup(site_config.value, "ftps_state", null)
-      health_check_path                    = lookup(site_config.value, "health_check_path", null)
-      http2_enabled                        = lookup(site_config.value, "http2_enabled", null)
-      ip_restriction                       = concat(local.subnets, local.cidrs, local.service_tags)
-      scm_use_main_ip_restriction          = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
-      scm_ip_restriction                   = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
-      java_container                       = lookup(site_config.value, "java_container", null)
-      java_container_version               = lookup(site_config.value, "java_container_version", null)
-      java_version                         = lookup(site_config.value, "java_version", null)
-      linux_fx_version                     = lookup(site_config.value, "linux_fx_version", null)
-      local_mysql_enabled                  = lookup(site_config.value, "local_mysql_enabled", null)
-      managed_pipeline_mode                = lookup(site_config.value, "managed_pipeline_mode", null)
-      min_tls_version                      = lookup(site_config.value, "min_tls_version", null)
-      php_version                          = lookup(site_config.value, "php_version", null)
-      python_version                       = lookup(site_config.value, "python_version", null)
-      remote_debugging_enabled             = lookup(site_config.value, "remote_debugging_enabled", null)
-      remote_debugging_version             = lookup(site_config.value, "remote_debugging_version", null)
-      scm_type                             = lookup(site_config.value, "scm_type", null)
-      use_32_bit_worker_process            = lookup(site_config.value, "use_32_bit_worker_process", null)
-      websockets_enabled                   = lookup(site_config.value, "websockets_enabled", null)
-      windows_fx_version                   = lookup(site_config.value, "windows_fx_version", null)
+      always_on                   = lookup(site_config.value, "always_on", null)
+      app_command_line            = lookup(site_config.value, "app_command_line", null)
+      default_documents           = lookup(site_config.value, "default_documents", null)
+      ftps_state                  = lookup(site_config.value, "ftps_state", null)
+      health_check_path           = lookup(site_config.value, "health_check_path", null)
+      http2_enabled               = lookup(site_config.value, "http2_enabled", null)
+      ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
+      scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
+      scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+      linux_fx_version            = lookup(site_config.value, "linux_fx_version", null)
+      local_mysql_enabled         = lookup(site_config.value, "local_mysql_enabled", null)
+      managed_pipeline_mode       = lookup(site_config.value, "managed_pipeline_mode", null)
+      minimum_tls_version         = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", null))
+      remote_debugging_enabled    = lookup(site_config.value, "remote_debugging_enabled", null)
+      remote_debugging_version    = lookup(site_config.value, "remote_debugging_version", null)
+      scm_type                    = lookup(site_config.value, "scm_type", null)
+      websockets_enabled          = lookup(site_config.value, "websockets_enabled", null)
 
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", [])
@@ -76,9 +67,9 @@ resource "azurerm_app_service" "app_service" {
     }
   }
 
-  client_affinity_enabled = var.client_affinity_enabled
-  https_only              = var.https_only
-  client_cert_enabled     = var.client_cert_enabled
+  client_affinity_enabled    = var.client_affinity_enabled
+  client_certificate_enabled = var.client_cert_enabled
+  https_only                 = var.https_only
 
   identity {
     type = "SystemAssigned"
@@ -93,7 +84,8 @@ resource "azurerm_app_service" "app_service" {
       schedule {
         frequency_interval       = var.backup_frequency_interval
         frequency_unit           = var.backup_frequency_unit
-        retention_period_in_days = var.backup_retention_period_in_days
+        retention_period_days    = var.backup_retention_period_in_days
+        keep_at_least_one_backup = var.backup_keep_at_least_one_backup
       }
     }
   }
@@ -119,44 +111,32 @@ resource "azurerm_app_service" "app_service" {
   }
 }
 
-resource "azurerm_app_service_slot" "app_service_slot" {
+resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
   count = var.staging_slot_enabled ? 1 : 0
 
-  name                = local.staging_slot_name
-  app_service_name    = azurerm_app_service.app_service.name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  app_service_plan_id = var.app_service_plan_id
+  name           = local.staging_slot_name
+  app_service_id = azurerm_linux_web_app.app_service_linux.id
 
   dynamic "site_config" {
     for_each = [local.site_config]
     content {
-      acr_use_managed_identity_credentials = lookup(site_config.value, "acr_use_managed_identity_credentials", null)
-      always_on                            = lookup(site_config.value, "always_on", null)
-      app_command_line                     = lookup(site_config.value, "app_command_line", null)
-      default_documents                    = lookup(site_config.value, "default_documents", null)
-      dotnet_framework_version             = lookup(site_config.value, "dotnet_framework_version", null)
-      ftps_state                           = lookup(site_config.value, "ftps_state", null)
-      health_check_path                    = lookup(site_config.value, "health_check_path", null)
-      http2_enabled                        = lookup(site_config.value, "http2_enabled", null)
-      ip_restriction                       = concat(local.subnets, local.cidrs, local.service_tags)
-      scm_use_main_ip_restriction          = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
-      scm_ip_restriction                   = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
-      java_container                       = lookup(site_config.value, "java_container", null)
-      java_container_version               = lookup(site_config.value, "java_container_version", null)
-      java_version                         = lookup(site_config.value, "java_version", null)
-      linux_fx_version                     = lookup(site_config.value, "linux_fx_version", null)
-      local_mysql_enabled                  = lookup(site_config.value, "local_mysql_enabled", null)
-      managed_pipeline_mode                = lookup(site_config.value, "managed_pipeline_mode", null)
-      min_tls_version                      = lookup(site_config.value, "min_tls_version", null)
-      php_version                          = lookup(site_config.value, "php_version", null)
-      python_version                       = lookup(site_config.value, "python_version", null)
-      remote_debugging_enabled             = lookup(site_config.value, "remote_debugging_enabled", null)
-      remote_debugging_version             = lookup(site_config.value, "remote_debugging_version", null)
-      scm_type                             = lookup(site_config.value, "scm_type", null)
-      use_32_bit_worker_process            = lookup(site_config.value, "use_32_bit_worker_process", null)
-      websockets_enabled                   = lookup(site_config.value, "websockets_enabled", null)
-      windows_fx_version                   = lookup(site_config.value, "windows_fx_version", null)
+      always_on                   = lookup(site_config.value, "always_on", null)
+      app_command_line            = lookup(site_config.value, "app_command_line", null)
+      default_documents           = lookup(site_config.value, "default_documents", null)
+      ftps_state                  = lookup(site_config.value, "ftps_state", null)
+      health_check_path           = lookup(site_config.value, "health_check_path", null)
+      http2_enabled               = lookup(site_config.value, "http2_enabled", null)
+      ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
+      scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
+      scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+      linux_fx_version            = lookup(site_config.value, "linux_fx_version", null)
+      local_mysql_enabled         = lookup(site_config.value, "local_mysql_enabled", null)
+      managed_pipeline_mode       = lookup(site_config.value, "managed_pipeline_mode", null)
+      minimum_tls_version         = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", null))
+      remote_debugging_enabled    = lookup(site_config.value, "remote_debugging_enabled", null)
+      remote_debugging_version    = lookup(site_config.value, "remote_debugging_version", null)
+      scm_type                    = lookup(site_config.value, "scm_type", null)
+      websockets_enabled          = lookup(site_config.value, "websockets_enabled", null)
 
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", [])
@@ -225,7 +205,7 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
   for_each = var.custom_domains != null ? var.custom_domains : {}
 
   hostname            = each.key
-  app_service_name    = azurerm_app_service.app_service.name
+  app_service_name    = azurerm_linux_web_app.app_service_linux.name
   resource_group_name = var.resource_group_name
   ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? "SniEnabled" : null
   thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : null
@@ -233,13 +213,13 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
 
 resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
   count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
-  app_service_id = azurerm_app_service.app_service.id
+  app_service_id = azurerm_linux_web_app.app_service_linux.id
   subnet_id      = var.app_service_vnet_integration_subnet_id
 }
 
 resource "azurerm_app_service_slot_virtual_network_swift_connection" "app_service_slot_vnet_integration" {
   count          = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
-  slot_name      = azurerm_app_service_slot.app_service_slot[0].name
-  app_service_id = azurerm_app_service.app_service.id
+  slot_name      = azurerm_linux_web_app_slot.app_service_linux_slot[0].name
+  app_service_id = azurerm_linux_web_app.app_service_linux.id
   subnet_id      = var.app_service_vnet_integration_subnet_id
 }
