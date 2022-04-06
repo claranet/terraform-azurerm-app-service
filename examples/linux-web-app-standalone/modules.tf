@@ -42,8 +42,8 @@ resource "azurerm_storage_share" "assets_share" {
   quota                = 50
 }
 
-module "app_service" {
-  source  = "claranet/app-service-web/azurerm"
+module "app_service_plan" {
+  source  = "claranet/app-service-plan/azurerm"
   version = "x.x.x"
 
   client_name         = var.client_name
@@ -53,8 +53,31 @@ module "app_service" {
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
-  os_type  = "Linux"
-  sku_name = "B2"
+  logs_destinations_ids = [
+    module.logs.logs_storage_account_id,
+    module.logs.log_analytics_workspace_id,
+  ]
+
+  sku = {
+    tier = "Standard"
+    size = "S1"
+  }
+
+  kind = "Linux"
+}
+
+module "linux_web_app" {
+  source  = "claranet/app-service-web/azurerm//modules/linux-web-app"
+  version = "x.x.x"
+
+  client_name         = var.client_name
+  environment         = var.environment
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
+  resource_group_name = module.rg.resource_group_name
+  stack               = var.stack
+
+  service_plan_id = module.app_service_plan.app_service_plan_id
 
   app_settings = {
     DOCKER_REGISTRY_SERVER_URL = "https://myacr.azurecr.io"

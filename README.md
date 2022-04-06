@@ -47,21 +47,17 @@ module "rg" {
   stack       = var.stack
 }
 
-module "run_common" {
-  source  = "claranet/run-common/azurerm"
-  version = "x.x.x"
+module "logs" {
+  # source  = "claranet/run-common/azurerm//modules/logs"
+  # version = "x.x.x"
+  source = "git::ssh://git@git.fr.clara.net/claranet/projects/cloud/azure/terraform/modules/run-common.git//modules/logs?ref=AZ-717_provider_azure_v3"
 
-  client_name    = var.client_name
-  location       = module.azure_region.location
-  location_short = module.azure_region.location_short
-  environment    = var.environment
-  stack          = var.stack
-
+  client_name         = var.client_name
+  environment         = var.environment
+  stack               = var.stack
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
   resource_group_name = module.rg.resource_group_name
-
-  tenant_id = var.azure_tenant_id
-
-  monitoring_function_splunk_token = null
 }
 
 resource "azurerm_storage_account" "assets_storage" {
@@ -78,30 +74,6 @@ resource "azurerm_storage_share" "assets_share" {
   quota                = 50
 }
 
-module "app_service_plan" {
-  source  = "claranet/app-service-plan/azurerm"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-  stack               = var.stack
-
-  logs_destinations_ids = [
-    module.run_common.logs_storage_account_id,
-    module.run_common.log_analytics_workspace_id
-  ]
-
-  sku = {
-    tier = "Standard"
-    size = "S1"
-  }
-
-  kind = "Linux"
-}
-
 module "app_service" {
   source  = "claranet/app-service-web/azurerm"
   version = "x.x.x"
@@ -113,7 +85,8 @@ module "app_service" {
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
-  app_service_plan_id = module.app_service_plan.app_service_plan_id
+  os_type  = "Linux"
+  sku_name = "B2"
 
   app_settings = {
     DOCKER_REGISTRY_SERVER_URL = "https://myacr.azurecr.io"
@@ -180,8 +153,8 @@ module "app_service" {
   ]
 
   logs_destinations_ids = [
-    module.run_common.logs_storage_account_id,
-    module.run_common.log_analytics_workspace_id
+    module.logs.logs_storage_account_id,
+    module.logs.log_analytics_workspace_id,
   ]
 }
 ```
@@ -194,6 +167,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| linux\_web\_app | ./modules/linux-web-app | n/a |
 | service\_plan | git::ssh://git@git.fr.clara.net/claranet/projects/cloud/azure/terraform/modules/app-service-plan.git | AZ-717_provider_azure_v3 |
 
 ## Resources
@@ -256,7 +230,6 @@ No resources.
 | scm\_ip\_restriction\_headers | IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers | `map(list(string))` | `null` | no |
 | service\_plan\_custom\_name | Name of the App Service Plan, generated if not set. | `string` | `""` | no |
 | service\_plan\_extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
-| service\_plan\_id | ID of the Service Plan that hosts the App Service | `string` | n/a | yes |
 | site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | `any` | `{}` | no |
 | sku\_name | The SKU for the plan. Possible values include B1, B2, B3, D1, F1, FREE, I1, I2, I3, I1v2, I2v2, I3v2, P1v2, P2v2, P3v2, P1v3, P2v3, P3v3, S1, S2, S3, SHARED, EP1, EP2, EP3, WS1, WS2, and WS3. | `string` | n/a | yes |
 | stack | Project stack name | `string` | n/a | yes |
@@ -270,6 +243,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| app\_service\_linux | App Service Linux (Linux WebApp) output object if Linux is choosen. Please refer to `./modules/linux-web-app/README.md` |
 | service\_plan | Service Plan output object. Please refer to https://github.com/claranet/terraform-azurerm-app-service-plan/blob/master/README.md#outputs |
 <!-- END_TF_DOCS -->
 ## Related documentation

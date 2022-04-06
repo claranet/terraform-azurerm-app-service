@@ -28,11 +28,6 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "service_plan_id" {
-  description = "ID of the Service Plan that hosts the App Service"
-  type        = string
-}
-
 variable "application_insights_sampling_percentage" {
   description = "Specifies the percentage of sampled datas for Application Insights. Documentation [here](https://docs.microsoft.com/en-us/azure/azure-monitor/app/sampling#ingestion-sampling)"
   type        = number
