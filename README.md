@@ -1,5 +1,5 @@
 # Azure App Service Web (Linux or Windows)
-[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/app-service-web/azurerm/)
+[![Changelog](https://img.shields.io/badge/changelog-release-green.svg)](CHANGELOG.md) [![Notice](https://img.shields.io/badge/notice-copyright-yellow.svg)](NOTICE) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-orange.svg)](LICENSE) [![TF Registry](https://img.shields.io/badge/terraform-registry-blue.svg)](https://registry.terraform.io/modules/claranet/app-service/azurerm/latest)
 
 This Terraform module creates an [Azure Service Plan](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans) using our [dedicated Terraform module](https://registry.terraform.io/modules/claranet/app-service-plan) and creates an [Azure App Service Web](https://docs.microsoft.com/en-us/azure/app-service/overview) (Linux or Windows)
 associated with an [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
@@ -75,7 +75,7 @@ resource "azurerm_storage_share" "assets_share" {
 }
 
 module "app_service" {
-  source  = "claranet/app-service-web/azurerm"
+  source  = "claranet/app-service/azurerm"
   version = "x.x.x"
 
   client_name         = var.client_name

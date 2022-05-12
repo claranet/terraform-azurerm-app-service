@@ -67,7 +67,7 @@ module "app_service_plan" {
 }
 
 module "linux_web_app" {
-  source  = "claranet/app-service-web/azurerm//modules/linux-web-app"
+  source  = "claranet/app-service/azurerm//modules/linux-web-app"
   version = "x.x.x"
 
   client_name         = var.client_name

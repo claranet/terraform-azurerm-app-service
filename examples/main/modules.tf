@@ -43,7 +43,7 @@ resource "azurerm_storage_share" "assets_share" {
 }
 
 module "app_service" {
-  source  = "claranet/app-service-web/azurerm"
+  source  = "claranet/app-service/azurerm"
   version = "x.x.x"
 
   client_name         = var.client_name
