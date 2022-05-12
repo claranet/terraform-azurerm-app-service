@@ -1,5 +1,3 @@
-data "azurerm_client_config" "main" {}
-
 resource "azurerm_windows_web_app" "app_service_windows" {
   name                = local.app_service_name
   location            = var.location
@@ -10,24 +8,39 @@ resource "azurerm_windows_web_app" "app_service_windows" {
     for_each = [local.site_config]
 
     content {
-      always_on                   = lookup(site_config.value, "always_on", null)
-      app_command_line            = lookup(site_config.value, "app_command_line", null)
-      default_documents           = lookup(site_config.value, "default_documents", null)
-      ftps_state                  = lookup(site_config.value, "ftps_state", null)
-      health_check_path           = lookup(site_config.value, "health_check_path", null)
-      http2_enabled               = lookup(site_config.value, "http2_enabled", null)
+      windows_fx_version = lookup(site_config.value, "windows_fx_version", null)
+
+      always_on                = lookup(site_config.value, "always_on", null)
+      app_command_line         = lookup(site_config.value, "app_command_line", null)
+      default_documents        = lookup(site_config.value, "default_documents", null)
+      ftps_state               = lookup(site_config.value, "ftps_state", "Disabled")
+      health_check_path        = lookup(site_config.value, "health_check_path", null)
+      http2_enabled            = lookup(site_config.value, "http2_enabled", null)
+      local_mysql_enabled      = lookup(site_config.value, "local_mysql_enabled", false)
+      managed_pipeline_mode    = lookup(site_config.value, "managed_pipeline_mode", null)
+      minimum_tls_version      = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", "1.2"))
+      remote_debugging_enabled = lookup(site_config.value, "remote_debugging_enabled", false)
+      remote_debugging_version = lookup(site_config.value, "remote_debugging_version", null)
+      websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
+
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
+      scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
-      linux_fx_version            = lookup(site_config.value, "linux_fx_version", null)
-      local_mysql_enabled         = lookup(site_config.value, "local_mysql_enabled", null)
-      managed_pipeline_mode       = lookup(site_config.value, "managed_pipeline_mode", null)
-      minimum_tls_version         = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", null))
-      remote_debugging_enabled    = lookup(site_config.value, "remote_debugging_enabled", null)
-      remote_debugging_version    = lookup(site_config.value, "remote_debugging_version", null)
-      scm_type                    = lookup(site_config.value, "scm_type", null)
-      websockets_enabled          = lookup(site_config.value, "websockets_enabled", null)
-      windows_fx_version          = lookup(site_config.value, "windows_fx_version", null)
+
+      dynamic "application_stack" {
+        for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
+        content {
+          current_stack          = lookup(local.site_config.application_stack, "current_stack", null)
+          dotnet_version         = lookup(local.site_config.application_stack, "dotnet_version", null)
+          java_container         = lookup(local.site_config.application_stack, "java_container", null)
+          java_container_version = lookup(local.site_config.application_stack, "java_container_version", null)
+          java_version           = lookup(local.site_config.application_stack, "java_version", null)
+          node_version           = lookup(local.site_config.application_stack, "node_version", null)
+          php_version            = lookup(local.site_config.application_stack, "php_version", null)
+          python_version         = lookup(local.site_config.application_stack, "python_version", null)
+        }
+      }
 
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", [])
@@ -77,7 +90,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
   }
 
   dynamic "backup" {
-    for_each = var.enable_backup ? [1] : []
+    for_each = var.enable_backup ? ["backup"] : []
     content {
       name                = local.backup_name
       storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
@@ -121,23 +134,39 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
   dynamic "site_config" {
     for_each = [local.site_config]
     content {
-      always_on                   = lookup(site_config.value, "always_on", null)
-      app_command_line            = lookup(site_config.value, "app_command_line", null)
-      default_documents           = lookup(site_config.value, "default_documents", null)
-      ftps_state                  = lookup(site_config.value, "ftps_state", null)
-      health_check_path           = lookup(site_config.value, "health_check_path", null)
-      http2_enabled               = lookup(site_config.value, "http2_enabled", null)
+      windows_fx_version = lookup(site_config.value, "windows_fx_version", null)
+
+      always_on                = lookup(site_config.value, "always_on", null)
+      app_command_line         = lookup(site_config.value, "app_command_line", null)
+      default_documents        = lookup(site_config.value, "default_documents", null)
+      ftps_state               = lookup(site_config.value, "ftps_state", "Disabled")
+      health_check_path        = lookup(site_config.value, "health_check_path", null)
+      http2_enabled            = lookup(site_config.value, "http2_enabled", null)
+      local_mysql_enabled      = lookup(site_config.value, "local_mysql_enabled", false)
+      managed_pipeline_mode    = lookup(site_config.value, "managed_pipeline_mode", null)
+      minimum_tls_version      = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", "1.2"))
+      remote_debugging_enabled = lookup(site_config.value, "remote_debugging_enabled", false)
+      remote_debugging_version = lookup(site_config.value, "remote_debugging_version", null)
+      websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
+
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
+      scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
-      local_mysql_enabled         = lookup(site_config.value, "local_mysql_enabled", null)
-      managed_pipeline_mode       = lookup(site_config.value, "managed_pipeline_mode", null)
-      minimum_tls_version         = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", null))
-      remote_debugging_enabled    = lookup(site_config.value, "remote_debugging_enabled", null)
-      remote_debugging_version    = lookup(site_config.value, "remote_debugging_version", null)
-      scm_type                    = lookup(site_config.value, "scm_type", null)
-      websockets_enabled          = lookup(site_config.value, "websockets_enabled", null)
-      windows_fx_version          = lookup(site_config.value, "windows_fx_version", null)
+
+      dynamic "application_stack" {
+        for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
+        content {
+          current_stack          = lookup(local.site_config.application_stack, "current_stack", null)
+          dotnet_version         = lookup(local.site_config.application_stack, "dotnet_version", null)
+          java_container         = lookup(local.site_config.application_stack, "java_container", null)
+          java_container_version = lookup(local.site_config.application_stack, "java_container_version", null)
+          java_version           = lookup(local.site_config.application_stack, "java_version", null)
+          node_version           = lookup(local.site_config.application_stack, "node_version", null)
+          php_version            = lookup(local.site_config.application_stack, "php_version", null)
+          python_version         = lookup(local.site_config.application_stack, "python_version", null)
+        }
+      }
 
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", [])
