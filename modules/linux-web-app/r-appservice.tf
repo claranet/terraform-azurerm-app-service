@@ -40,13 +40,13 @@ resource "azurerm_linux_web_app" "app_service_linux" {
           ruby_version        = lookup(local.site_config.application_stack, "ruby_version", null)
         }
       }
-    }
 
-    dynamic "cors" {
-      for_each = lookup(site_config.value, "cors", [])
-      content {
-        allowed_origins     = cors.value.allowed_origins
-        support_credentials = lookup(cors.value, "support_credentials", null)
+      dynamic "cors" {
+        for_each = lookup(site_config.value, "cors", [])
+        content {
+          allowed_origins     = cors.value.allowed_origins
+          support_credentials = lookup(cors.value, "support_credentials", null)
+        }
       }
     }
   }
