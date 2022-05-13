@@ -1,5 +1,5 @@
 variable "os_type" {
-  description = "The O/S type for the App Services to be hosted in this plan. Possible values include `Windows`, `Linux`, and `WindowsContainer`."
+  description = "The O/S type for the App Services to be hosted in this plan. Possible values include `Windows`, `Linux`, and `Container`."
   type        = string
 }
 
