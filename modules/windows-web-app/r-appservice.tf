@@ -232,7 +232,7 @@ resource "azurerm_app_service_certificate" "app_service_certificate" {
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
-  for_each = var.custom_domains != null ? var.custom_domains : {}
+  for_each = toset(var.custom_domains != null ? keys(var.custom_domains) : [])
 
   hostname            = each.key
   app_service_name    = azurerm_windows_web_app.app_service_windows.name
