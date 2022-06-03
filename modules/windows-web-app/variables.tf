@@ -143,7 +143,7 @@ variable "client_cert_enabled" {
 
 # Backup options
 
-variable "enable_backup" {
+variable "backup_enabled" {
   description = "`true` to enable App Service backup"
   type        = bool
   default     = false

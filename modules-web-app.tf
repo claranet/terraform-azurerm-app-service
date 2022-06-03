@@ -44,7 +44,7 @@ module "linux_web_app" {
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
-  enable_backup                    = var.enable_backup
+  backup_enabled                    = var.backup_enabled
   backup_custom_name               = var.backup_custom_name
   backup_storage_account_rg        = var.backup_storage_account_rg
   backup_storage_account_name      = var.backup_storage_account_name
@@ -116,7 +116,7 @@ module "container_web_app" {
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
-  enable_backup                    = var.enable_backup
+  backup_enabled                    = var.backup_enabled
   backup_custom_name               = var.backup_custom_name
   backup_storage_account_rg        = var.backup_storage_account_rg
   backup_storage_account_name      = var.backup_storage_account_name
@@ -187,7 +187,7 @@ module "windows_web_app" {
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
-  enable_backup                    = var.enable_backup
+  backup_enabled                    = var.backup_enabled
   backup_custom_name               = var.backup_custom_name
   backup_storage_account_rg        = var.backup_storage_account_rg
   backup_storage_account_name      = var.backup_storage_account_name
