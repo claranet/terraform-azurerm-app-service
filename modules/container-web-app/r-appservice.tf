@@ -84,7 +84,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   }
 
   dynamic "backup" {
-    for_each = var.enable_backup ? ["backup"] : []
+    for_each = var.backup_enabled ? ["backup"] : []
     content {
       name                = local.backup_name
       storage_account_url = module.backup_sas_token.storage_account_sas_container_uri

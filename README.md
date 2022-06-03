@@ -48,9 +48,8 @@ module "rg" {
 }
 
 module "logs" {
-  # source  = "claranet/run-common/azurerm//modules/logs"
-  # version = "x.x.x"
-  source = "git::ssh://git@git.fr.clara.net/claranet/projects/cloud/azure/terraform/modules/run-common.git//modules/logs?ref=AZ-717_provider_azure_v3"
+  source  = "claranet/run-common/azurerm//modules/logs"
+  version = "x.x.x"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -169,7 +168,7 @@ No providers.
 |------|--------|---------|
 | container\_web\_app | ./modules/container-web-app | n/a |
 | linux\_web\_app | ./modules/linux-web-app | n/a |
-| service\_plan | git::ssh://git@git.fr.clara.net/claranet/projects/cloud/azure/terraform/modules/app-service-plan.git | AZ-717_provider_azure_v3 |
+| service\_plan | claranet/app-service-plan/azurerm | 6.0.0 |
 | windows\_web\_app | ./modules/windows-web-app | n/a |
 
 ## Resources
@@ -194,22 +193,22 @@ No resources.
 | authorized\_service\_tags | Service Tags restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | authorized\_subnet\_ids | Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction | `list(string)` | `[]` | no |
 | backup\_custom\_name | Custom name for backup | `string` | `null` | no |
+| backup\_enabled | `true` to enable App Service backup | `bool` | `false` | no |
 | backup\_frequency\_interval | Frequency interval for the App Service backup. | `number` | `1` | no |
-| backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are Day or Hour. | `string` | `"Day"` | no |
+| backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are `Day` or `Hour`. | `string` | `"Day"` | no |
 | backup\_keep\_at\_least\_one\_backup | Should the service keep at least one backup, regardless of age of backup. | `bool` | `true` | no |
 | backup\_retention\_period\_in\_days | Retention in days for the App Service backup. | `number` | `30` | no |
 | backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | `string` | `"webapps"` | no |
 | backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | `null` | no |
 | backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | `null` | no |
 | client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | `bool` | `false` | no |
-| client\_cert\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `bool` | `false` | no |
+| client\_certificate\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled | `bool` | `false` | no |
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
 | custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | docker\_image | Docker image to use for this App Service | <pre>object({<br>    name = string<br>    tag  = string<br>  })</pre> | `null` | no |
-| enable\_backup | `true` to enable App Service backup | `bool` | `false` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `bool` | `false` | no |
@@ -217,7 +216,7 @@ No resources.
 | location | Azure location. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
 | logs\_categories | Log categories to send to destinations. | `list(string)` | `null` | no |
-| logs\_destinations\_ids | List of destination resources Ids for logs diagnostics destination. Can be Storage Account, Log Analytics Workspace and Event Hub. No more than one of each can be set. Empty list to disable logging. | `list(string)` | n/a | yes |
+| logs\_destinations\_ids | List of destination resources Ids for logs diagnostics destination. Can be `Storage Account`, `Log Analytics Workspace` and `Event Hub`. No more than one of each can be set. Empty list to disable logging. | `list(string)` | n/a | yes |
 | logs\_metrics\_categories | Metrics categories to send to destinations. | `list(string)` | `null` | no |
 | logs\_retention\_days | Number of days to keep logs on storage account | `number` | `30` | no |
 | maximum\_elastic\_worker\_count | The maximum number of workers to use in an Elastic SKU Plan. Cannot be set unless using an Elastic SKU. | `number` | `null` | no |

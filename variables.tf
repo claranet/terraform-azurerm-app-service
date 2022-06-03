@@ -138,7 +138,7 @@ variable "client_certificate_enabled" {
 
 # Backup options
 
-variable "enable_backup" {
+variable "backup_enabled" {
   description = "`true` to enable App Service backup"
   type        = bool
   default     = false
@@ -157,7 +157,7 @@ variable "backup_retention_period_in_days" {
 }
 
 variable "backup_frequency_unit" {
-  description = "Frequency unit for the App Service backup. Possible values are Day or Hour."
+  description = "Frequency unit for the App Service backup. Possible values are `Day` or `Hour`."
   type        = string
   default     = "Day"
 }

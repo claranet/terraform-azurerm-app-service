@@ -16,9 +16,8 @@ module "rg" {
 }
 
 module "logs" {
-  # source  = "claranet/run-common/azurerm//modules/logs"
-  # version = "x.x.x"
-  source = "git::ssh://git@git.fr.clara.net/claranet/projects/cloud/azure/terraform/modules/run-common.git//modules/logs?ref=AZ-717_provider_azure_v3"
+  source  = "claranet/run-common/azurerm//modules/logs"
+  version = "x.x.x"
 
   client_name         = var.client_name
   environment         = var.environment
