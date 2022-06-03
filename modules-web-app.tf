@@ -23,10 +23,10 @@ module "linux_web_app" {
   auth_settings      = var.auth_settings
   connection_strings = var.connection_strings
 
-  mount_points            = var.mount_points
-  client_affinity_enabled = var.client_affinity_enabled
-  https_only              = var.https_only
-  client_cert_enabled     = var.client_cert_enabled
+  mount_points               = var.mount_points
+  client_affinity_enabled    = var.client_affinity_enabled
+  https_only                 = var.https_only
+  client_certificate_enabled = var.client_certificate_enabled
 
   staging_slot_enabled             = var.staging_slot_enabled
   staging_slot_custom_name         = var.staging_slot_custom_name
@@ -44,7 +44,7 @@ module "linux_web_app" {
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
-  backup_enabled                    = var.backup_enabled
+  backup_enabled                   = var.backup_enabled
   backup_custom_name               = var.backup_custom_name
   backup_storage_account_rg        = var.backup_storage_account_rg
   backup_storage_account_name      = var.backup_storage_account_name
@@ -95,10 +95,10 @@ module "container_web_app" {
   auth_settings      = var.auth_settings
   connection_strings = var.connection_strings
 
-  mount_points            = var.mount_points
-  client_affinity_enabled = var.client_affinity_enabled
-  https_only              = var.https_only
-  client_cert_enabled     = var.client_cert_enabled
+  mount_points               = var.mount_points
+  client_affinity_enabled    = var.client_affinity_enabled
+  https_only                 = var.https_only
+  client_certificate_enabled = var.client_certificate_enabled
 
   staging_slot_enabled             = var.staging_slot_enabled
   staging_slot_custom_name         = var.staging_slot_custom_name
@@ -116,7 +116,7 @@ module "container_web_app" {
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
-  backup_enabled                    = var.backup_enabled
+  backup_enabled                   = var.backup_enabled
   backup_custom_name               = var.backup_custom_name
   backup_storage_account_rg        = var.backup_storage_account_rg
   backup_storage_account_name      = var.backup_storage_account_name
@@ -166,10 +166,10 @@ module "windows_web_app" {
   auth_settings      = var.auth_settings
   connection_strings = var.connection_strings
 
-  mount_points            = var.mount_points
-  client_affinity_enabled = var.client_affinity_enabled
-  https_only              = var.https_only
-  client_cert_enabled     = var.client_cert_enabled
+  mount_points               = var.mount_points
+  client_affinity_enabled    = var.client_affinity_enabled
+  https_only                 = var.https_only
+  client_certificate_enabled = var.client_certificate_enabled
 
   staging_slot_enabled             = var.staging_slot_enabled
   staging_slot_custom_name         = var.staging_slot_custom_name
@@ -187,7 +187,7 @@ module "windows_web_app" {
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
-  backup_enabled                    = var.backup_enabled
+  backup_enabled                   = var.backup_enabled
   backup_custom_name               = var.backup_custom_name
   backup_storage_account_rg        = var.backup_storage_account_rg
   backup_storage_account_name      = var.backup_storage_account_name

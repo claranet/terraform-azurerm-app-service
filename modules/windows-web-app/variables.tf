@@ -135,8 +135,8 @@ variable "https_only" {
   default     = false
 }
 
-variable "client_cert_enabled" {
-  description = "Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_cert_enabled"
+variable "client_certificate_enabled" {
+  description = "Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_certificate_enabled"
   type        = bool
   default     = false
 }

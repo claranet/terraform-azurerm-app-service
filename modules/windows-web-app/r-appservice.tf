@@ -82,7 +82,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
   }
 
   client_affinity_enabled    = var.client_affinity_enabled
-  client_certificate_enabled = var.client_cert_enabled
+  client_certificate_enabled = var.client_certificate_enabled
   https_only                 = var.https_only
 
   identity {
@@ -90,7 +90,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
   }
 
   dynamic "backup" {
-    for_each = var.enable_backup ? ["backup"] : []
+    for_each = var.backup_enabled ? ["backup"] : []
     content {
       name                = local.backup_name
       storage_account_url = module.backup_sas_token.storage_account_sas_container_uri

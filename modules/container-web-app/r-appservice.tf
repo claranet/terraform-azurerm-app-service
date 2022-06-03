@@ -76,7 +76,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   }
 
   client_affinity_enabled    = var.client_affinity_enabled
-  client_certificate_enabled = var.client_cert_enabled
+  client_certificate_enabled = var.client_certificate_enabled
   https_only                 = var.https_only
 
   identity {
