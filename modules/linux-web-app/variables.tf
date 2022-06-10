@@ -28,6 +28,11 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "service_plan_id" {
+  description = "ID of the Service Plan that hosts the App Service"
+  type        = string
+}
+
 variable "application_insights_sampling_percentage" {
   description = "Specifies the percentage of sampled datas for Application Insights. Documentation [here](https://docs.microsoft.com/en-us/azure/azure-monitor/app/sampling#ingestion-sampling)"
   type        = number
@@ -220,13 +225,4 @@ variable "staging_slot_custom_app_settings" {
   type        = map(string)
   description = "Override staging slot with custom app settings"
   default     = null
-}
-
-variable "docker_image" {
-  description = "Docker image to use for this App Service"
-  type = object({
-    name = string
-    tag  = string
-  })
-  default = null
 }

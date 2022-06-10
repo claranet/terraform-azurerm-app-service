@@ -9,9 +9,3 @@ variable "extra_tags" {
   type        = map(string)
   default     = {}
 }
-
-variable "service_plan_extra_tags" {
-  description = "Extra tags to add."
-  type        = map(string)
-  default     = {}
-}

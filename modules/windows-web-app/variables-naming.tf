@@ -18,12 +18,6 @@ variable "use_caf_naming" {
 }
 
 # Custom naming override
-variable "service_plan_custom_name" {
-  description = "Name of the App Service Plan, generated if not set."
-  type        = string
-  default     = ""
-}
-
 variable "app_service_custom_name" {
   description = "Name of the App Service, generated if not set."
   type        = string
