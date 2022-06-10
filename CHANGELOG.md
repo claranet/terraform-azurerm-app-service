@@ -1,4 +1,4 @@
-# Unreleased
+# v6.0.0 - 2022-06-10
 
 Added
   * AZ-723: Composition of modules with two sub-module to handle AzureRM provider `v3.x` new resources (Linux, Windows and Container mode are now separated)
