@@ -25,7 +25,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
 
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
       scm_type                    = lookup(site_config.value, "scm_type", null)
-      scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
+      scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
 
       dynamic "application_stack" {
@@ -151,7 +151,7 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
 
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
       scm_type                    = lookup(site_config.value, "scm_type", null)
-      scm_use_main_ip_restriction = var.scm_authorized_ips != [] || var.scm_authorized_subnet_ids != null ? false : true
+      scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
 
       dynamic "application_stack" {
