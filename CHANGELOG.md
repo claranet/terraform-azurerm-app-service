@@ -1,4 +1,4 @@
-# Unreleased
+# v6.0.1 - 2022-06-24
 
 Fixed
   * AZ-772: Fix deprecated terraform code with `v1.2.3`
