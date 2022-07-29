@@ -115,6 +115,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   lifecycle {
     ignore_changes = [
       backup[0].storage_account_url,
+      virtual_network_subnet_id,
     ]
   }
 }
@@ -202,7 +203,25 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
     type = "SystemAssigned"
   }
 
+  dynamic "storage_account" {
+    for_each = var.mount_points
+    content {
+      name         = lookup(storage_account.value, "name", format("%s-%s", storage_account.value["account_name"], storage_account.value["share_name"]))
+      type         = lookup(storage_account.value, "type", "AzureFiles")
+      account_name = lookup(storage_account.value, "account_name", null)
+      share_name   = lookup(storage_account.value, "share_name", null)
+      access_key   = lookup(storage_account.value, "access_key", null)
+      mount_path   = lookup(storage_account.value, "mount_path", null)
+    }
+  }
+
   tags = merge(local.default_tags, var.extra_tags)
+
+  lifecycle {
+    ignore_changes = [
+      virtual_network_subnet_id,
+    ]
+  }
 }
 
 resource "azurerm_app_service_certificate" "app_service_certificate" {
