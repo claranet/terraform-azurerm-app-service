@@ -246,6 +246,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| app\_service\_container | App Service Container (Container WebApp) output object if Container is choosen. Please refer to `./modules/container-web-app/README.md` |
 | app\_service\_linux | App Service Linux (Linux WebApp) output object if Linux is choosen. Please refer to `./modules/linux-web-app/README.md` |
 | app\_service\_windows | App Service Windows (Windows WebApp) output object if Windows is choosen. Please refer to `./modules/windows-web-app/README.md` |
 | service\_plan | Service Plan output object. Please refer to https://github.com/claranet/terraform-azurerm-app-service-plan/blob/master/README.md#outputs |

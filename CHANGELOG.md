@@ -1,10 +1,15 @@
 # Unreleased
 
 Added
-  * AZ-811: Add logs block parameters + add storage_account block to App Service Slot resources 
+  * AZ-811: Add logs block parameters + add `storage_account` block to App Service Slot resources
+  * AZ-811: Add parameters in `site_config` block
+  * AZ-811: Add App Service Container output
 
 Fixed
-  * AZ-811: Bump minimum AzureRM version (`v3.16.0`) to fix virtual_network_subnet_id property
+  * AZ-811: Bump minimum AzureRM version (`v3.16.0`) to fix `virtual_network_subnet_id` property
+
+Removed
+  * AZ-811: Remove the legacy `WEBSITE_VNET_ROUTE_ALL` app setting to avoid permanent drift (only the `vnet_route_all_enabled` site config is needed)
 
 # v6.0.1 - 2022-06-24
 
