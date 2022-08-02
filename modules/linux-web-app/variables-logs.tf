@@ -53,5 +53,5 @@ variable "app_service_logs" {
       }))
     }))
   })
-  default = {}
+  default = null
 }

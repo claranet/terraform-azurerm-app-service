@@ -111,7 +111,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   }
 
   dynamic "logs" {
-    for_each = [var.app_service_logs]
+    for_each = var.app_service_logs == null ? [] : [var.app_service_logs]
     content {
       detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
       failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
@@ -123,9 +123,9 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
           dynamic "azure_blob_storage" {
             for_each = lookup(logs.value["application_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
             content {
-              level             = lookup(logs.value["http_logs"]["azure_blob_storage"], "level", null)
-              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
-              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+              level             = lookup(logs.value["application_logs"]["azure_blob_storage"], "level", null)
+              retention_in_days = lookup(logs.value["application_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["application_logs"]["azure_blob_storage"], "sas_url", null)
             }
           }
           file_system_level = lookup(logs.value["application_logs"], "file_system_level", null)
@@ -260,7 +260,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
   }
 
   dynamic "logs" {
-    for_each = [var.app_service_logs]
+    for_each = var.app_service_logs == null ? [] : [var.app_service_logs]
     content {
       detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
       failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
@@ -272,9 +272,9 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
           dynamic "azure_blob_storage" {
             for_each = lookup(logs.value["application_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
             content {
-              level             = lookup(logs.value["http_logs"]["azure_blob_storage"], "level", null)
-              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
-              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+              level             = lookup(logs.value["application_logs"]["azure_blob_storage"], "level", null)
+              retention_in_days = lookup(logs.value["application_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["application_logs"]["azure_blob_storage"], "sas_url", null)
             }
           }
           file_system_level = lookup(logs.value["application_logs"], "file_system_level", null)
