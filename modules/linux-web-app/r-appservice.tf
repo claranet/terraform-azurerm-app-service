@@ -116,6 +116,50 @@ resource "azurerm_linux_web_app" "app_service_linux" {
     }
   }
 
+  dynamic "logs" {
+    for_each = [var.app_service_logs]
+    content {
+      detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
+      failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
+
+      dynamic "application_logs" {
+        for_each = lookup(logs.value, "application_logs", null) == null ? [] : ["application_logs"]
+
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["application_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              level             = lookup(logs.value["http_logs"]["azure_blob_storage"], "level", null)
+              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          file_system_level = lookup(logs.value["application_logs"], "file_system_level", null)
+        }
+      }
+
+      dynamic "http_logs" {
+        for_each = lookup(logs.value, "http_logs", null) == null ? [] : ["http_logs"]
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["http_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          dynamic "file_system" {
+            for_each = lookup(logs.value["http_logs"], "file_system", null) == null ? [] : ["file_system"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["file_system"], "retention_in_days", null)
+              retention_in_mb   = lookup(logs.value["http_logs"]["file_system"], "retention_in_mb", null)
+            }
+          }
+        }
+      }
+    }
+  }
+
   tags = merge(local.default_tags, var.extra_tags)
 
   lifecycle {
@@ -223,6 +267,50 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
       share_name   = lookup(storage_account.value, "share_name", null)
       access_key   = lookup(storage_account.value, "access_key", null)
       mount_path   = lookup(storage_account.value, "mount_path", null)
+    }
+  }
+
+  dynamic "logs" {
+    for_each = [var.app_service_logs]
+    content {
+      detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
+      failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
+
+      dynamic "application_logs" {
+        for_each = lookup(logs.value, "application_logs", null) == null ? [] : ["application_logs"]
+
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["application_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              level             = lookup(logs.value["http_logs"]["azure_blob_storage"], "level", null)
+              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          file_system_level = lookup(logs.value["application_logs"], "file_system_level", null)
+        }
+      }
+
+      dynamic "http_logs" {
+        for_each = lookup(logs.value, "http_logs", null) == null ? [] : ["http_logs"]
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["http_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          dynamic "file_system" {
+            for_each = lookup(logs.value["http_logs"], "file_system", null) == null ? [] : ["file_system"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["file_system"], "retention_in_days", null)
+              retention_in_mb   = lookup(logs.value["http_logs"]["file_system"], "retention_in_mb", null)
+            }
+          }
+        }
+      }
     }
   }
 

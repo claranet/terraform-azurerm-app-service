@@ -3,11 +3,13 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.3"
+      version = "~> 3.16"
     }
     azurecaf = {
       source  = "aztfmod/azurecaf"
       version = "~> 1.1"
     }
   }
+
+  experiments = [module_variable_optional_attrs]
 }
