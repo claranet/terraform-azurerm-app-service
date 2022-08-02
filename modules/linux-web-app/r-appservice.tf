@@ -28,6 +28,8 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
 
+      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
+
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
         content {
@@ -195,8 +197,11 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
 
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
+      scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+
+      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
