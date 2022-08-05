@@ -181,6 +181,7 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_environment\_id | The ID of the App Service Environment to create this Service Plan in. Requires an Isolated SKU. Use one of I1, I2, I3 for azurerm\_app\_service\_environment, or I1v2, I2v2, I3v2 for azurerm\_app\_service\_environment\_v3 | `string` | `null` | no |
+| app\_service\_logs | Configuration of the App Service and App Service Slot logs. [Linux](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs) and [Windows](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#logs) documentation. | <pre>object({<br>    detailed_error_messages = optional(bool)<br>    failed_request_tracing  = optional(bool)<br>    application_logs = optional(object({<br>      file_system_level = string<br>      azure_blob_storage = optional(object({<br>        level             = string<br>        retention_in_days = number<br>        sas_url           = string<br>      }))<br>    }))<br>    http_logs = optional(object({<br>      azure_blob_storage = optional(object({<br>        retention_in_days = number<br>        sas_url           = string<br>      }))<br>      file_system = optional(object({<br>        retention_in_days = number<br>        retention_in_mb   = number<br>      }))<br>    }))<br>  })</pre> | `null` | no |
 | app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the app service | `string` | `null` | no |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
@@ -245,6 +246,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| app\_service\_container | App Service Container (Container WebApp) output object if Container is choosen. Please refer to `./modules/container-web-app/README.md` |
 | app\_service\_linux | App Service Linux (Linux WebApp) output object if Linux is choosen. Please refer to `./modules/linux-web-app/README.md` |
 | app\_service\_windows | App Service Windows (Windows WebApp) output object if Windows is choosen. Please refer to `./modules/windows-web-app/README.md` |
 | service\_plan | Service Plan output object. Please refer to https://github.com/claranet/terraform-azurerm-app-service-plan/blob/master/README.md#outputs |

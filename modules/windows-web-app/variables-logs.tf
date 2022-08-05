@@ -28,3 +28,30 @@ variable "custom_diagnostic_settings_name" {
   type        = string
   default     = "default"
 }
+
+variable "app_service_logs" {
+  description = "Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#logs)"
+  type = object({
+    detailed_error_messages = optional(bool)
+    failed_request_tracing  = optional(bool)
+    application_logs = optional(object({
+      file_system_level = string
+      azure_blob_storage = optional(object({
+        level             = string
+        retention_in_days = number
+        sas_url           = string
+      }))
+    }))
+    http_logs = optional(object({
+      azure_blob_storage = optional(object({
+        retention_in_days = number
+        sas_url           = string
+      }))
+      file_system = optional(object({
+        retention_in_days = number
+        retention_in_mb   = number
+      }))
+    }))
+  })
+  default = null
+}

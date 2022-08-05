@@ -17,7 +17,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.1 |
-| azurerm | ~> 3.3 |
+| azurerm | ~> 3.16 |
 
 ## Modules
 
@@ -48,6 +48,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
+| app\_service\_logs | Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#logs) | <pre>object({<br>    detailed_error_messages = optional(bool)<br>    failed_request_tracing  = optional(bool)<br>    application_logs = optional(object({<br>      file_system_level = string<br>      azure_blob_storage = optional(object({<br>        level             = string<br>        retention_in_days = number<br>        sas_url           = string<br>      }))<br>    }))<br>    http_logs = optional(object({<br>      azure_blob_storage = optional(object({<br>        retention_in_days = number<br>        sas_url           = string<br>      }))<br>      file_system = optional(object({<br>        retention_in_days = number<br>        retention_in_mb   = number<br>      }))<br>    }))<br>  })</pre> | `null` | no |
 | app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the app service | `string` | `null` | no |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |

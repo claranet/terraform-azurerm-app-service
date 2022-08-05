@@ -28,6 +28,8 @@ resource "azurerm_windows_web_app" "app_service_windows" {
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
 
+      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
+
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
         content {
@@ -118,9 +120,54 @@ resource "azurerm_windows_web_app" "app_service_windows" {
 
   tags = merge(local.default_tags, var.extra_tags)
 
+  dynamic "logs" {
+    for_each = var.app_service_logs == null ? [] : [var.app_service_logs]
+    content {
+      detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
+      failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
+
+      dynamic "application_logs" {
+        for_each = lookup(logs.value, "application_logs", null) == null ? [] : ["application_logs"]
+
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["application_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              level             = lookup(logs.value["application_logs"]["azure_blob_storage"], "level", null)
+              retention_in_days = lookup(logs.value["application_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["application_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          file_system_level = lookup(logs.value["application_logs"], "file_system_level", null)
+        }
+      }
+
+      dynamic "http_logs" {
+        for_each = lookup(logs.value, "http_logs", null) == null ? [] : ["http_logs"]
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["http_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          dynamic "file_system" {
+            for_each = lookup(logs.value["http_logs"], "file_system", null) == null ? [] : ["file_system"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["file_system"], "retention_in_days", null)
+              retention_in_mb   = lookup(logs.value["http_logs"]["file_system"], "retention_in_mb", null)
+            }
+          }
+        }
+      }
+    }
+  }
+
   lifecycle {
     ignore_changes = [
       backup[0].storage_account_url,
+      virtual_network_subnet_id,
     ]
   }
 }
@@ -153,6 +200,8 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
       scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
       scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+
+      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
@@ -214,7 +263,69 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
     type = "SystemAssigned"
   }
 
+  dynamic "storage_account" {
+    for_each = var.mount_points
+    content {
+      name         = lookup(storage_account.value, "name", format("%s-%s", storage_account.value["account_name"], storage_account.value["share_name"]))
+      type         = lookup(storage_account.value, "type", "AzureFiles")
+      account_name = lookup(storage_account.value, "account_name", null)
+      share_name   = lookup(storage_account.value, "share_name", null)
+      access_key   = lookup(storage_account.value, "access_key", null)
+      mount_path   = lookup(storage_account.value, "mount_path", null)
+    }
+  }
+
+  dynamic "logs" {
+    for_each = var.app_service_logs == null ? [] : [var.app_service_logs]
+    content {
+      detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
+      failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
+
+      dynamic "application_logs" {
+        for_each = lookup(logs.value, "application_logs", null) == null ? [] : ["application_logs"]
+
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["application_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              level             = lookup(logs.value["application_logs"]["azure_blob_storage"], "level", null)
+              retention_in_days = lookup(logs.value["application_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["application_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          file_system_level = lookup(logs.value["application_logs"], "file_system_level", null)
+        }
+      }
+
+      dynamic "http_logs" {
+        for_each = lookup(logs.value, "http_logs", null) == null ? [] : ["http_logs"]
+        content {
+          dynamic "azure_blob_storage" {
+            for_each = lookup(logs.value["http_logs"], "azure_blob_storage", null) == null ? [] : ["azure_blob_storage"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["azure_blob_storage"], "retention_in_days", null)
+              sas_url           = lookup(logs.value["http_logs"]["azure_blob_storage"], "sas_url", null)
+            }
+          }
+          dynamic "file_system" {
+            for_each = lookup(logs.value["http_logs"], "file_system", null) == null ? [] : ["file_system"]
+            content {
+              retention_in_days = lookup(logs.value["http_logs"]["file_system"], "retention_in_days", null)
+              retention_in_mb   = lookup(logs.value["http_logs"]["file_system"], "retention_in_mb", null)
+            }
+          }
+        }
+      }
+    }
+  }
+
   tags = merge(local.default_tags, var.extra_tags)
+
+  lifecycle {
+    ignore_changes = [
+      virtual_network_subnet_id,
+    ]
+  }
 }
 
 resource "azurerm_app_service_certificate" "app_service_certificate" {

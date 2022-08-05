@@ -14,11 +14,8 @@ locals {
     APPINSIGHTS_INSTRUMENTATIONKEY        = try(local.app_insights.instrumentation_key, "")
     APPLICATIONINSIGHTS_CONNECTION_STRING = try(local.app_insights.connection_string, "")
   } : {}
-  vnet_app_settings = var.app_service_vnet_integration_subnet_id == null ? {} : {
-    WEBSITE_VNET_ROUTE_ALL = 1
-  }
 
-  app_settings = merge(local.default_app_settings, local.vnet_app_settings, var.app_settings)
+  app_settings = merge(local.default_app_settings, var.app_settings)
 
   default_ip_restrictions_headers = {
     x_azure_fdid      = null
