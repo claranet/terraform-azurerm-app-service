@@ -1,4 +1,4 @@
-# Unreleased
+# v6.1.0 - 2022-08-05
 
 Added
   * AZ-811: Add logs block parameters + add `storage_account` block to App Service Slot resources
