@@ -1,3 +1,8 @@
+# Unreleased
+
+Added
+  * AZ-834: Add use_32_bit_worker parameter for site_config
+
 # v6.1.0 - 2022-08-05
 
 Added

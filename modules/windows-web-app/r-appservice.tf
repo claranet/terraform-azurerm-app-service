@@ -22,6 +22,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
       remote_debugging_enabled = lookup(site_config.value, "remote_debugging_enabled", false)
       remote_debugging_version = lookup(site_config.value, "remote_debugging_version", null)
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
+      use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
 
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
       scm_type                    = lookup(site_config.value, "scm_type", null)
