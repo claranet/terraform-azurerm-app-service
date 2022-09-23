@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.1"
+  required_version = ">= 1.3"
   required_providers {
     # tflint-ignore: terraform_unused_required_providers
     azurerm = {
@@ -12,6 +12,4 @@ terraform {
       version = "~> 1.1"
     }
   }
-
-  experiments = [module_variable_optional_attrs]
 }
