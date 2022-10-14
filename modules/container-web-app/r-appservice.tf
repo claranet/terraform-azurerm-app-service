@@ -161,7 +161,6 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
     ignore_changes = [
       backup[0].storage_account_url,
       virtual_network_subnet_id,
-      site_config[0].application_stack[0].docker_image_tag
     ]
   }
 }
@@ -311,7 +310,6 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
   lifecycle {
     ignore_changes = [
       virtual_network_subnet_id,
-      site_config[0].application_stack[0].docker_image_tag
     ]
   }
 }
