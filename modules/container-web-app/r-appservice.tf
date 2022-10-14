@@ -22,8 +22,8 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
       minimum_tls_version      = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", "1.2"))
       remote_debugging_enabled = lookup(site_config.value, "remote_debugging_enabled", false)
       remote_debugging_version = lookup(site_config.value, "remote_debugging_version", null)
-      websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
       use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
+      websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
 
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
       scm_type                    = lookup(site_config.value, "scm_type", null)
@@ -161,6 +161,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
     ignore_changes = [
       backup[0].storage_account_url,
       virtual_network_subnet_id,
+      site_config[0].application_stack[0].docker_image_tag
     ]
   }
 }
@@ -188,6 +189,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
       minimum_tls_version      = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", "1.2"))
       remote_debugging_enabled = lookup(site_config.value, "remote_debugging_enabled", false)
       remote_debugging_version = lookup(site_config.value, "remote_debugging_version", null)
+      use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
 
       ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
@@ -309,6 +311,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
   lifecycle {
     ignore_changes = [
       virtual_network_subnet_id,
+      site_config[0].application_stack[0].docker_image_tag
     ]
   }
 }
