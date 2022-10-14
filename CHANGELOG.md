@@ -1,3 +1,8 @@
+# v7.0.1 - 2022-10-14
+
+Fixed
+  * AZ-877: Fix missing site_config attributes on slot
+
 # v7.0.0 - 2022-09-30
 
 Breaking
