@@ -66,6 +66,14 @@ resource "azurerm_linux_web_app" "app_service_linux" {
     }
   }
 
+  dynamic "sticky_settings" {
+    for_each = var.sticky_settings == null ? [] : [var.sticky_settings]
+    content {
+      app_setting_names       = lookup(sticky_settings.value, "app_setting_names", null)
+      connection_string_names = lookup(sticky_settings.value, "connection_string_names", null)
+    }
+  }
+
   auth_settings {
     enabled                        = local.auth_settings.enabled
     issuer                         = local.auth_settings.issuer

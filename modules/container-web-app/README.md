@@ -76,7 +76,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
-| docker\_image | Docker image to use for this App Service | <pre>object({<br>    name = string<br>    tag  = string<br>  })</pre> | n/a | yes |
+| docker\_image | Docker image to use for this App Service | <pre>object({<br>    name     = string<br>    tag      = string<br>    slot_tag = optional(string)<br>  })</pre> | n/a | yes |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `bool` | `false` | no |
@@ -101,6 +101,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | staging\_slot\_custom\_app\_settings | Override staging slot with custom app settings | `map(string)` | `null` | no |
 | staging\_slot\_custom\_name | Custom name of the app service slot | `string` | `null` | no |
 | staging\_slot\_enabled | Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
+| sticky\_settings | Lists of connection strings names and app setting names that the Web App will not swap between slots. | <pre>object({<br>    app_setting_names       = optional(list(string))<br>    connection_string_names = optional(list(string))<br>  })</pre> | `null` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 
 ## Outputs

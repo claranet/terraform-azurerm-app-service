@@ -58,6 +58,14 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
     }
   }
 
+  dynamic "sticky_settings" {
+    for_each = var.sticky_settings == null ? [] : [var.sticky_settings]
+    content {
+      app_setting_names       = lookup(sticky_settings.value, "app_setting_names", null)
+      connection_string_names = lookup(sticky_settings.value, "connection_string_names", null)
+    }
+  }
+
   auth_settings {
     enabled                        = local.auth_settings.enabled
     issuer                         = local.auth_settings.issuer
@@ -200,7 +208,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
 
       application_stack {
         docker_image     = lookup(var.docker_image, "name")
-        docker_image_tag = lookup(var.docker_image, "tag")
+        docker_image_tag = coalesce(var.docker_image["slot_tag"], var.docker_image["tag"])
       }
 
       dynamic "cors" {
