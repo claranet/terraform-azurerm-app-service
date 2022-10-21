@@ -22,6 +22,7 @@ module "linux_web_app" {
   site_config        = var.site_config
   auth_settings      = var.auth_settings
   connection_strings = var.connection_strings
+  sticky_settings    = var.sticky_settings
 
   mount_points               = var.mount_points
   client_affinity_enabled    = var.client_affinity_enabled
@@ -96,6 +97,7 @@ module "container_web_app" {
   site_config        = var.site_config
   auth_settings      = var.auth_settings
   connection_strings = var.connection_strings
+  sticky_settings    = var.sticky_settings
 
   mount_points               = var.mount_points
   client_affinity_enabled    = var.client_affinity_enabled
@@ -169,6 +171,7 @@ module "windows_web_app" {
   site_config        = var.site_config
   auth_settings      = var.auth_settings
   connection_strings = var.connection_strings
+  sticky_settings    = var.sticky_settings
 
   mount_points               = var.mount_points
   client_affinity_enabled    = var.client_affinity_enabled

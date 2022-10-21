@@ -33,8 +33,8 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
       vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
 
       application_stack {
-        docker_image     = lookup(var.docker_image, "name")
-        docker_image_tag = lookup(var.docker_image, "tag")
+        docker_image     = var.docker_image.name
+        docker_image_tag = var.docker_image.tag
       }
 
       dynamic "cors" {
@@ -55,6 +55,14 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
       name  = lookup(connection_string.value, "name", null)
       type  = lookup(connection_string.value, "type", null)
       value = lookup(connection_string.value, "value", null)
+    }
+  }
+
+  dynamic "sticky_settings" {
+    for_each = var.sticky_settings == null ? [] : [var.sticky_settings]
+    content {
+      app_setting_names       = sticky_settings.value.app_setting_names
+      connection_string_names = sticky_settings.value.connection_string_names
     }
   }
 
@@ -199,8 +207,8 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
       vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
 
       application_stack {
-        docker_image     = lookup(var.docker_image, "name")
-        docker_image_tag = lookup(var.docker_image, "tag")
+        docker_image     = var.docker_image.name
+        docker_image_tag = coalesce(var.docker_image.slot_tag, var.docker_image.tag)
       }
 
       dynamic "cors" {

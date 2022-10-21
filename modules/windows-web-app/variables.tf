@@ -75,6 +75,15 @@ variable "connection_strings" {
   default     = []
 }
 
+variable "sticky_settings" {
+  description = "Lists of connection strings and app settings to prevent from swapping between slots."
+  type = object({
+    app_setting_names       = optional(list(string))
+    connection_string_names = optional(list(string))
+  })
+  default = null
+}
+
 variable "authorized_ips" {
   description = "IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
   type        = list(string)

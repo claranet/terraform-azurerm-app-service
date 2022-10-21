@@ -1,3 +1,9 @@
+# Unreleased
+
+Added
+  * AZ-882: Add `sticky_settings` block parameter
+  * AZ-882: Add the optional parameter `slot_tag` in the `docker_image` block
+
 # v7.0.1 - 2022-10-14
 
 Fixed
