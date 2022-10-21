@@ -69,8 +69,8 @@ resource "azurerm_linux_web_app" "app_service_linux" {
   dynamic "sticky_settings" {
     for_each = var.sticky_settings == null ? [] : [var.sticky_settings]
     content {
-      app_setting_names       = lookup(sticky_settings.value, "app_setting_names", null)
-      connection_string_names = lookup(sticky_settings.value, "connection_string_names", null)
+      app_setting_names       = sticky_settings.value.app_setting_names
+      connection_string_names = sticky_settings.value.connection_string_names
     }
   }
 
