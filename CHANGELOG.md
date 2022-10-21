@@ -1,4 +1,4 @@
-# Unreleased
+# v7.1.0 - 2022-10-21
 
 Added
   * AZ-882: Add `sticky_settings` block parameter
