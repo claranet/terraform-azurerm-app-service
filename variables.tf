@@ -71,7 +71,7 @@ variable "connection_strings" {
 }
 
 variable "sticky_settings" {
-  description = "Lists of connection string names and app setting names that the Web App will not swap between slots."
+  description = "Lists of connection strings and app settings to prevent from swapping between slots."
   type = object({
     app_setting_names       = optional(list(string))
     connection_string_names = optional(list(string))
