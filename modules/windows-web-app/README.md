@@ -17,7 +17,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.2, >= 1.2.22 |
-| azurerm | ~> 3.16 |
+| azurerm | ~> 3.22 |
 
 ## Modules
 
