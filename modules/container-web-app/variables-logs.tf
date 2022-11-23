@@ -2,7 +2,11 @@
 
 variable "logs_destinations_ids" {
   type        = list(string)
-  description = "List of destination resources Ids for logs diagnostics destination. Can be `Storage Account`, `Log Analytics Workspace` and `Event Hub`. No more than one of each can be set. Empty list to disable logging."
+  description = <<EOD
+List of destination resources IDs for logs diagnostic destination.
+Can be `Storage Account`, `Log Analytics Workspace` and `Event Hub`. No more than one of each can be set.
+If you want to specify an Azure EventHub to send logs and metrics to, you need to provide a formated string with both the EventHub Namespace authorization send ID and the EventHub name (name of the queue to use in the Namespace) separated by the `|` character.
+EOD
 }
 
 variable "logs_categories" {
@@ -19,7 +23,7 @@ variable "logs_metrics_categories" {
 
 variable "logs_retention_days" {
   type        = number
-  description = "Number of days to keep logs on storage account"
+  description = "Number of days to keep logs on storage account."
   default     = 30
 }
 
@@ -27,31 +31,4 @@ variable "custom_diagnostic_settings_name" {
   description = "Custom name of the diagnostics settings, name will be 'default' if not set."
   type        = string
   default     = "default"
-}
-
-variable "app_service_logs" {
-  description = "Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs)"
-  type = object({
-    detailed_error_messages = optional(bool)
-    failed_request_tracing  = optional(bool)
-    application_logs = optional(object({
-      file_system_level = string
-      azure_blob_storage = optional(object({
-        level             = string
-        retention_in_days = number
-        sas_url           = string
-      }))
-    }))
-    http_logs = optional(object({
-      azure_blob_storage = optional(object({
-        retention_in_days = number
-        sas_url           = string
-      }))
-      file_system = optional(object({
-        retention_in_days = number
-        retention_in_mb   = number
-      }))
-    }))
-  })
-  default = null
 }
