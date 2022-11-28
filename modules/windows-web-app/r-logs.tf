@@ -1,6 +1,6 @@
 module "diagnostics" {
   source  = "claranet/diagnostic-settings/azurerm"
-  version = "5.0.0"
+  version = "6.2.0"
 
   resource_id = azurerm_windows_web_app.app_service_windows.id
 
