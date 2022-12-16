@@ -1,4 +1,4 @@
-# Unreleased
+# v7.2.1 - 2022-12-16
 
 Changed
   * AZ-908: Bump App Service Plan module to `v6.1.1`
