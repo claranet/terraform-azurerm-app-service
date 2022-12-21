@@ -341,15 +341,15 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
 resource "azurerm_app_service_certificate" "app_service_certificate" {
   for_each = var.custom_domains != null ? {
     for k, v in var.custom_domains :
-    k => v if v != null
+    k => v if try(v.certificate_id == null, false)
   } : {}
 
-  name                = each.key
+  name                = each.value.certificate_file != null ? basename(each.value.certificate_file) : split("/", each.value.certificate_keyvault_certificate_id)[4]
   resource_group_name = var.resource_group_name
   location            = var.location
-  pfx_blob            = contains(keys(each.value), "certificate_file") ? filebase64(each.value.certificate_file) : null
-  password            = contains(keys(each.value), "certificate_file") ? each.value.certificate_password : null
-  key_vault_secret_id = contains(keys(each.value), "certificate_keyvault_certificate_id") ? each.value.certificate_keyvault_certificate_id : null
+  pfx_blob            = each.value.certificate_file != null ? filebase64(each.value.certificate_file) : null
+  password            = each.value.certificate_password
+  key_vault_secret_id = each.value.certificate_keyvault_certificate_id
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
@@ -359,7 +359,7 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
   app_service_name    = azurerm_linux_web_app.app_service_linux.name
   resource_group_name = var.resource_group_name
   ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? "SniEnabled" : null
-  thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : null
+  thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : try(data.azurerm_app_service_certificate.certificate[each.key].thumbprint, null)
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {

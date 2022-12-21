@@ -48,6 +48,11 @@ output "app_service_slot_identity_service_principal_id" {
   value       = try(azurerm_windows_web_app_slot.app_service_windows_slot[0].identity[0].principal_id, null)
 }
 
+output "app_service_certificates_id" {
+  description = "ID of certificates generated."
+  value       = { for k, v in var.custom_domains : k => try(azurerm_app_service_certificate.app_service_certificate[k].id, null) if try(v.certificate_id == null, false) }
+}
+
 output "app_insights_id" {
   description = "Deprecated, use `application_insights_id`"
   value       = try(local.app_insights.id, null)

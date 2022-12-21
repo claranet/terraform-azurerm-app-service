@@ -105,11 +105,15 @@ module "linux_web_app" {
       certificate_password = "xxxxxxxxx"
     }
     # Custom domain with SSL certificate stored in a keyvault
-    "example.com" = {
-      certificate_keyvault_id = var.certificate_keyvault_id
+    "example2.com" = {
+      certificate_keyvault_certificate_id = var.certificate_keyvault_id
     }
     # Custom domain without SSL certificate
-    "example2.com" = null
+    "example3.com" = null
+    # Custom domain with an existant SSL certificate
+    "exemple4.com" = {
+      certificate_id = var.certificate_id
+    }
   }
 
   authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]

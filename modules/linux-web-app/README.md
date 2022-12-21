@@ -39,6 +39,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | [azurerm_linux_web_app_slot.app_service_linux_slot](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app_slot) | resource |
 | [azurecaf_name.app_service_web](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/data-sources/name) | data source |
 | [azurecaf_name.application_insights](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/data-sources/name) | data source |
+| [azurerm_app_service_certificate.certificate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/app_service_certificate) | data source |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
 | [azurerm_client_config.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 | [azurerm_subscription.current_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
@@ -74,7 +75,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
 | custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
-| custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
+| custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file with following attributes :<pre>- certificate_file:                     Path of the certificate file.<br>- certificate_password:                 Certificate password.<br>- certificate_keyvault_certificate_id:  ID of the Azure Keyvault Certificate Secret.<br>- certificate_id:                       ID of an existant certificate.</pre> | <pre>map(object({<br>    certificate_file                    = optional(string)<br>    certificate_password                = optional(string)<br>    certificate_keyvault_certificate_id = optional(string)<br>    certificate_id                      = optional(string)<br>  }))</pre> | `null` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
@@ -112,6 +113,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | app\_insights\_id | Deprecated, use `application_insights_id` |
 | app\_insights\_instrumentation\_key | Deprecated, use `application_insights_instrumentation_key` |
 | app\_insights\_name | Deprecated, use `application_insights_name` |
+| app\_service\_certificates\_id | ID of certificates generated. |
 | app\_service\_default\_site\_hostname | The Default Hostname associated with the App Service |
 | app\_service\_id | Id of the App Service |
 | app\_service\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service |

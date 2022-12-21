@@ -126,11 +126,15 @@ module "app_service" {
       certificate_password = "xxxxxxxxx"
     }
     # Custom domain with SSL certificate stored in a keyvault
-    "example.com" = {
-      certificate_keyvault_id = var.certificate_keyvault_id
+    "example2.com" = {
+      certificate_keyvault_certificate_id = var.certificate_keyvault_id
     }
     # Custom domain without SSL certificate
-    "example2.com" = null
+    "example3.com" = null
+    # Custom domain with an existant SSL certificate
+    "exemple4.com" = {
+      certificate_id = var.certificate_id
+    }
   }
 
   authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
@@ -215,7 +219,7 @@ No resources.
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
 | custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
-| custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file. | `map(map(string))` | `null` | no |
+| custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file with following attributes :<pre>- certificate_file:                     Path of the certificate file.<br>- certificate_password:                 Certificate password.<br>- certificate_keyvault_certificate_id:  ID of the Azure Keyvault Certificate Secret.<br>- certificate_id:                       ID of an existant certificate.</pre> | <pre>map(object({<br>    certificate_file                    = optional(string)<br>    certificate_password                = optional(string)<br>    certificate_keyvault_certificate_id = optional(string)<br>    certificate_id                      = optional(string)<br>  }))</pre> | `null` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | docker\_image | Docker image to use for this App Service | <pre>object({<br>    name     = string<br>    tag      = string<br>    slot_tag = optional(string)<br>  })</pre> | `null` | no |
 | environment | Project environment | `string` | n/a | yes |
