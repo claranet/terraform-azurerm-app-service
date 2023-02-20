@@ -41,4 +41,3 @@ variable "backup_custom_name" {
   type        = string
   default     = null
 }
-
