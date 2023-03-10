@@ -1,4 +1,4 @@
-# Unreleased
+# v7.3.0 - 2023-03-10
 
 Breaking
   * AZ-961: Add the optional `certificate_id` parameter in the `custom_domains` block
