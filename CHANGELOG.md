@@ -1,3 +1,14 @@
+# Unreleased
+
+Breaking
+  * AZ-961: Add the optional `certificate_id` parameter in the `custom_domains` block
+
+Changed
+  * AZ-961: Name of `azurerm_app_service_certificate` resource will be the name of certificate file or Keyvault certificate
+
+Fixed
+  * AZ-961: Fix sensitive value error for the `custom_domains` block
+
 # v7.2.1 - 2022-12-16
 
 Changed
