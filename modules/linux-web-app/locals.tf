@@ -31,7 +31,6 @@ locals {
     ip_address                = cidr
     virtual_network_subnet_id = null
     service_tag               = null
-    subnet_id                 = null
     priority                  = join("", [1, index(var.authorized_ips, cidr)])
     action                    = "Allow"
     headers                   = local.ip_restriction_headers
@@ -42,7 +41,6 @@ locals {
     ip_address                = null
     virtual_network_subnet_id = subnet
     service_tag               = null
-    subnet_id                 = subnet
     priority                  = join("", [1, index(var.authorized_subnet_ids, subnet)])
     action                    = "Allow"
     headers                   = local.ip_restriction_headers

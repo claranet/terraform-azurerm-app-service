@@ -1,3 +1,9 @@
+# Unreleased
+
+Fix
+  * AZ-1047: Fix output `app_service_certificates_id` to include support for empty `custom_domains`
+             Fix `ip_restriction` and `scm_ip_restriction` parameters
+
 # v7.3.0 - 2023-03-10
 
 Breaking
