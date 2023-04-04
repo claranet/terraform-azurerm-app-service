@@ -50,7 +50,7 @@ output "app_service_slot_identity_service_principal_id" {
 
 output "app_service_certificates_id" {
   description = "ID of certificates generated."
-  value       = try({ for k, v in var.custom_domains : k => try(azurerm_app_service_certificate.app_service_certificate[k].id, null) if try(v.certificate_id == null, false) }, {})
+  value       = try({ for k, v in var.custom_domains : k => azurerm_app_service_certificate.app_service_certificate[k].id if try(v.certificate_id == null, false) }, {})
 }
 
 output "app_insights_id" {
