@@ -1,9 +1,11 @@
 # Unreleased
 
-Fix
+Fixed
   * AZ-1047: Fix output `app_service_certificates_id` to include support for empty `custom_domains`
              Fix `ip_restriction` and `scm_ip_restriction` parameters
-             Add `scm_minimum_tls_version` parameters
+
+Added
+  * AZ-1047: Add `scm_minimum_tls_version` parameter
 
 # v7.3.0 - 2023-03-10
 

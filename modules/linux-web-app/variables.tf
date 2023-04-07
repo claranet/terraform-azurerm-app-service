@@ -228,7 +228,8 @@ EOD
     certificate_keyvault_certificate_id = optional(string)
     certificate_id                      = optional(string)
   }))
-  default = {}
+  default  = {}
+  nullable = false
 }
 
 variable "app_service_vnet_integration_subnet_id" {
