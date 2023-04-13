@@ -25,10 +25,34 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
       use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
 
-      ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
       scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
-      scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+
+      dynamic "ip_restriction" {
+        for_each = concat(local.subnets, local.cidrs, local.service_tags)
+        content {
+          name                      = ip_restriction.value.name
+          ip_address                = ip_restriction.value.ip_address
+          virtual_network_subnet_id = ip_restriction.value.virtual_network_subnet_id
+          service_tag               = ip_restriction.value.service_tag
+          priority                  = ip_restriction.value.priority
+          action                    = ip_restriction.value.action
+          headers                   = ip_restriction.value.headers
+        }
+      }
+
+      dynamic "scm_ip_restriction" {
+        for_each = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+        content {
+          name                      = scm_ip_restriction.value.name
+          ip_address                = scm_ip_restriction.value.ip_address
+          virtual_network_subnet_id = scm_ip_restriction.value.virtual_network_subnet_id
+          service_tag               = scm_ip_restriction.value.service_tag
+          priority                  = scm_ip_restriction.value.priority
+          action                    = scm_ip_restriction.value.action
+          headers                   = scm_ip_restriction.value.headers
+        }
+      }
 
       vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
 
@@ -199,10 +223,34 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
       use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
 
-      ip_restriction              = concat(local.subnets, local.cidrs, local.service_tags)
       scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
-      scm_ip_restriction          = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+
+      dynamic "ip_restriction" {
+        for_each = concat(local.subnets, local.cidrs, local.service_tags)
+        content {
+          name                      = ip_restriction.value.name
+          ip_address                = ip_restriction.value.ip_address
+          virtual_network_subnet_id = ip_restriction.value.virtual_network_subnet_id
+          service_tag               = ip_restriction.value.service_tag
+          priority                  = ip_restriction.value.priority
+          action                    = ip_restriction.value.action
+          headers                   = ip_restriction.value.headers
+        }
+      }
+
+      dynamic "scm_ip_restriction" {
+        for_each = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+        content {
+          name                      = scm_ip_restriction.value.name
+          ip_address                = scm_ip_restriction.value.ip_address
+          virtual_network_subnet_id = scm_ip_restriction.value.virtual_network_subnet_id
+          service_tag               = scm_ip_restriction.value.service_tag
+          priority                  = scm_ip_restriction.value.priority
+          action                    = scm_ip_restriction.value.action
+          headers                   = scm_ip_restriction.value.headers
+        }
+      }
 
       vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
 
