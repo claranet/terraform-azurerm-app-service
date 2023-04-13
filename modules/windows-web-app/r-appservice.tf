@@ -51,7 +51,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
       }
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
-      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", null)
+      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
 
       vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
@@ -258,7 +258,7 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
       }
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
-      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", null)
+      scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
 
       vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
