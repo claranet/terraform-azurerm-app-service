@@ -1,8 +1,8 @@
-# Unreleased
+# v7.3.1 - 2023-04-14
 
 Fixed
   * AZ-1047: Fix output `app_service_certificates_id` to include support for empty `custom_domains`
-  * AZ-1047: Fix `ip_restriction` and `scm_ip_restriction` parameters
+  * [GH-1](https://github.com/claranet/terraform-azurerm-app-service/pull/1): Fix `ip_restriction` and `scm_ip_restriction` parameters
 
 Added
   * AZ-1047: Add `scm_minimum_tls_version` parameter
