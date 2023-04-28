@@ -24,7 +24,7 @@ component and activated [Diagnostics Logs](https://docs.microsoft.com/en-us/azur
 | Name | Source | Version |
 |------|--------|---------|
 | backup\_sas\_token | claranet/storage-sas-token/azurerm | 2.0.0 |
-| diagnostics | claranet/diagnostic-settings/azurerm | 6.2.0 |
+| diagnostics | claranet/diagnostic-settings/azurerm | ~> 6.4.1 |
 
 ## Resources
 
