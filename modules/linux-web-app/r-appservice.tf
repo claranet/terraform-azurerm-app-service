@@ -300,7 +300,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
       value = lookup(connection_string.value, "value", null)
     }
   }
-  
+
   dynamic "auth_settings" {
     for_each = local.auth_settings.enabled ? ["enabled"] : []
     content {
