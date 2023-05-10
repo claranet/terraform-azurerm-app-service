@@ -1,3 +1,8 @@
+# Unreleased
+
+Fixed
+  * [GH-2](https://github.com/claranet/terraform-azurerm-app-service/pull/2): Fix `auth_settings` dynamic block
+
 # v7.3.1 - 2023-04-14
 
 Fixed
