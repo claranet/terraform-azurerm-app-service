@@ -1,3 +1,8 @@
+# Unreleased
+
+Fixed
+  * AZ-1113: Update sub-modules READMEs (according to their example)
+
 # v7.3.2 - 2023-06-07
 
 Fixed
