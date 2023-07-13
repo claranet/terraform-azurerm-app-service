@@ -76,16 +76,17 @@ module "linux_web_app" {
   service_plan_id = module.service_plan.service_plan_id
 
   app_settings = {
-    DOCKER_REGISTRY_SERVER_URL = "https://myacr.azurecr.io"
-    FOO                        = "bar"
+    FOO = "bar"
   }
 
   site_config = {
-    linux_fx_version = "DOCKER|myacr.azurecr.io/myrepository/image:tag"
-    http2_enabled    = true
-
+    http2_enabled = true
     # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
     acr_use_managed_identity_credentials = true
+
+    application_stack = {
+      php_version = "8.2"
+    }
   }
 
   auth_settings = {

@@ -123,6 +123,11 @@ module "windows_web_app" {
     http2_enabled = true
     # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
     acr_use_managed_identity_credentials = true
+
+    application_stack = {
+      current_stack  = "dotnet"
+      dotnet_version = "v7.0"
+    }
   }
 
   auth_settings = {
