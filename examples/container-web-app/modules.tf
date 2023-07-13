@@ -42,8 +42,8 @@ resource "azurerm_storage_share" "assets_share" {
   quota                = 50
 }
 
-module "app_service" {
-  source  = "claranet/app-service/azurerm"
+module "service_plan" {
+  source  = "claranet/app-service-plan/azurerm"
   version = "x.x.x"
 
   client_name         = var.client_name
@@ -53,19 +53,41 @@ module "app_service" {
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
+  logs_destinations_ids = [
+    module.logs.logs_storage_account_id,
+    module.logs.log_analytics_workspace_id,
+  ]
+
   os_type  = "Linux"
-  sku_name = "B2"
+  sku_name = "S1"
+}
+
+module "container_web_app" {
+  source  = "claranet/app-service/azurerm//modules/container-web-app"
+  version = "x.x.x"
+
+  client_name         = var.client_name
+  environment         = var.environment
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
+  resource_group_name = module.rg.resource_group_name
+  stack               = var.stack
+
+  service_plan_id = module.service_plan.service_plan_id
 
   app_settings = {
-    FOO = "bar"
+    DOCKER_REGISTRY_SERVER_URL = "https://myacr.azurecr.io"
+    FOO                        = "bar"
+  }
+
+  docker_image = {
+    name = "myimage"
+    tag  = "latest"
   }
 
   site_config = {
-    application_stack = {
-      php_version = "8.2"
-    }
-
-    http2_enabled = true
+    linux_fx_version = "DOCKER|myacr.azurecr.io/myrepository/image:tag"
+    http2_enabled    = true
 
     # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
     acr_use_managed_identity_credentials = true
