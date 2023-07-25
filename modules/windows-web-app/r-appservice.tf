@@ -4,6 +4,8 @@ resource "azurerm_windows_web_app" "app_service_windows" {
   resource_group_name = var.resource_group_name
   service_plan_id     = var.service_plan_id
 
+  public_network_access_enabled = var.public_network_access_enabled
+
   dynamic "site_config" {
     for_each = [local.site_config]
 

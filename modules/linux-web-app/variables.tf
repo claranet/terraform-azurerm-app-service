@@ -90,6 +90,12 @@ variable "authorized_ips" {
   default     = []
 }
 
+variable "public_network_access_enabled" {
+  description = "Should public network access be enabled for the App Service."
+  type        = bool
+  default     = false
+}
+
 variable "authorized_subnet_ids" {
   description = "Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
   type        = list(string)
