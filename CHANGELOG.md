@@ -3,6 +3,9 @@
 Added
   * AZ-1125: Add support of `public_network_access_enabled` variable
 
+Changed
+  * AZ-1125: Bump AzureRM provider version to `~> 3.64`
+
 # v7.3.3 - 2023-07-13
 
 Fixed
