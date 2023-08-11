@@ -4,7 +4,7 @@ terraform {
     # tflint-ignore: terraform_unused_required_providers
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.39"
+      version = "~> 3.64"
     }
     # tflint-ignore: terraform_unused_required_providers
     azurecaf = {
