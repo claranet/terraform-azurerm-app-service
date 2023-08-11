@@ -241,7 +241,7 @@ No resources.
 | name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
 | os\_type | The O/S type for the App Services to be hosted in this plan. Possible values include `Windows`, `Linux`, and `Container`. | `string` | n/a | yes |
 | per\_site\_scaling\_enabled | Should Per Site Scaling be enabled. | `bool` | `false` | no |
-| public\_network\_access\_enabled | Should public network access be enabled for the App Service. | `bool` | `false` | no |
+| public\_network\_access\_enabled | Whether enable public access for the App Service. | `bool` | `false` | no |
 | resource\_group\_name | Resource group name | `string` | n/a | yes |
 | scm\_authorized\_ips | SCM IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
 | scm\_authorized\_service\_tags | SCM Service Tags restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction | `list(string)` | `[]` | no |
