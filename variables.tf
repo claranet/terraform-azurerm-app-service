@@ -286,3 +286,15 @@ variable "app_service_logs" {
   })
   default = null
 }
+
+variable "identity" {
+  description = "Map with identity block informations."
+  type = object({
+    type         = string
+    identity_ids = list(string)
+  })
+  default = {
+    type         = "SystemAssigned"
+    identity_ids = []
+  }
+}

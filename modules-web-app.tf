@@ -64,6 +64,8 @@ module "linux_web_app" {
 
   app_service_logs = var.app_service_logs
 
+  identity = var.identity
+
   logs_destinations_ids   = var.logs_destinations_ids
   logs_retention_days     = var.logs_retention_days
   logs_categories         = var.logs_categories
@@ -139,6 +141,8 @@ module "container_web_app" {
 
   app_service_logs = var.app_service_logs
 
+  identity = var.identity
+
   logs_destinations_ids   = var.logs_destinations_ids
   logs_retention_days     = var.logs_retention_days
   logs_categories         = var.logs_categories
@@ -212,6 +216,8 @@ module "windows_web_app" {
   application_insights_type                = var.application_insights_type
 
   app_service_logs = var.app_service_logs
+
+  identity = var.identity
 
   logs_destinations_ids   = var.logs_destinations_ids
   logs_retention_days     = var.logs_retention_days

@@ -327,8 +327,12 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
   client_affinity_enabled = var.client_affinity_enabled
   https_only              = var.https_only
 
-  identity {
-    type = "SystemAssigned"
+  dynamic "identity" {
+    for_each = var.identity[*]
+    content {
+      type         = var.identity.type
+      identity_ids = var.identity.identity_ids
+    }
   }
 
   dynamic "storage_account" {
