@@ -288,7 +288,7 @@ variable "app_service_logs" {
 }
 
 variable "identity" {
-  description = "Map with identity block informations."
+  description = "Map with identity block information."
   type = object({
     type         = string
     identity_ids = list(string)
