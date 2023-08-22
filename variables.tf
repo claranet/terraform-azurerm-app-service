@@ -213,6 +213,12 @@ variable "auth_settings" {
   default     = {}
 }
 
+variable "auth_settings_v2" {
+  description = "Authentication settings V2. See https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#auth_settings_v2"
+  type        = any
+  default     = {}
+}
+
 variable "custom_domains" {
   description = <<EOD
 Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file with following attributes :

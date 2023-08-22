@@ -120,4 +120,16 @@ locals {
     client_secret     = null
     allowed_audiences = []
   }
+
+  auth_settings_v2_login_default = {
+    token_store_enabled               = false
+    token_refresh_extension_time      = 72
+    preserve_url_fragments_for_logins = false
+    cookie_expiration_convention      = "FixedTime"
+    cookie_expiration_time            = "08:00:00"
+    validate_nonce                    = true
+    nonce_expiration_time             = "00:05:00"
+  }
+
+  auth_settings_v2_login = try(var.auth_settings_v2.login, null) == null ? local.auth_settings_v2_login_default : var.auth_settings_v2.login
 }
