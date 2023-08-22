@@ -1,4 +1,4 @@
-# Unreleased
+# v7.5.0 - 2023-08-22
 
 Added
     * [GH-4](https://github.com/claranet/terraform-azurerm-app-service/pull/4): Add support for User Assigned Identities
