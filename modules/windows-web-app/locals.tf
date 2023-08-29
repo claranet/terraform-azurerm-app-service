@@ -131,5 +131,5 @@ locals {
     nonce_expiration_time             = "00:05:00"
   }
 
-  auth_settings_v2_login = try(var.auth_settings_v2.login, null) == null ? local.auth_settings_v2_login_default : var.auth_settings_v2.login
+  auth_settings_v2_login = try(var.auth_settings_v2.login, local.auth_settings_v2_login_default)
 }
