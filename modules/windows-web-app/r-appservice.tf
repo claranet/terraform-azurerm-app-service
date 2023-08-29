@@ -139,7 +139,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
       forward_proxy_custom_scheme_header_name = lookup(auth_settings_v2.value, "forward_proxy_custom_scheme_header_name", null)
 
       dynamic "apple_v2" {
-        for_each = try(var.auth_settings_v2.apple_v2, null) == null ? [] : [var.auth_settings_v2.apple_v2]
+        for_each = try(var.auth_settings_v2.apple_v2[*], [])
         content {
           client_id                  = lookup(apple_v2.value, "client_id", null)
           client_secret_setting_name = lookup(apple_v2.value, "client_secret_setting_name", null)
