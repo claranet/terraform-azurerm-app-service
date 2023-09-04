@@ -183,7 +183,7 @@ No providers.
 |------|--------|---------|
 | container\_web\_app | ./modules/container-web-app | n/a |
 | linux\_web\_app | ./modules/linux-web-app | n/a |
-| service\_plan | git@git.fr.clara.net:claranet/projects/cloud/azure/terraform/modules/app-service-plan.git | AZ-1153-update-logs |
+| service\_plan | claranet/app-service-plan/azurerm | ~> 6.2.0 |
 | windows\_web\_app | ./modules/windows-web-app | n/a |
 
 ## Resources
