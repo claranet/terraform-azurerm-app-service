@@ -67,7 +67,6 @@ module "linux_web_app" {
   identity = var.identity
 
   logs_destinations_ids   = var.logs_destinations_ids
-  logs_retention_days     = var.logs_retention_days
   logs_categories         = var.logs_categories
   logs_metrics_categories = var.logs_metrics_categories
 
@@ -144,7 +143,6 @@ module "container_web_app" {
   identity = var.identity
 
   logs_destinations_ids   = var.logs_destinations_ids
-  logs_retention_days     = var.logs_retention_days
   logs_categories         = var.logs_categories
   logs_metrics_categories = var.logs_metrics_categories
 
@@ -220,7 +218,6 @@ module "windows_web_app" {
   identity = var.identity
 
   logs_destinations_ids   = var.logs_destinations_ids
-  logs_retention_days     = var.logs_retention_days
   logs_categories         = var.logs_categories
   logs_metrics_categories = var.logs_metrics_categories
 
