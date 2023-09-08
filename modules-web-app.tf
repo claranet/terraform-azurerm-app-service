@@ -110,15 +110,16 @@ module "container_web_app" {
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
 
-  custom_domains              = var.custom_domains
-  authorized_ips              = var.authorized_ips
-  ip_restriction_headers      = var.ip_restriction_headers
-  authorized_subnet_ids       = var.authorized_subnet_ids
-  authorized_service_tags     = var.authorized_service_tags
-  scm_ip_restriction_headers  = var.scm_ip_restriction_headers
-  scm_authorized_ips          = var.scm_authorized_ips
-  scm_authorized_subnet_ids   = var.scm_authorized_subnet_ids
-  scm_authorized_service_tags = var.scm_authorized_service_tags
+  custom_domains                = var.custom_domains
+  public_network_access_enabled = var.public_network_access_enabled
+  authorized_ips                = var.authorized_ips
+  ip_restriction_headers        = var.ip_restriction_headers
+  authorized_subnet_ids         = var.authorized_subnet_ids
+  authorized_service_tags       = var.authorized_service_tags
+  scm_ip_restriction_headers    = var.scm_ip_restriction_headers
+  scm_authorized_ips            = var.scm_authorized_ips
+  scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
+  scm_authorized_service_tags   = var.scm_authorized_service_tags
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
@@ -185,15 +186,16 @@ module "windows_web_app" {
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
 
-  custom_domains              = var.custom_domains
-  authorized_ips              = var.authorized_ips
-  ip_restriction_headers      = var.ip_restriction_headers
-  authorized_subnet_ids       = var.authorized_subnet_ids
-  authorized_service_tags     = var.authorized_service_tags
-  scm_ip_restriction_headers  = var.scm_ip_restriction_headers
-  scm_authorized_ips          = var.scm_authorized_ips
-  scm_authorized_subnet_ids   = var.scm_authorized_subnet_ids
-  scm_authorized_service_tags = var.scm_authorized_service_tags
+  custom_domains                = var.custom_domains
+  public_network_access_enabled = var.public_network_access_enabled
+  authorized_ips                = var.authorized_ips
+  ip_restriction_headers        = var.ip_restriction_headers
+  authorized_subnet_ids         = var.authorized_subnet_ids
+  authorized_service_tags       = var.authorized_service_tags
+  scm_ip_restriction_headers    = var.scm_ip_restriction_headers
+  scm_authorized_ips            = var.scm_authorized_ips
+  scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
+  scm_authorized_service_tags   = var.scm_authorized_service_tags
 
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 

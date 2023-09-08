@@ -1,3 +1,8 @@
+# Unreleased
+
+Fixed
+  * [GH-7](https://github.com/claranet/terraform-azurerm-app-service/pull/7): Propagate `public_network_access_enabled` variable also to windows and container modules
+
 # v7.6.0 - 2023-09-08
 
 Breaking
