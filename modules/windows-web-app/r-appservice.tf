@@ -56,7 +56,7 @@ resource "azurerm_windows_web_app" "app_service_windows" {
       scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
 
-      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
+      vnet_route_all_enabled = var.app_service_vnet_integration_enabled != null
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
@@ -270,7 +270,7 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
       scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
       scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
 
-      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
+      vnet_route_all_enabled = var.app_service_vnet_integration_enabled != null
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
@@ -429,13 +429,13 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
-  count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
+  count          = var.app_service_vnet_integration_enabled ? 1 : 0
   app_service_id = azurerm_windows_web_app.app_service_windows.id
   subnet_id      = var.app_service_vnet_integration_subnet_id
 }
 
 resource "azurerm_app_service_slot_virtual_network_swift_connection" "app_service_slot_vnet_integration" {
-  count          = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
+  count          = var.staging_slot_enabled && var.app_service_vnet_integration_enabled ? 1 : 0
   slot_name      = azurerm_windows_web_app_slot.app_service_windows_slot[0].name
   app_service_id = azurerm_windows_web_app.app_service_windows.id
   subnet_id      = var.app_service_vnet_integration_subnet_id

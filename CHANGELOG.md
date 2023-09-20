@@ -1,3 +1,8 @@
+# Unreleased
+
+Fixed
+  * [GH-8](https://github.com/claranet/terraform-azurerm-app-service/issues/8) Not Possible Associate to Vnet Subnet created via terraform
+
 # v7.6.1 - 2023-09-08
 
 Fixed

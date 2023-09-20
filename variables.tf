@@ -232,6 +232,13 @@ EOD
   default = null
 }
 
+variable "app_service_vnet_integration_enabled" {
+  description = "Allow to enable Vnet integration."
+  type        = bool
+  default     = false
+}
+
+
 variable "app_service_vnet_integration_subnet_id" {
   description = "Id of the subnet to associate with the app service"
   type        = string

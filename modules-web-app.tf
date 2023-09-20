@@ -44,6 +44,7 @@ module "linux_web_app" {
   scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
   scm_authorized_service_tags   = var.scm_authorized_service_tags
 
+  app_service_vnet_integration_enabled   = var.app_service_vnet_integration_enabled
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
   backup_enabled                   = var.backup_enabled
@@ -121,6 +122,7 @@ module "container_web_app" {
   scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
   scm_authorized_service_tags   = var.scm_authorized_service_tags
 
+  app_service_vnet_integration_enabled   = var.app_service_vnet_integration_enabled
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
   backup_enabled                   = var.backup_enabled
@@ -197,6 +199,7 @@ module "windows_web_app" {
   scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
   scm_authorized_service_tags   = var.scm_authorized_service_tags
 
+  app_service_vnet_integration_enabled   = var.app_service_vnet_integration_enabled
   app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
 
   backup_enabled                   = var.backup_enabled
