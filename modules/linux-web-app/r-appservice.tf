@@ -481,7 +481,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
       }
 
       dynamic "active_directory_v2" {
-        for_each = try(var.auth_settings_v2.active_directory_v2, null) == null ? [] : [var.auth_settings_v2.active_directory_v2]
+        for_each = try(var.auth_settings_v2.active_directory_v2[*], [])
 
         content {
           client_id                            = lookup(active_directory_v2.value, "client_id", null)
@@ -552,7 +552,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
       }
 
       dynamic "microsoft_v2" {
-        for_each = try(var.auth_settings_v2.microsoft_v2, null) == null ? [] : [var.auth_settings_v2.microsoft_v2]
+        for_each = try(var.auth_settings_v2.microsoft_v2[*], [])
         content {
           client_id                  = lookup(microsoft_v2.value, "client_id", null)
           client_secret_setting_name = lookup(microsoft_v2.value, "client_secret_setting_name", null)
@@ -562,7 +562,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
       }
 
       dynamic "twitter_v2" {
-        for_each = try(var.auth_settings_v2.twitter_v2, null) == null ? [] : [var.auth_settings_v2.twitter_v2]
+        for_each = try(var.auth_settings_v2.twitter_v2[*], [])
         content {
           consumer_key                 = lookup(twitter_v2.value, "consumer_key", null)
           consumer_secret_setting_name = lookup(twitter_v2.value, "consumer_secret_setting_name", null)
