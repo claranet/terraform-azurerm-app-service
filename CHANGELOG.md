@@ -1,4 +1,4 @@
-# Unreleased
+# v7.7.0 - 2023-09-25
 
 Added
    * [GH-5](https://github.com/claranet/terraform-azurerm-app-service/issues/5): Add Support for Auth Settings V2
