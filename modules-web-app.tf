@@ -21,6 +21,7 @@ module "linux_web_app" {
   app_settings       = var.app_settings
   site_config        = var.site_config
   auth_settings      = var.auth_settings
+  auth_settings_v2   = var.auth_settings_v2
   connection_strings = var.connection_strings
   sticky_settings    = var.sticky_settings
 
@@ -98,6 +99,7 @@ module "container_web_app" {
   app_settings       = var.app_settings
   site_config        = var.site_config
   auth_settings      = var.auth_settings
+  auth_settings_v2   = var.auth_settings_v2
   connection_strings = var.connection_strings
   sticky_settings    = var.sticky_settings
 
@@ -174,6 +176,7 @@ module "windows_web_app" {
   app_settings       = var.app_settings
   site_config        = var.site_config
   auth_settings      = var.auth_settings
+  auth_settings_v2   = var.auth_settings_v2
   connection_strings = var.connection_strings
   sticky_settings    = var.sticky_settings
 
