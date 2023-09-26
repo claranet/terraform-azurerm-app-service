@@ -1,3 +1,11 @@
+# Unreleased
+
+Changed
+  * AZ-1176: Use App Service `virtual_network_subnet_id` attribute for VNet integration instead of legacy swift resource
+
+Fixed
+  * AZ-1176: Fix public exposition for app service slots
+
 # v7.7.0 - 2023-09-25
 
 Added
