@@ -331,7 +331,6 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   lifecycle {
     ignore_changes = [
       backup[0].storage_account_url,
-      virtual_network_subnet_id,
     ]
   }
 }
@@ -640,12 +639,6 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
   }
 
   tags = merge(local.default_tags, var.extra_tags)
-
-  lifecycle {
-    ignore_changes = [
-      virtual_network_subnet_id,
-    ]
-  }
 }
 
 resource "azurerm_app_service_certificate" "app_service_certificate" {
