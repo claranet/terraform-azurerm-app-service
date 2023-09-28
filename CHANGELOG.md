@@ -1,3 +1,8 @@
+# Unreleased
+
+Fixed
+  * Fix variable `auth_settings_v2` null value error
+
 # v7.8.0 - 2023-10-10
 
 Changed
