@@ -679,3 +679,16 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
   ssl_state           = lookup(each.value, "certificate_name", null) != null || lookup(each.value, "certificate_thumbprint", null) != null ? "SniEnabled" : null
   thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.app_service_certificate[each.value.certificate_name].thumbprint : null
 }
+
+resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
+  count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
+  app_service_id = azurerm_windows_web_app.app_service_windows.id
+  subnet_id      = var.app_service_vnet_integration_subnet_id
+}
+
+resource "azurerm_app_service_slot_virtual_network_swift_connection" "app_service_slot_vnet_integration" {
+  count          = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
+  slot_name      = azurerm_windows_web_app_slot.app_service_windows_slot[0].name
+  app_service_id = azurerm_windows_web_app.app_service_windows.id
+  subnet_id      = var.app_service_vnet_integration_subnet_id
+}
