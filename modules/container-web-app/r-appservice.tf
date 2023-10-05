@@ -643,25 +643,22 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
 }
 
 resource "azurerm_app_service_certificate" "app_service_certificate" {
-  for_each = var.custom_domains != null ? {
-    for k, v in var.custom_domains :
-    k => v if try(v.certificate_id == null, false)
-  } : {}
+  for_each = var.certificates
 
-  name                = each.value.certificate_file != null ? basename(each.value.certificate_file) : split("/", each.value.certificate_keyvault_certificate_id)[4]
+  name                = lookup(each.value, "custom_name", each.key)
   resource_group_name = var.resource_group_name
   location            = var.location
   pfx_blob            = each.value.certificate_file != null ? filebase64(each.value.certificate_file) : null
   password            = each.value.certificate_password
-  key_vault_secret_id = each.value.certificate_keyvault_certificate_id
+  key_vault_secret_id = try(each.value.certificate_keyvault_certificate_id, null)
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
-  for_each = toset(var.custom_domains != null ? keys(var.custom_domains) : [])
+  for_each = var.custom_domains
 
   hostname            = each.key
   app_service_name    = azurerm_linux_web_app.app_service_linux_container.name
   resource_group_name = var.resource_group_name
-  ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? "SniEnabled" : null
-  thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : try(data.azurerm_app_service_certificate.certificate[each.key].thumbprint, null)
+  ssl_state           = lookup(each.value, "certificate_name", null) != null || lookup(each.value, "certificate_thumbprint", null) != null ? "SniEnabled" : null
+  thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.app_service_certificate[each.value.certificate_name].thumbprint : null
 }

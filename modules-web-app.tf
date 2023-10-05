@@ -34,7 +34,9 @@ module "linux_web_app" {
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
 
-  custom_domains                = var.custom_domains
+  custom_domains = var.custom_domains
+  certificates   = var.certificates
+
   public_network_access_enabled = var.public_network_access_enabled
   authorized_ips                = var.authorized_ips
   ip_restriction_headers        = var.ip_restriction_headers
@@ -112,7 +114,9 @@ module "container_web_app" {
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
 
-  custom_domains                = var.custom_domains
+  custom_domains = var.custom_domains
+  certificates   = var.certificates
+
   public_network_access_enabled = var.public_network_access_enabled
   authorized_ips                = var.authorized_ips
   ip_restriction_headers        = var.ip_restriction_headers
@@ -189,7 +193,9 @@ module "windows_web_app" {
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
 
-  custom_domains                = var.custom_domains
+  custom_domains = var.custom_domains
+  certificates   = var.certificates
+
   public_network_access_enabled = var.public_network_access_enabled
   authorized_ips                = var.authorized_ips
   ip_restriction_headers        = var.ip_restriction_headers
