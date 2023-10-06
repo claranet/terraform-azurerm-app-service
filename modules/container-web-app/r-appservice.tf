@@ -5,6 +5,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   service_plan_id     = var.service_plan_id
 
   public_network_access_enabled = var.public_network_access_enabled
+  virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
 
   dynamic "site_config" {
     for_each = [local.site_config]
@@ -330,7 +331,6 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   lifecycle {
     ignore_changes = [
       backup[0].storage_account_url,
-      virtual_network_subnet_id,
     ]
   }
 }
@@ -340,6 +340,9 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
 
   name           = local.staging_slot_name
   app_service_id = azurerm_linux_web_app.app_service_linux_container.id
+
+  public_network_access_enabled = var.public_network_access_enabled
+  virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
 
   dynamic "site_config" {
     for_each = [local.site_config]
@@ -636,12 +639,6 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_container_slot" {
   }
 
   tags = merge(local.default_tags, var.extra_tags)
-
-  lifecycle {
-    ignore_changes = [
-      virtual_network_subnet_id,
-    ]
-  }
 }
 
 resource "azurerm_app_service_certificate" "app_service_certificate" {
@@ -666,17 +663,4 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
   resource_group_name = var.resource_group_name
   ssl_state           = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? "SniEnabled" : null
   thumbprint          = lookup(azurerm_app_service_certificate.app_service_certificate, each.key, null) != null ? azurerm_app_service_certificate.app_service_certificate[each.key].thumbprint : try(data.azurerm_app_service_certificate.certificate[each.key].thumbprint, null)
-}
-
-resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
-  count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
-  app_service_id = azurerm_linux_web_app.app_service_linux_container.id
-  subnet_id      = var.app_service_vnet_integration_subnet_id
-}
-
-resource "azurerm_app_service_slot_virtual_network_swift_connection" "app_service_slot_vnet_integration" {
-  count          = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
-  slot_name      = azurerm_linux_web_app_slot.app_service_linux_container_slot[0].name
-  app_service_id = azurerm_linux_web_app.app_service_linux_container.id
-  subnet_id      = var.app_service_vnet_integration_subnet_id
 }
