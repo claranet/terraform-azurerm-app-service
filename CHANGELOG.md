@@ -1,4 +1,4 @@
-# Unreleased
+# v7.8.0 - 2023-10-10
 
 Changed
   * AZ-1176: Use App Service `virtual_network_subnet_id` attribute for VNet integration instead of legacy swift resource
