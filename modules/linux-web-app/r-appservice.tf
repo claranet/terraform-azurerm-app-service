@@ -124,7 +124,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
   }
 
   dynamic "auth_settings_v2" {
-    for_each = lookup(var.auth_settings_v2, "auth_enabled", false) ? [var.auth_settings_v2] : []
+    for_each = lookup(local.auth_settings_v2, "auth_enabled", false) ? [local.auth_settings_v2] : []
     content {
       auth_enabled                            = lookup(auth_settings_v2.value, "auth_enabled", false)
       runtime_version                         = lookup(auth_settings_v2.value, "runtime_version", "~1")
@@ -140,7 +140,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       forward_proxy_custom_scheme_header_name = lookup(auth_settings_v2.value, "forward_proxy_custom_scheme_header_name", null)
 
       dynamic "apple_v2" {
-        for_each = try(var.auth_settings_v2.apple_v2[*], [])
+        for_each = try(local.auth_settings_v2.apple_v2[*], [])
         content {
           client_id                  = lookup(apple_v2.value, "client_id", null)
           client_secret_setting_name = lookup(apple_v2.value, "client_secret_setting_name", null)
@@ -148,7 +148,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "active_directory_v2" {
-        for_each = try(var.auth_settings_v2.active_directory_v2[*], [])
+        for_each = try(local.auth_settings_v2.active_directory_v2[*], [])
 
         content {
           client_id                            = lookup(active_directory_v2.value, "client_id", null)
@@ -166,14 +166,14 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "azure_static_web_app_v2" {
-        for_each = try(var.auth_settings_v2.azure_static_web_app_v2[*], [])
+        for_each = try(local.auth_settings_v2.azure_static_web_app_v2[*], [])
         content {
           client_id = lookup(azure_static_web_app_v2.value, "client_id", null)
         }
       }
 
       dynamic "custom_oidc_v2" {
-        for_each = try(var.auth_settings_v2.custom_oidc_v2[*], [])
+        for_each = try(local.auth_settings_v2.custom_oidc_v2[*], [])
         content {
           name                          = lookup(custom_oidc_v2.value, "name", null)
           client_id                     = lookup(custom_oidc_v2.value, "client_id", null)
@@ -190,7 +190,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "facebook_v2" {
-        for_each = try(var.auth_settings_v2.facebook_v2[*], [])
+        for_each = try(local.auth_settings_v2.facebook_v2[*], [])
         content {
           app_id                  = lookup(facebook_v2.value, "app_id", null)
           app_secret_setting_name = lookup(facebook_v2.value, "app_secret_setting_name", null)
@@ -200,7 +200,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "github_v2" {
-        for_each = try(var.auth_settings_v2.github_v2[*], [])
+        for_each = try(local.auth_settings_v2.github_v2[*], [])
         content {
           client_id                  = lookup(github_v2.value, "client_id", null)
           client_secret_setting_name = lookup(github_v2.value, "client_secret_setting_name", null)
@@ -209,7 +209,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "google_v2" {
-        for_each = try(var.auth_settings_v2.google_v2[*], [])
+        for_each = try(local.auth_settings_v2.google_v2[*], [])
         content {
           client_id                  = lookup(google_v2.value, "client_id", null)
           client_secret_setting_name = lookup(google_v2.value, "client_secret_setting_name", null)
@@ -219,7 +219,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "microsoft_v2" {
-        for_each = try(var.auth_settings_v2.microsoft_v2[*], [])
+        for_each = try(local.auth_settings_v2.microsoft_v2[*], [])
         content {
           client_id                  = lookup(microsoft_v2.value, "client_id", null)
           client_secret_setting_name = lookup(microsoft_v2.value, "client_secret_setting_name", null)
@@ -229,7 +229,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "twitter_v2" {
-        for_each = try(var.auth_settings_v2.twitter_v2[*], [])
+        for_each = try(local.auth_settings_v2.twitter_v2[*], [])
         content {
           consumer_key                 = lookup(twitter_v2.value, "consumer_key", null)
           consumer_secret_setting_name = lookup(twitter_v2.value, "consumer_secret_setting_name", null)

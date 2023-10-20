@@ -119,6 +119,10 @@ locals {
     allowed_audiences = []
   }
 
+  auth_settings_v2 = merge({
+    auth_enabled = false
+  }, var.auth_settings_v2)
+
   auth_settings_v2_login_default = {
     token_store_enabled               = false
     token_refresh_extension_time      = 72
