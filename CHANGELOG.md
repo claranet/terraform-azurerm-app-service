@@ -1,7 +1,7 @@
-# Unreleased
+# v7.8.1 - 2023-10-20
 
 Fixed
-  * Fix variable `auth_settings_v2` null value error
+  * [GH-11](https://github.com/claranet/terraform-azurerm-app-service/pull/11): Fix variable `auth_settings_v2` null value error
 
 # v7.8.0 - 2023-10-10
 
