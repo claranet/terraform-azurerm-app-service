@@ -7,6 +7,9 @@ Added
   * AZ-1203: Handle wildcard certificates
   * AZ-1249: Add slot settings
 
+Changed
+  * AZ-1246: Cleanup deprecated attributes
+
 # v7.8.1 - 2023-10-20
 
 Fixed

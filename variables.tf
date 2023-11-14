@@ -262,9 +262,12 @@ variable "staging_slot_custom_app_settings" {
 variable "docker_image" {
   description = "Docker image to use for this App Service"
   type = object({
-    name     = string
-    tag      = string
-    slot_tag = optional(string)
+    registry          = string
+    name              = string
+    tag               = string
+    registry_username = optional(string)
+    registry_password = optional(string)
+    slot_tag          = optional(string)
   })
   default = null
 }
