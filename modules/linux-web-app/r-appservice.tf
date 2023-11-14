@@ -247,6 +247,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
         token_store_sas_setting_name      = lookup(local.auth_settings_v2_login, "token_store_sas_setting_name", null)
         validate_nonce                    = lookup(local.auth_settings_v2_login, "validate_nonce", true)
         nonce_expiration_time             = lookup(local.auth_settings_v2_login, "nonce_expiration_time", "00:05:00")
+        allowed_external_redirect_urls    = lookup(local.auth_settings_v2_login, "allowed_external_redirect_urls", null)
       }
     }
   }
@@ -583,6 +584,7 @@ resource "azurerm_linux_web_app_slot" "app_service_linux_slot" {
         token_store_sas_setting_name      = lookup(local.auth_settings_v2_login, "token_store_sas_setting_name", null)
         validate_nonce                    = lookup(local.auth_settings_v2_login, "validate_nonce", true)
         nonce_expiration_time             = lookup(local.auth_settings_v2_login, "nonce_expiration_time", "00:05:00")
+        allowed_external_redirect_urls    = lookup(local.auth_settings_v2_login, "allowed_external_redirect_urls", null)
       }
     }
   }
