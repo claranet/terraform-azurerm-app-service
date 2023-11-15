@@ -86,8 +86,6 @@ module "container_web_app" {
   }
 
   site_config = {
-    # This parameter should be managed by the AzureRM provider in recent version
-    # linux_fx_version = "DOCKER|myacr.azurecr.io/myrepository/image:tag"
     http2_enabled = true
 
     # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
