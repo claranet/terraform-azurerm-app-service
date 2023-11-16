@@ -303,3 +303,15 @@ variable "identity" {
     identity_ids = []
   }
 }
+
+variable "staging_slot_site_config" {
+  description = "Staging slot site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config."
+  type        = any
+  default     = {}
+}
+
+variable "staging_slot_connection_strings" {
+  description = "Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string"
+  type        = list(map(string))
+  default     = []
+}

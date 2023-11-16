@@ -354,7 +354,7 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
   virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
 
   dynamic "site_config" {
-    for_each = [local.site_config]
+    for_each = [local.staging_slot_site_config]
     content {
       windows_fx_version = lookup(site_config.value, "windows_fx_version", null)
 
@@ -431,7 +431,7 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
   app_settings = var.staging_slot_custom_app_settings == null ? local.app_settings : merge(local.default_app_settings, var.staging_slot_custom_app_settings)
 
   dynamic "connection_string" {
-    for_each = var.connection_strings
+    for_each = local.staging_connection_strings
     content {
       name  = lookup(connection_string.value, "name", null)
       type  = lookup(connection_string.value, "type", null)
