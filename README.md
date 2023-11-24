@@ -270,6 +270,7 @@ No resources.
 | app\_service\_windows | App Service Windows (Windows WebApp) output object if Windows is choosen. Please refer to `./modules/windows-web-app/README.md` |
 | service\_plan | Service Plan output object. Please refer to https://github.com/claranet/terraform-azurerm-app-service-plan/blob/master/README.md#outputs |
 <!-- END_TF_DOCS -->
+
 ## Related documentation
 
 Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/app-service/overview](https://docs.microsoft.com/en-us/azure/app-service/overview)
