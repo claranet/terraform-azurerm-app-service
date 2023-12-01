@@ -354,7 +354,7 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
   virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
 
   dynamic "site_config" {
-    for_each = [local.site_config]
+    for_each = [local.staging_slot_site_config]
     content {
       windows_fx_version = lookup(site_config.value, "windows_fx_version", null)
 
@@ -431,7 +431,7 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
   app_settings = var.staging_slot_custom_app_settings == null ? local.app_settings : merge(local.default_app_settings, var.staging_slot_custom_app_settings)
 
   dynamic "connection_string" {
-    for_each = var.connection_strings
+    for_each = local.staging_connection_strings
     content {
       name  = lookup(connection_string.value, "name", null)
       type  = lookup(connection_string.value, "type", null)
@@ -678,4 +678,17 @@ resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostn
   resource_group_name = var.resource_group_name
   ssl_state           = lookup(each.value, "certificate_name", null) != null || lookup(each.value, "certificate_thumbprint", null) != null ? "SniEnabled" : null
   thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.app_service_certificate[each.value.certificate_name].thumbprint : null
+}
+
+resource "azurerm_app_service_virtual_network_swift_connection" "app_service_vnet_integration" {
+  count          = var.app_service_vnet_integration_subnet_id == null ? 0 : 1
+  app_service_id = azurerm_windows_web_app.app_service_windows.id
+  subnet_id      = var.app_service_vnet_integration_subnet_id
+}
+
+resource "azurerm_app_service_slot_virtual_network_swift_connection" "app_service_slot_vnet_integration" {
+  count          = var.staging_slot_enabled && var.app_service_vnet_integration_subnet_id != null ? 1 : 0
+  slot_name      = azurerm_windows_web_app_slot.app_service_windows_slot[0].name
+  app_service_id = azurerm_windows_web_app.app_service_windows.id
+  subnet_id      = var.app_service_vnet_integration_subnet_id
 }

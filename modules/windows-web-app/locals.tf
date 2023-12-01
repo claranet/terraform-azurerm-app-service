@@ -4,7 +4,12 @@ locals {
     scm_minimum_tls_version = "1.2"
   }
 
-  site_config = merge(local.default_site_config, var.site_config)
+  site_config              = merge(local.default_site_config, var.site_config)
+  staging_slot_site_config = merge(local.default_site_config, var.site_config, var.staging_slot_site_config)
+
+  connection_string_map         = { for i in var.connection_strings : i.name => i }
+  staging_connection_string_map = { for i in var.staging_slot_connection_strings : i.name => i }
+  staging_connection_strings    = values(merge(local.connection_string_map, local.staging_connection_string_map))
 
   app_service_id = "/subscriptions/${data.azurerm_subscription.current_subscription.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Web/sites/${local.app_service_name}"
 
