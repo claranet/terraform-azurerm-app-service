@@ -223,19 +223,22 @@ variable "custom_domains" {
   description = <<EOD
 Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file with following attributes :
 ```
-- certificate_file:                     Path of the certificate file.
-- certificate_password:                 Certificate password.
+- certificate_name:                     Name of the stored certificate.
 - certificate_keyvault_certificate_id:  ID of the Azure Keyvault Certificate Secret.
-- certificate_id:                       ID of an existant certificate.
 ```
 EOD
   type = map(object({
-    certificate_file                    = optional(string)
-    certificate_password                = optional(string)
+    certificate_name                    = optional(string)
     certificate_keyvault_certificate_id = optional(string)
-    certificate_id                      = optional(string)
+    certificate_thumbprint              = optional(string)
   }))
   default = null
+}
+
+variable "certificates" {
+  description = "Certificates for custom domains"
+  type        = map(map(string))
+  default     = {}
 }
 
 variable "app_service_vnet_integration_subnet_id" {

@@ -3,6 +3,9 @@
 Fixed
   * AZ-1246: Fix `auth_settings_v2` block/options
 
+Added
+  * AZ-1203: Handle wildcard certificates
+
 # v7.8.1 - 2023-10-20
 
 Fixed
