@@ -1,4 +1,4 @@
-# Unreleased
+# v7.9.0 - 2023-12-08
 
 Fixed
   * AZ-1246: Fix `auth_settings_v2` block/options
