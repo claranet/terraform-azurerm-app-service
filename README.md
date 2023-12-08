@@ -175,7 +175,9 @@ module "app_service" {
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| null | ~> 3.0 |
 
 ## Modules
 
@@ -188,7 +190,9 @@ No providers.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [null_resource.fake_webapp_container_condition](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 
 ## Inputs
 
@@ -226,7 +230,7 @@ No resources.
 | custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file with following attributes :<pre>- certificate_name:                     Name of the stored certificate.<br>- certificate_keyvault_certificate_id:  ID of the Azure Keyvault Certificate Secret.</pre> | <pre>map(object({<br>    certificate_name                    = optional(string)<br>    certificate_keyvault_certificate_id = optional(string)<br>    certificate_thumbprint              = optional(string)<br>  }))</pre> | `null` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
-| docker\_image | Docker image to use for this App Service | <pre>object({<br>    name     = string<br>    tag      = string<br>    slot_tag = optional(string)<br>  })</pre> | `null` | no |
+| docker\_image | Docker image to use for this App Service | <pre>object({<br>    registry          = string<br>    name              = string<br>    tag               = string<br>    registry_username = optional(string)<br>    registry_password = optional(string)<br>    slot_tag          = optional(string)<br>  })</pre> | `null` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `bool` | `false` | no |

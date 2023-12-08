@@ -77,6 +77,21 @@ module "linux_web_app" {
   extra_tags           = var.extra_tags
 }
 
+resource "null_resource" "fake_webapp_container_condition" {
+  count = lower(var.os_type) == "container" ? 1 : 0
+
+  triggers = {
+    webapp_type = var.os_type
+  }
+
+  lifecycle {
+    precondition {
+      condition     = var.docker_image != null
+      error_message = "Variable `docker_image` must be set when `os_type` App Service variable is in 'container' mode."
+    }
+  }
+}
+
 module "container_web_app" {
   for_each = toset(lower(var.os_type) == "container" ? ["enabled"] : [])
 
