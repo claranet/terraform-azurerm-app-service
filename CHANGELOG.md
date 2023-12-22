@@ -1,4 +1,4 @@
-# Unreleased
+# v7.9.1 - 2023-12-22
 
 Fixed
   * AZ-1246: Fix failed git rebase
