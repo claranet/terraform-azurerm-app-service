@@ -16,8 +16,8 @@ module "service_plan" {
   custom_name                     = var.service_plan_custom_name
   custom_diagnostic_settings_name = var.custom_diagnostic_settings_name
 
-  os_type  = lower(var.os_type) == "container" ? "Linux" : var.os_type
-  sku_name = var.sku_name
+  os_type                = lower(var.os_type) == "container" ? "Linux" : var.os_type
+  sku_name               = var.sku_name
   zone_balancing_enabled = var.zone_balancing_enabled
 
   app_service_environment_id   = var.app_service_environment_id
