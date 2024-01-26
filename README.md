@@ -185,7 +185,7 @@ module "app_service" {
 |------|--------|---------|
 | container\_web\_app | ./modules/container-web-app | n/a |
 | linux\_web\_app | ./modules/linux-web-app | n/a |
-| service\_plan | claranet/app-service-plan/azurerm | ~> 6.2.0 |
+| service\_plan | claranet/app-service-plan/azurerm | ~> 6.4.0 |
 | windows\_web\_app | ./modules/windows-web-app | n/a |
 
 ## Resources
@@ -256,7 +256,7 @@ module "app_service" {
 | service\_plan\_custom\_name | Name of the App Service Plan, generated if not set. | `string` | `""` | no |
 | service\_plan\_extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
 | site\_config | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block. | `any` | `{}` | no |
-| sku\_name | The SKU for the plan. Possible values include B1, B2, B3, D1, F1, FREE, I1, I2, I3, I1v2, I2v2, I3v2, P1v2, P2v2, P3v2, P1v3, P2v3, P3v3, S1, S2, S3, SHARED, EP1, EP2, EP3, WS1, WS2, and WS3. | `string` | n/a | yes |
+| sku\_name | The SKU for the plan. Possible values include B1, B2, B3, D1, F1, FREE, I1, I2, I3, I1v2, I2v2, I3v2, P1v2, P2v2, P3v2, P0v3, P1v3, P2v3, P3v3, S1, S2, S3, SHARED, Y1, EP1, EP2, EP3, WS1, WS2, and WS3. | `string` | n/a | yes |
 | stack | Project stack name | `string` | n/a | yes |
 | staging\_slot\_custom\_app\_settings | Override staging slot with custom app settings | `map(string)` | `null` | no |
 | staging\_slot\_custom\_name | Custom name of the app service slot | `string` | `null` | no |
@@ -264,6 +264,7 @@ module "app_service" {
 | sticky\_settings | Lists of connection strings and app settings to prevent from swapping between slots. | <pre>object({<br>    app_setting_names       = optional(list(string))<br>    connection_string_names = optional(list(string))<br>  })</pre> | `null` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | worker\_count | The number of Workers (instances) to be allocated. | `number` | `null` | no |
+| zone\_balancing\_enabled | Should the Service Plan balance across Availability Zones in the region. | `bool` | `true` | no |
 
 ## Outputs
 

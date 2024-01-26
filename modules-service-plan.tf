@@ -1,7 +1,7 @@
 # Service Plan
 module "service_plan" {
   source  = "claranet/app-service-plan/azurerm"
-  version = "~> 6.2.0"
+  version = "~> 6.4.0"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -16,8 +16,9 @@ module "service_plan" {
   custom_name                     = var.service_plan_custom_name
   custom_diagnostic_settings_name = var.custom_diagnostic_settings_name
 
-  os_type  = lower(var.os_type) == "container" ? "Linux" : var.os_type
-  sku_name = var.sku_name
+  os_type                = lower(var.os_type) == "container" ? "Linux" : var.os_type
+  sku_name               = var.sku_name
+  zone_balancing_enabled = var.zone_balancing_enabled
 
   app_service_environment_id   = var.app_service_environment_id
   worker_count                 = var.worker_count
