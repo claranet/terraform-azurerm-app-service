@@ -1,4 +1,4 @@
-# Unreleased
+# v7.9.2 - 2024-01-26
 
 Changed
   * [GH-15](https://github.com/claranet/terraform-azurerm-app-service/pull/15): Bump service-plan module to `v6.4.0`
