@@ -207,9 +207,39 @@ variable "backup_storage_account_container" {
 }
 
 variable "mount_points" {
-  description = "Storage Account mount points. Name is generated if not set and default type is AzureFiles. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account"
-  type        = list(map(string))
-  default     = []
+  description = "Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account"
+  type = list(object({
+    name         = optional(string)
+    type         = optional(string, "AzureFiles")
+    account_name = string
+    share_name   = string
+    access_key   = string
+    mount_path   = optional(string)
+  }))
+  validation {
+    condition     = alltrue([for m in var.mount_points : m.type == null || contains(["AzureBlob", "AzureFiles"], m.type)])
+    error_message = "The `type` attribute of `var.mount_points` object list must be `AzureBlob` or `AzureFiles`."
+  }
+  default  = []
+  nullable = false
+}
+
+variable "staging_slot_mount_points" {
+  description = "Storage Account mount points for Staging slot. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account"
+  type = list(object({
+    name         = optional(string)
+    type         = optional(string, "AzureFiles")
+    account_name = string
+    share_name   = string
+    access_key   = string
+    mount_path   = optional(string)
+  }))
+  validation {
+    condition     = alltrue([for m in var.staging_slot_mount_points : m.type == null || contains(["AzureBlob", "AzureFiles"], m.type)])
+    error_message = "The `type` attribute of `var.staging_slot_mount_points` object list must be `AzureBlob` or `AzureFiles`."
+  }
+  default  = []
+  nullable = false
 }
 
 variable "auth_settings" {
