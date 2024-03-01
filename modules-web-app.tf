@@ -26,6 +26,7 @@ module "linux_web_app" {
   sticky_settings    = var.sticky_settings
 
   mount_points               = var.mount_points
+  staging_slot_mount_points  = var.staging_slot_mount_points
   client_affinity_enabled    = var.client_affinity_enabled
   https_only                 = var.https_only
   client_certificate_enabled = var.client_certificate_enabled
@@ -121,6 +122,7 @@ module "container_web_app" {
   sticky_settings    = var.sticky_settings
 
   mount_points               = var.mount_points
+  staging_slot_mount_points  = var.staging_slot_mount_points
   client_affinity_enabled    = var.client_affinity_enabled
   https_only                 = var.https_only
   client_certificate_enabled = var.client_certificate_enabled
@@ -200,6 +202,7 @@ module "windows_web_app" {
   sticky_settings    = var.sticky_settings
 
   mount_points               = var.mount_points
+  staging_slot_mount_points  = var.staging_slot_mount_points
   client_affinity_enabled    = var.client_affinity_enabled
   https_only                 = var.https_only
   client_certificate_enabled = var.client_certificate_enabled

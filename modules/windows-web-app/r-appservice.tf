@@ -281,14 +281,15 @@ resource "azurerm_windows_web_app" "app_service_windows" {
   }
 
   dynamic "storage_account" {
-    for_each = var.mount_points
+    for_each = length(var.staging_slot_mount_points) > 0 ? var.staging_slot_mount_points : var.mount_points
+    iterator = mp
     content {
-      name         = lookup(storage_account.value, "name", format("%s-%s", storage_account.value["account_name"], storage_account.value["share_name"]))
-      type         = lookup(storage_account.value, "type", "AzureFiles")
-      account_name = lookup(storage_account.value, "account_name", null)
-      share_name   = lookup(storage_account.value, "share_name", null)
-      access_key   = lookup(storage_account.value, "access_key", null)
-      mount_path   = lookup(storage_account.value, "mount_path", null)
+      name         = coalesce(mp.value.name, format("%s-%s", mp.value.account_name, mp.value.share_name))
+      type         = mp.value.type
+      account_name = mp.value.account_name
+      share_name   = mp.value.share_name
+      access_key   = mp.value.access_key
+      mount_path   = mp.value.mount_path
     }
   }
 
@@ -604,13 +605,14 @@ resource "azurerm_windows_web_app_slot" "app_service_windows_slot" {
 
   dynamic "storage_account" {
     for_each = var.mount_points
+    iterator = mp
     content {
-      name         = lookup(storage_account.value, "name", format("%s-%s", storage_account.value["account_name"], storage_account.value["share_name"]))
-      type         = lookup(storage_account.value, "type", "AzureFiles")
-      account_name = lookup(storage_account.value, "account_name", null)
-      share_name   = lookup(storage_account.value, "share_name", null)
-      access_key   = lookup(storage_account.value, "access_key", null)
-      mount_path   = lookup(storage_account.value, "mount_path", null)
+      name         = coalesce(mp.value.name, format("%s-%s", mp.value.account_name, mp.value.share_name))
+      type         = mp.value.type
+      account_name = mp.value.account_name
+      share_name   = mp.value.share_name
+      access_key   = mp.value.access_key
+      mount_path   = mp.value.mount_path
     }
   }
 
