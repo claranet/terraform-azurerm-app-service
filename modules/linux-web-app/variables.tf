@@ -217,7 +217,7 @@ variable "mount_points" {
     mount_path   = optional(string)
   }))
   validation {
-    condition     = alltrue([for m in var.mount_points : m.type == null || contains(["AzureBlob", "AzureFiles"], m.type)])
+    condition     = alltrue([for m in var.mount_points : contains(["AzureBlob", "AzureFiles"], m.type)])
     error_message = "The `type` attribute of `var.mount_points` object list must be `AzureBlob` or `AzureFiles`."
   }
   default  = []
@@ -235,7 +235,7 @@ variable "staging_slot_mount_points" {
     mount_path   = optional(string)
   }))
   validation {
-    condition     = alltrue([for m in var.staging_slot_mount_points : m.type == null || contains(["AzureBlob", "AzureFiles"], m.type)])
+    condition     = alltrue([for m in var.staging_slot_mount_points : contains(["AzureBlob", "AzureFiles"], m.type)])
     error_message = "The `type` attribute of `var.staging_slot_mount_points` object list must be `AzureBlob` or `AzureFiles`."
   }
   default  = []
