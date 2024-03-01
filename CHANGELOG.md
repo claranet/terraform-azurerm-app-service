@@ -1,4 +1,4 @@
-# Unreleased
+# v7.10.0 - 2024-03-01
 
 Changed
   * AZ-1360: improve `mount_points` variable, support `staging_slot_mount_points` for slot
