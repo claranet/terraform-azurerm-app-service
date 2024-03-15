@@ -183,14 +183,8 @@ variable "backup_keep_at_least_one_backup" {
   default     = true
 }
 
-variable "backup_storage_account_rg" {
-  description = "Storage account resource group to use if App Service backup is enabled."
-  type        = string
-  default     = null
-}
-
-variable "backup_storage_account_name" {
-  description = "Storage account name to use if App Service backup is enabled."
+variable "backup_storage_account_connection_string" {
+  description = "Storage account connection string to use if App Service backup is enabled."
   type        = string
   default     = null
 }

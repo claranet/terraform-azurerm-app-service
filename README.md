@@ -219,9 +219,8 @@ module "app_service" {
 | backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are `Day` or `Hour`. | `string` | `"Day"` | no |
 | backup\_keep\_at\_least\_one\_backup | Should the service keep at least one backup, regardless of age of backup. | `bool` | `true` | no |
 | backup\_retention\_period\_in\_days | Retention in days for the App Service backup. | `number` | `30` | no |
+| backup\_storage\_account\_connection\_string | Storage account connection string to use if App Service backup is enabled. | `string` | `null` | no |
 | backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled | `string` | `"webapps"` | no |
-| backup\_storage\_account\_name | Storage account name to use if App Service backup is enabled. | `string` | `null` | no |
-| backup\_storage\_account\_rg | Storage account resource group to use if App Service backup is enabled. | `string` | `null` | no |
 | certificates | Certificates for custom domains | `map(map(string))` | `{}` | no |
 | client\_affinity\_enabled | Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled | `bool` | `false` | no |
 | client\_certificate\_enabled | Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_certificate_enabled | `bool` | `false` | no |

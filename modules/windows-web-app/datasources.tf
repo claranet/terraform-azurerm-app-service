@@ -12,10 +12,10 @@ data "azurerm_application_insights" "app_insights" {
 
 module "backup_sas_token" {
   source  = "claranet/storage-sas-token/azurerm"
-  version = "2.0.0"
+  version = "4.2.0"
 
-  enabled              = var.backup_enabled
-  resource_group_name  = var.backup_storage_account_rg
-  storage_account_name = var.backup_storage_account_name
-  storage_container    = var.backup_storage_account_container
+  count = var.backup_enabled ? 1 : 0
+
+  storage_account_connection_string = var.backup_storage_account_connection_string
+  storage_container                 = var.backup_storage_account_container
 }
