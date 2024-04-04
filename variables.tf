@@ -28,30 +28,6 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "application_insights_sampling_percentage" {
-  description = "Specifies the percentage of sampled datas for Application Insights. Documentation [here](https://docs.microsoft.com/en-us/azure/azure-monitor/app/sampling#ingestion-sampling)"
-  type        = number
-  default     = null
-}
-
-variable "application_insights_id" {
-  description = "ID of the existing Application Insights to use instead of deploying a new one."
-  type        = string
-  default     = null
-}
-
-variable "application_insights_enabled" {
-  description = "Use Application Insights for this App Service"
-  type        = bool
-  default     = true
-}
-
-variable "application_insights_type" {
-  description = "Application type for Application Insights resource"
-  type        = string
-  default     = "web"
-}
-
 variable "app_settings" {
   description = "Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings"
   type        = map(string)
