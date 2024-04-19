@@ -1,3 +1,22 @@
+## 7.11.0 (2024-04-19)
+
+
+### Features
+
+* **AZ-1362:** add log analytics precondition and parameters 5b5ad4f
+
+
+### Continuous Integration
+
+* **AZ-1391:** enable semantic-release [skip ci] 1a7c33c
+
+
+### Miscellaneous Chores
+
+* **deps:** add renovate.json b5a394c
+* **deps:** update renovate.json 8358e55
+* **deps:** update terraform claranet/storage-sas-token/azurerm to v4 ac5ab2f
+
 # v7.10.0 - 2024-03-01
 
 Changed
