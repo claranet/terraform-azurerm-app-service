@@ -1,3 +1,39 @@
+## 7.12.0 (2024-06-14)
+
+
+### Features
+
+* upgrade `service-plan` module to `v7.0` 5656d20
+
+
+### Continuous Integration
+
+* **AZ-1391:** update semantic-release config [skip ci] 66a5c46
+
+
+### Miscellaneous Chores
+
+* **deps:** enable automerge on renovate 501e3dd
+* **deps:** update dependency opentofu to v1.7.0 9867572
+* **deps:** update dependency opentofu to v1.7.1 a5426db
+* **deps:** update dependency opentofu to v1.7.2 de038f7
+* **deps:** update dependency pre-commit to v3.7.1 7c56ae8
+* **deps:** update dependency terraform-docs to v0.18.0 584524e
+* **deps:** update dependency tflint to v0.51.0 8778217
+* **deps:** update dependency tflint to v0.51.1 877080a
+* **deps:** update dependency trivy to v0.50.2 0213414
+* **deps:** update dependency trivy to v0.50.4 1465250
+* **deps:** update dependency trivy to v0.51.0 9e19566
+* **deps:** update dependency trivy to v0.51.1 d339832
+* **deps:** update dependency trivy to v0.51.2 06fb91b
+* **deps:** update dependency trivy to v0.51.3 392098f
+* **deps:** update dependency trivy to v0.51.4 ed70baf
+* **deps:** update dependency trivy to v0.52.0 dd5081c
+* **deps:** update dependency trivy to v0.52.1 a6164aa
+* **deps:** update terraform claranet/app-service-plan/azurerm to ~> 6.5.0 a0be2bf
+* **pre-commit:** update commitlint hook ae5f684
+* **release:** remove legacy `VERSION` file fb9ee68
+
 ## 7.11.0 (2024-04-19)
 
 
