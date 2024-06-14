@@ -187,7 +187,7 @@ module "app_service" {
 |------|--------|---------|
 | container\_web\_app | ./modules/container-web-app | n/a |
 | linux\_web\_app | ./modules/linux-web-app | n/a |
-| service\_plan | claranet/app-service-plan/azurerm | ~> 6.5.0 |
+| service\_plan | claranet/app-service-plan/azurerm | ~> 7.0.0 |
 | windows\_web\_app | ./modules/windows-web-app | n/a |
 
 ## Resources
