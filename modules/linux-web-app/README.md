@@ -204,7 +204,7 @@ module "linux_web_app" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| backup\_sas\_token | claranet/storage-sas-token/azurerm | 4.2.0 |
+| backup\_sas\_token | claranet/storage-sas-token/azurerm | 7.0.0 |
 | diagnostics | claranet/diagnostic-settings/azurerm | ~> 6.5.0 |
 
 ## Resources
