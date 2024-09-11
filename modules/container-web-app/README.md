@@ -116,13 +116,14 @@ module "container_web_app" {
   service_plan_id = module.service_plan.service_plan_id
 
   app_settings = {
-    FOO = "bar"
+    "DOCKER_ENABLE_CI" = true
+    "FOO"              = "bar"
   }
 
   docker_image = {
-    name     = "myimage"
+    name     = "myapp"
     tag      = "latest"
-    registry = "https://myacr.azurecr.io"
+    registry = "https://${module.acr.acr_fqdn}"
   }
 
   site_config = {
@@ -130,6 +131,8 @@ module "container_web_app" {
 
     # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
     acr_use_managed_identity_credentials = true
+
+    container_registry_use_managed_identity = true
   }
 
   auth_settings = {
@@ -161,7 +164,8 @@ module "container_web_app" {
     }
   }
 
-  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+  authorized_ips     = ["1.2.3.4/32", "4.3.2.1/32"]
+  scm_authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
 
   ip_restriction_headers = {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
@@ -193,6 +197,55 @@ module "container_web_app" {
     module.logs.logs_storage_account_id,
     module.logs.log_analytics_workspace_id,
   ]
+}
+
+module "acr" {
+  source  = "claranet/acr/azurerm"
+  version = "x.x.x"
+
+  client_name         = var.client_name
+  environment         = var.environment
+  stack               = var.stack
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
+  resource_group_name = module.rg.resource_group_name
+  sku                 = "Standard"
+
+  azure_services_bypass_allowed = true
+
+  logs_destinations_ids = [
+    module.logs.logs_storage_account_id,
+    module.logs.log_analytics_workspace_id,
+  ]
+
+  extra_tags = {
+    foo = "bar"
+  }
+}
+
+resource "azurerm_role_assignment" "webapp_acr_pull" {
+  scope                = module.acr.acr_id
+  principal_id         = module.container_web_app.app_service_identity_service_principal_id
+  role_definition_name = "AcrPull"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "azurerm_container_registry_webhook" "webhook" {
+  name = "webapp${replace(module.container_web_app.app_service_name, "/-|_|\\W/", "")}"
+
+  resource_group_name = module.rg.resource_group_name
+  location            = module.azure_region.location
+
+  registry_name = module.acr.acr_name
+
+  service_uri    = "https://${module.container_web_app.app_service_site_credential[0].name}:${module.container_web_app.app_service_site_credential[0].password}@${module.container_web_app.app_service_name}.scm.azurewebsites.net/api/registry/webhook"
+  status         = "enabled"
+  scope          = "myapp:latest"
+  actions        = ["push"]
+  custom_headers = {}
 }
 ```
 
