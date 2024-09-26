@@ -1,15 +1,14 @@
-resource "azurerm_linux_web_app" "app_service_linux" {
-  name                = local.app_service_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  service_plan_id     = var.service_plan_id
+resource "azurerm_linux_web_app_slot" "main" {
+  count = lower(var.slot_os_type) == "linux" ? 1 : 0
+
+  name           = var.slot_name
+  app_service_id = var.app_service_id
 
   public_network_access_enabled = var.public_network_access_enabled
   virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
 
   dynamic "site_config" {
-    for_each = [local.site_config]
-
+    for_each = [var.site_config]
     content {
       linux_fx_version = lookup(site_config.value, "linux_fx_version", null)
 
@@ -28,7 +27,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
 
       dynamic "ip_restriction" {
-        for_each = concat(local.subnets, local.cidrs, local.service_tags)
+        for_each = var.ip_restriction
         content {
           name                      = ip_restriction.value.name
           ip_address                = ip_restriction.value.ip_address
@@ -41,7 +40,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "scm_ip_restriction" {
-        for_each = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
+        for_each = var.scm_ip_restriction
         content {
           name                      = scm_ip_restriction.value.name
           ip_address                = scm_ip_restriction.value.ip_address
@@ -62,14 +61,14 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
         content {
-          dotnet_version      = lookup(local.site_config.application_stack, "dotnet_version", null)
-          java_server         = lookup(local.site_config.application_stack, "java_server", null)
-          java_server_version = lookup(local.site_config.application_stack, "java_server_version", null)
-          java_version        = lookup(local.site_config.application_stack, "java_version", null)
-          node_version        = lookup(local.site_config.application_stack, "node_version", null)
-          php_version         = lookup(local.site_config.application_stack, "php_version", null)
-          python_version      = lookup(local.site_config.application_stack, "python_version", null)
-          ruby_version        = lookup(local.site_config.application_stack, "ruby_version", null)
+          dotnet_version      = lookup(var.site_config.application_stack, "dotnet_version", null)
+          java_server         = lookup(var.site_config.application_stack, "java_server", null)
+          java_server_version = lookup(var.site_config.application_stack, "java_server_version", null)
+          java_version        = lookup(var.site_config.application_stack, "java_version", null)
+          node_version        = lookup(var.site_config.application_stack, "node_version", null)
+          php_version         = lookup(var.site_config.application_stack, "php_version", null)
+          python_version      = lookup(var.site_config.application_stack, "python_version", null)
+          ruby_version        = lookup(var.site_config.application_stack, "ruby_version", null)
         }
       }
 
@@ -83,7 +82,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
     }
   }
 
-  app_settings = local.app_settings
+  app_settings = var.app_settings
 
   dynamic "connection_string" {
     for_each = var.connection_strings
@@ -94,37 +93,29 @@ resource "azurerm_linux_web_app" "app_service_linux" {
     }
   }
 
-  dynamic "sticky_settings" {
-    for_each = var.sticky_settings == null ? [] : [var.sticky_settings]
-    content {
-      app_setting_names       = sticky_settings.value.app_setting_names
-      connection_string_names = sticky_settings.value.connection_string_names
-    }
-  }
-
   dynamic "auth_settings" {
-    for_each = local.auth_settings.enabled ? ["enabled"] : []
+    for_each = var.auth_settings.enabled ? ["enabled"] : []
     content {
-      enabled                        = local.auth_settings.enabled
-      issuer                         = local.auth_settings.issuer
-      token_store_enabled            = local.auth_settings.token_store_enabled
-      unauthenticated_client_action  = local.auth_settings.unauthenticated_client_action
-      default_provider               = local.auth_settings.default_provider
-      allowed_external_redirect_urls = local.auth_settings.allowed_external_redirect_urls
+      enabled                        = var.auth_settings.enabled
+      issuer                         = var.auth_settings.issuer
+      token_store_enabled            = var.auth_settings.token_store_enabled
+      unauthenticated_client_action  = var.auth_settings.unauthenticated_client_action
+      default_provider               = var.auth_settings.default_provider
+      allowed_external_redirect_urls = var.auth_settings.allowed_external_redirect_urls
 
       dynamic "active_directory" {
-        for_each = local.auth_settings_active_directory.client_id == null ? [] : [local.auth_settings_active_directory]
+        for_each = var.auth_settings_active_directory.client_id == null ? [] : [var.auth_settings_active_directory]
         content {
-          client_id         = local.auth_settings_active_directory.client_id
-          client_secret     = local.auth_settings_active_directory.client_secret
-          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), local.auth_settings_active_directory.allowed_audiences)
+          client_id         = var.auth_settings_active_directory.client_id
+          client_secret     = var.auth_settings_active_directory.client_secret
+          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.slot_name)]), var.auth_settings_active_directory.allowed_audiences)
         }
       }
     }
   }
 
   dynamic "auth_settings_v2" {
-    for_each = lookup(local.auth_settings_v2, "auth_enabled", false) ? [local.auth_settings_v2] : []
+    for_each = lookup(var.auth_settings_v2, "auth_enabled", false) ? [var.auth_settings_v2] : []
     content {
       auth_enabled                            = lookup(auth_settings_v2.value, "auth_enabled", false)
       runtime_version                         = lookup(auth_settings_v2.value, "runtime_version", "~1")
@@ -140,7 +131,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       forward_proxy_custom_scheme_header_name = lookup(auth_settings_v2.value, "forward_proxy_custom_scheme_header_name", null)
 
       dynamic "apple_v2" {
-        for_each = try(local.auth_settings_v2.apple_v2[*], [])
+        for_each = try(var.auth_settings_v2.apple_v2[*], [])
         content {
           client_id                  = lookup(apple_v2.value, "client_id", null)
           client_secret_setting_name = lookup(apple_v2.value, "client_secret_setting_name", null)
@@ -148,7 +139,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "active_directory_v2" {
-        for_each = try(local.auth_settings_v2.active_directory_v2[*], [])
+        for_each = try(var.auth_settings_v2.active_directory_v2[*], [])
 
         content {
           client_id                            = lookup(active_directory_v2.value, "client_id", null)
@@ -166,14 +157,14 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "azure_static_web_app_v2" {
-        for_each = try(local.auth_settings_v2.azure_static_web_app_v2[*], [])
+        for_each = try(var.auth_settings_v2.azure_static_web_app_v2[*], [])
         content {
           client_id = lookup(azure_static_web_app_v2.value, "client_id", null)
         }
       }
 
       dynamic "custom_oidc_v2" {
-        for_each = try(local.auth_settings_v2.custom_oidc_v2[*], [])
+        for_each = try(var.auth_settings_v2.custom_oidc_v2[*], [])
         content {
           name                          = lookup(custom_oidc_v2.value, "name", null)
           client_id                     = lookup(custom_oidc_v2.value, "client_id", null)
@@ -190,7 +181,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "facebook_v2" {
-        for_each = try(local.auth_settings_v2.facebook_v2[*], [])
+        for_each = try(var.auth_settings_v2.facebook_v2[*], [])
         content {
           app_id                  = lookup(facebook_v2.value, "app_id", null)
           app_secret_setting_name = lookup(facebook_v2.value, "app_secret_setting_name", null)
@@ -200,7 +191,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "github_v2" {
-        for_each = try(local.auth_settings_v2.github_v2[*], [])
+        for_each = try(var.auth_settings_v2.github_v2[*], [])
         content {
           client_id                  = lookup(github_v2.value, "client_id", null)
           client_secret_setting_name = lookup(github_v2.value, "client_secret_setting_name", null)
@@ -209,7 +200,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "google_v2" {
-        for_each = try(local.auth_settings_v2.google_v2[*], [])
+        for_each = try(var.auth_settings_v2.google_v2[*], [])
         content {
           client_id                  = lookup(google_v2.value, "client_id", null)
           client_secret_setting_name = lookup(google_v2.value, "client_secret_setting_name", null)
@@ -219,7 +210,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "microsoft_v2" {
-        for_each = try(local.auth_settings_v2.microsoft_v2[*], [])
+        for_each = try(var.auth_settings_v2.microsoft_v2[*], [])
         content {
           client_id                  = lookup(microsoft_v2.value, "client_id", null)
           client_secret_setting_name = lookup(microsoft_v2.value, "client_secret_setting_name", null)
@@ -229,7 +220,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       dynamic "twitter_v2" {
-        for_each = try(local.auth_settings_v2.twitter_v2[*], [])
+        for_each = try(var.auth_settings_v2.twitter_v2[*], [])
         content {
           consumer_key                 = lookup(twitter_v2.value, "consumer_key", null)
           consumer_secret_setting_name = lookup(twitter_v2.value, "consumer_secret_setting_name", null)
@@ -237,45 +228,29 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       }
 
       login {
-        logout_endpoint                   = lookup(local.auth_settings_v2_login, "logout_endpoint", null)
-        cookie_expiration_convention      = lookup(local.auth_settings_v2_login, "cookie_expiration_convention", "FixedTime")
-        cookie_expiration_time            = lookup(local.auth_settings_v2_login, "cookie_expiration_time", "08:00:00")
-        preserve_url_fragments_for_logins = lookup(local.auth_settings_v2_login, "preserve_url_fragments_for_logins", false)
-        token_refresh_extension_time      = lookup(local.auth_settings_v2_login, "token_refresh_extension_time", 72)
-        token_store_enabled               = lookup(local.auth_settings_v2_login, "token_store_enabled", false)
-        token_store_path                  = lookup(local.auth_settings_v2_login, "token_store_path", null)
-        token_store_sas_setting_name      = lookup(local.auth_settings_v2_login, "token_store_sas_setting_name", null)
-        validate_nonce                    = lookup(local.auth_settings_v2_login, "validate_nonce", true)
-        nonce_expiration_time             = lookup(local.auth_settings_v2_login, "nonce_expiration_time", "00:05:00")
-        allowed_external_redirect_urls    = lookup(local.auth_settings_v2_login, "allowed_external_redirect_urls", null)
+        logout_endpoint                   = lookup(var.auth_settings_v2_login, "logout_endpoint", null)
+        cookie_expiration_convention      = lookup(var.auth_settings_v2_login, "cookie_expiration_convention", "FixedTime")
+        cookie_expiration_time            = lookup(var.auth_settings_v2_login, "cookie_expiration_time", "08:00:00")
+        preserve_url_fragments_for_logins = lookup(var.auth_settings_v2_login, "preserve_url_fragments_for_logins", false)
+        token_refresh_extension_time      = lookup(var.auth_settings_v2_login, "token_refresh_extension_time", 72)
+        token_store_enabled               = lookup(var.auth_settings_v2_login, "token_store_enabled", false)
+        token_store_path                  = lookup(var.auth_settings_v2_login, "token_store_path", null)
+        token_store_sas_setting_name      = lookup(var.auth_settings_v2_login, "token_store_sas_setting_name", null)
+        validate_nonce                    = lookup(var.auth_settings_v2_login, "validate_nonce", true)
+        nonce_expiration_time             = lookup(var.auth_settings_v2_login, "nonce_expiration_time", "00:05:00")
+        allowed_external_redirect_urls    = lookup(var.auth_settings_v2_login, "allowed_external_redirect_urls", null)
       }
     }
   }
 
-  client_affinity_enabled    = var.client_affinity_enabled
-  client_certificate_enabled = var.client_certificate_enabled
-  https_only                 = var.https_only
+  client_affinity_enabled = var.client_affinity_enabled
+  https_only              = var.https_only
 
   dynamic "identity" {
     for_each = var.identity[*]
     content {
       type         = var.identity.type
       identity_ids = var.identity.identity_ids
-    }
-  }
-
-  dynamic "backup" {
-    for_each = var.backup_enabled ? ["backup"] : []
-    content {
-      name                = local.backup_name
-      storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
-
-      schedule {
-        frequency_interval       = var.backup_frequency_interval
-        frequency_unit           = var.backup_frequency_unit
-        retention_period_days    = var.backup_retention_period_in_days
-        keep_at_least_one_backup = var.backup_keep_at_least_one_backup
-      }
     }
   }
 
@@ -293,7 +268,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
   }
 
   dynamic "logs" {
-    for_each = var.app_service_logs == null ? [] : [var.app_service_logs]
+    for_each = var.app_service_logs[*]
     content {
       detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
       failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
@@ -337,31 +312,4 @@ resource "azurerm_linux_web_app" "app_service_linux" {
   }
 
   tags = merge(local.default_tags, var.extra_tags)
-
-  lifecycle {
-    ignore_changes = [
-      backup[0].storage_account_url,
-    ]
-  }
-}
-
-resource "azurerm_app_service_certificate" "app_service_certificate" {
-  for_each = var.certificates
-
-  name                = lookup(each.value, "custom_name", each.key)
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  pfx_blob            = each.value.certificate_file != null ? filebase64(each.value.certificate_file) : null
-  password            = each.value.certificate_password
-  key_vault_secret_id = try(each.value.certificate_keyvault_certificate_id, null)
-}
-
-resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
-  for_each = var.custom_domains
-
-  hostname            = each.key
-  app_service_name    = azurerm_linux_web_app.app_service_linux.name
-  resource_group_name = var.resource_group_name
-  ssl_state           = lookup(each.value, "certificate_name", null) != null || lookup(each.value, "certificate_thumbprint", null) != null ? "SniEnabled" : null
-  thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.app_service_certificate[each.value.certificate_name].thumbprint : null
 }
