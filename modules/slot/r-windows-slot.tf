@@ -26,6 +26,9 @@ resource "azurerm_windows_web_app_slot" "main" {
       use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
 
+      ip_restriction_default_action     = lookup(site_config.value, "ip_restriction_default_action", "Deny")
+      scm_ip_restriction_default_action = lookup(site_config.value, "scm_ip_restriction_default_action", "Deny")
+
       dynamic "ip_restriction" {
         for_each = var.ip_restriction
         content {

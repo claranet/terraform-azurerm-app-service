@@ -11,8 +11,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
     for_each = [local.site_config]
 
     content {
-      linux_fx_version = lookup(site_config.value, "linux_fx_version", null)
-
+      linux_fx_version         = lookup(site_config.value, "linux_fx_version", null)
       always_on                = lookup(site_config.value, "always_on", null)
       app_command_line         = lookup(site_config.value, "app_command_line", null)
       default_documents        = lookup(site_config.value, "default_documents", null)
@@ -26,6 +25,9 @@ resource "azurerm_linux_web_app" "app_service_linux" {
       remote_debugging_version = lookup(site_config.value, "remote_debugging_version", null)
       use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
       websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
+
+      ip_restriction_default_action     = lookup(site_config.value, "ip_restriction_default_action", "Deny")
+      scm_ip_restriction_default_action = lookup(site_config.value, "scm_ip_restriction_default_action", "Deny")
 
       dynamic "ip_restriction" {
         for_each = concat(local.subnets, local.cidrs, local.service_tags)
