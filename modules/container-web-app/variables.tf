@@ -248,14 +248,14 @@ variable "certificates" {
 }
 
 variable "app_service_vnet_integration_subnet_id" {
-  description = "Id of the subnet to associate with the app service"
+  description = "Id of the subnet to associate with the App Service."
   type        = string
   default     = null
 }
 
 variable "staging_slot_enabled" {
   type        = bool
-  description = "Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot"
+  description = "Create a staging slot alongside the App Service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot"
   default     = true
 }
 
@@ -273,6 +273,7 @@ variable "docker_image" {
     tag               = string
     registry_username = optional(string)
     registry_password = optional(string)
+    slot_name         = optional(string)
     slot_tag          = optional(string)
   })
 }
