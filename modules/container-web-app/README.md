@@ -260,7 +260,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| backup\_sas\_token | claranet/storage-sas-token/azurerm | 7.0.0 |
+| backup\_sas\_token | claranet/storage-sas-token/azurerm | 7.0.1 |
 | diagnostics | claranet/diagnostic-settings/azurerm | ~> 7.0.0 |
 
 ## Resources

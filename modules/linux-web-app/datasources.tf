@@ -12,7 +12,7 @@ data "azurerm_application_insights" "app_insights" {
 
 module "backup_sas_token" {
   source  = "claranet/storage-sas-token/azurerm"
-  version = "7.0.0"
+  version = "7.0.1"
 
   count = var.backup_enabled ? 1 : 0
 
