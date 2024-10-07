@@ -288,7 +288,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 |------|-------------|------|---------|:--------:|
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_logs | Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs) | <pre>object({<br/>    detailed_error_messages = optional(bool)<br/>    failed_request_tracing  = optional(bool)<br/>    application_logs = optional(object({<br/>      file_system_level = string<br/>      azure_blob_storage = optional(object({<br/>        level             = string<br/>        retention_in_days = number<br/>        sas_url           = string<br/>      }))<br/>    }))<br/>    http_logs = optional(object({<br/>      azure_blob_storage = optional(object({<br/>        retention_in_days = number<br/>        sas_url           = string<br/>      }))<br/>      file_system = optional(object({<br/>        retention_in_days = number<br/>        retention_in_mb   = number<br/>      }))<br/>    }))<br/>  })</pre> | `null` | no |
-| app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the App Service. | `string` | `null` | no |
+| app\_service\_vnet\_integration\_subnet\_id | ID of the subnet to associate with the App Service. | `string` | `null` | no |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
 | application\_insights\_daily\_data\_cap | Daily data volume cap (in GB) for Application Insights. | `number` | `null` | no |
@@ -372,15 +372,15 @@ resource "azurerm_container_registry_webhook" "webhook" {
 | app\_service\_outbound\_ip\_addresses | Outbound IP adresses of the App Service |
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |
 | app\_service\_site\_credential | Site credential block of the App Service |
-| app\_service\_slot\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service slot |
-| app\_service\_slot\_name | Name of the App Service slot |
+| app\_service\_slot\_identity\_service\_principal\_id | ID of the Service principal identity of the App Service slot. |
+| app\_service\_slot\_name | Name of the App Service slot. |
 | application\_insights\_app\_id | App id of the Application Insights associated to the App Service |
 | application\_insights\_application\_type | Application Type of the Application Insights associated to the App Service |
 | application\_insights\_id | Id of the Application Insights associated to the App Service |
 | application\_insights\_instrumentation\_key | Instrumentation key of the Application Insights associated to the App Service |
 | application\_insights\_name | Name of the Application Insights associated to the App Service |
 | service\_plan\_id | ID of the Service Plan |
-| slot | Azure App Service slot output object |
+| slot | Azure App Service slot output object. |
 <!-- END_TF_DOCS -->
 ## Related documentation
 

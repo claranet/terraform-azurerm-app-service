@@ -115,7 +115,7 @@ resource "azurerm_linux_web_app_slot" "main" {
         content {
           client_id         = var.auth_settings_active_directory.client_id
           client_secret     = var.auth_settings_active_directory.client_secret
-          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.slot_name)]), var.auth_settings_active_directory.allowed_audiences)
+          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", var.slot_name)]), var.auth_settings_active_directory.allowed_audiences)
         }
       }
     }

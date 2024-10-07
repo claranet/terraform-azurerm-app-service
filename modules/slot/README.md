@@ -235,6 +235,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurerm_linux_web_app_slot.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app_slot) | resource |
+| [azurerm_windows_web_app_slot.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app_slot) | resource |
 
 ## Inputs
 

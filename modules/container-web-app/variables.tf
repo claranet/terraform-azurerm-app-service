@@ -248,7 +248,7 @@ variable "certificates" {
 }
 
 variable "app_service_vnet_integration_subnet_id" {
-  description = "Id of the subnet to associate with the App Service."
+  description = "ID of the subnet to associate with the App Service."
   type        = string
   default     = null
 }
