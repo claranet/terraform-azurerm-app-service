@@ -1,3 +1,16 @@
+## 7.13.1 (2024-10-08)
+
+### Documentation
+
+* update submodule READMEs with latest template 012789a
+
+### Miscellaneous Chores
+
+* **deps:** update dependency trivy to v0.56.1 752898e
+* **deps:** update pre-commit hook pre-commit/pre-commit-hooks to v5 8856288
+* **deps:** update terraform claranet/storage-sas-token/azurerm to v7.0.1 f2706b3
+* prepare for new examples structure 1c54d99
+
 ## 7.13.0 (2024-10-03)
 
 ### Features
