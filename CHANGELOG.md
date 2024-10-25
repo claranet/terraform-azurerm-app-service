@@ -1,3 +1,27 @@
+## 7.14.0 (2024-10-25)
+
+### Features
+
+* **AZ-1464:** add slot module 1dcbe14
+* **AZ-1464:** add slot submodule to container-web-app submodule 36f3d95
+* **AZ-1464:** add slot submodule to windows-web-app submodule 6ba762a
+* **AZ-1467:** add `ip_restriction_default_action` 5a23c8d
+* **AZ-1467:** require minimum AzureRM provider version `3.95+` e7bc492, closes /github.com/hashicorp/terraform-provider-azurerm/blob/main/CHANGELOG-v3.md#3950-march-08-2024
+
+### Documentation
+
+* **AZ-1464:** add example and update README 3c02edf
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.8.3 5c4b8ca
+* **deps:** update dependency opentofu to v1.8.4 8fcae54
+* **deps:** update dependency pre-commit to v4 630f9c8
+* **deps:** update dependency pre-commit to v4.0.1 b4774a8
+* **deps:** update dependency trivy to v0.56.2 a1854a2
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.1.0 682db9b
+* update examples structure a8a0c7a
+
 ## 7.13.1 (2024-10-08)
 
 ### Documentation
