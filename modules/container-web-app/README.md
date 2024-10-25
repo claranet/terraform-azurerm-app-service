@@ -258,7 +258,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.2, >= 1.2.22 |
-| azurerm | ~> 3.64 |
+| azurerm | ~> 3.95 |
 
 ## Modules
 
@@ -266,6 +266,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 |------|--------|---------|
 | backup\_sas\_token | claranet/storage-sas-token/azurerm | 7.0.1 |
 | diagnostics | claranet/diagnostic-settings/azurerm | ~> 7.0.0 |
+| staging | ../slot | n/a |
 
 ## Resources
 
@@ -275,7 +276,6 @@ resource "azurerm_container_registry_webhook" "webhook" {
 | [azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
 | [azurerm_linux_web_app.app_service_linux_container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app) | resource |
-| [azurerm_linux_web_app_slot.app_service_linux_container_slot](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app_slot) | resource |
 | [azurecaf_name.app_service_web](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/data-sources/name) | data source |
 | [azurecaf_name.application_insights](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/data-sources/name) | data source |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
@@ -288,7 +288,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 |------|-------------|------|---------|:--------:|
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_logs | Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs) | <pre>object({<br/>    detailed_error_messages = optional(bool)<br/>    failed_request_tracing  = optional(bool)<br/>    application_logs = optional(object({<br/>      file_system_level = string<br/>      azure_blob_storage = optional(object({<br/>        level             = string<br/>        retention_in_days = number<br/>        sas_url           = string<br/>      }))<br/>    }))<br/>    http_logs = optional(object({<br/>      azure_blob_storage = optional(object({<br/>        retention_in_days = number<br/>        sas_url           = string<br/>      }))<br/>      file_system = optional(object({<br/>        retention_in_days = number<br/>        retention_in_mb   = number<br/>      }))<br/>    }))<br/>  })</pre> | `null` | no |
-| app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the app service | `string` | `null` | no |
+| app\_service\_vnet\_integration\_subnet\_id | ID of the subnet to associate with the App Service. | `string` | `null` | no |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
 | application\_insights\_daily\_data\_cap | Daily data volume cap (in GB) for Application Insights. | `number` | `null` | no |
@@ -325,7 +325,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 | custom\_diagnostic\_settings\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | custom\_domains | Custom domains and SSL certificates of the App Service. Could declare a custom domain with SSL binding. SSL certificate could be provided from an Azure Keyvault Certificate Secret or from a file with following attributes :<pre>- certificate_name:                     Name of the stored certificate.<br/>- certificate_keyvault_certificate_id:  ID of the Azure Keyvault Certificate Secret.</pre> | <pre>map(object({<br/>    certificate_name                    = optional(string)<br/>    certificate_keyvault_certificate_id = optional(string)<br/>    certificate_thumbprint              = optional(string)<br/>  }))</pre> | `{}` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
-| docker\_image | Docker image to use for this App Service | <pre>object({<br/>    registry          = string<br/>    name              = string<br/>    tag               = string<br/>    registry_username = optional(string)<br/>    registry_password = optional(string)<br/>    slot_tag          = optional(string)<br/>  })</pre> | n/a | yes |
+| docker\_image | Docker image to use for this App Service | <pre>object({<br/>    registry          = string<br/>    name              = string<br/>    tag               = string<br/>    registry_username = optional(string)<br/>    registry_password = optional(string)<br/>    slot_name         = optional(string)<br/>    slot_tag          = optional(string)<br/>  })</pre> | n/a | yes |
 | environment | Project environment | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
 | https\_only | HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only | `bool` | `false` | no |
@@ -350,7 +350,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 | stack | Project stack name | `string` | n/a | yes |
 | staging\_slot\_custom\_app\_settings | Override staging slot with custom app settings | `map(string)` | `null` | no |
 | staging\_slot\_custom\_name | Custom name of the app service slot | `string` | `null` | no |
-| staging\_slot\_enabled | Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
+| staging\_slot\_enabled | Create a staging slot alongside the App Service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
 | staging\_slot\_mount\_points | Storage Account mount points for Staging slot. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | <pre>list(object({<br/>    name         = optional(string)<br/>    type         = optional(string, "AzureFiles")<br/>    account_name = string<br/>    share_name   = string<br/>    access_key   = string<br/>    mount_path   = optional(string)<br/>  }))</pre> | `[]` | no |
 | sticky\_settings | Lists of connection strings and app settings to prevent from swapping between slots. | <pre>object({<br/>    app_setting_names       = optional(list(string))<br/>    connection_string_names = optional(list(string))<br/>  })</pre> | `null` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
@@ -372,14 +372,15 @@ resource "azurerm_container_registry_webhook" "webhook" {
 | app\_service\_outbound\_ip\_addresses | Outbound IP adresses of the App Service |
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |
 | app\_service\_site\_credential | Site credential block of the App Service |
-| app\_service\_slot\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service slot |
-| app\_service\_slot\_name | Name of the App Service slot |
+| app\_service\_slot\_identity\_service\_principal\_id | ID of the Service principal identity of the App Service slot. |
+| app\_service\_slot\_name | Name of the App Service slot. |
 | application\_insights\_app\_id | App id of the Application Insights associated to the App Service |
 | application\_insights\_application\_type | Application Type of the Application Insights associated to the App Service |
 | application\_insights\_id | Id of the Application Insights associated to the App Service |
 | application\_insights\_instrumentation\_key | Instrumentation key of the Application Insights associated to the App Service |
 | application\_insights\_name | Name of the Application Insights associated to the App Service |
 | service\_plan\_id | ID of the Service Plan |
+| slot | Azure App Service slot output object. |
 <!-- END_TF_DOCS -->
 ## Related documentation
 

@@ -42,8 +42,8 @@ resource "azurerm_storage_share" "assets_share" {
   quota                = 50
 }
 
-module "app_service" {
-  source  = "claranet/app-service/azurerm"
+module "service_plan" {
+  source  = "claranet/app-service-plan/azurerm"
   version = "x.x.x"
 
   client_name         = var.client_name
@@ -53,25 +53,40 @@ module "app_service" {
   resource_group_name = module.rg.resource_group_name
   stack               = var.stack
 
+  logs_destinations_ids = [
+    module.logs.logs_storage_account_id,
+    module.logs.log_analytics_workspace_id,
+  ]
+
   os_type  = "Linux"
-  sku_name = "B2"
+  sku_name = "S1"
+}
+
+module "linux_web_app" {
+  source  = "claranet/app-service/azurerm//modules/linux-web-app"
+  version = "x.x.x"
+
+  client_name         = var.client_name
+  environment         = var.environment
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
+  resource_group_name = module.rg.resource_group_name
+  stack               = var.stack
+
+  service_plan_id = module.service_plan.service_plan_id
 
   app_settings = {
     FOO = "bar"
   }
 
   site_config = {
-    application_stack = {
-      php_version = "8.2"
-    }
-
     http2_enabled = true
-
     # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
     acr_use_managed_identity_credentials = true
 
-    ip_restriction_default_action     = "Deny"
-    scm_ip_restriction_default_action = "Deny"
+    application_stack = {
+      php_version = "8.2"
+    }
   }
 
   auth_settings = {
@@ -135,4 +150,35 @@ module "app_service" {
     module.logs.logs_storage_account_id,
     module.logs.log_analytics_workspace_id,
   ]
+}
+
+module "testing_slot" {
+  source  = "claranet/app-service/azurerm//modules/slot"
+  version = "x.x.x"
+
+  environment = var.environment
+  stack       = var.stack
+
+  slot_os_type   = "Linux"
+  slot_name      = "testing-slot"
+  app_service_id = module.linux_web_app.app_service_id
+
+  public_network_access_enabled = true
+
+  app_settings = {
+    FOO = "testing"
+  }
+
+  mount_points = [
+    {
+      account_name = azurerm_storage_account.assets_storage.name
+      share_name   = azurerm_storage_share.assets_share.name
+      access_key   = azurerm_storage_account.assets_storage.primary_access_key
+      mount_path   = "/var/www/html/assets"
+    }
+  ]
+
+  extra_tags = {
+    foo = "bar"
+  }
 }

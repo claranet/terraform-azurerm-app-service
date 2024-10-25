@@ -203,7 +203,7 @@ module "windows_web_app" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.2, >= 1.2.22 |
-| azurerm | ~> 3.64 |
+| azurerm | ~> 3.95 |
 
 ## Modules
 
@@ -211,6 +211,7 @@ module "windows_web_app" {
 |------|--------|---------|
 | backup\_sas\_token | claranet/storage-sas-token/azurerm | 7.0.1 |
 | diagnostics | claranet/diagnostic-settings/azurerm | ~> 7.0.0 |
+| staging | ../slot | n/a |
 
 ## Resources
 
@@ -220,7 +221,6 @@ module "windows_web_app" {
 | [azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
 | [azurerm_windows_web_app.app_service_windows](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app) | resource |
-| [azurerm_windows_web_app_slot.app_service_windows_slot](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app_slot) | resource |
 | [azurecaf_name.app_service_web](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/data-sources/name) | data source |
 | [azurecaf_name.application_insights](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/data-sources/name) | data source |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
@@ -233,7 +233,7 @@ module "windows_web_app" {
 |------|-------------|------|---------|:--------:|
 | app\_service\_custom\_name | Name of the App Service, generated if not set. | `string` | `""` | no |
 | app\_service\_logs | Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#logs) | <pre>object({<br/>    detailed_error_messages = optional(bool)<br/>    failed_request_tracing  = optional(bool)<br/>    application_logs = optional(object({<br/>      file_system_level = string<br/>      azure_blob_storage = optional(object({<br/>        level             = string<br/>        retention_in_days = number<br/>        sas_url           = string<br/>      }))<br/>    }))<br/>    http_logs = optional(object({<br/>      azure_blob_storage = optional(object({<br/>        retention_in_days = number<br/>        sas_url           = string<br/>      }))<br/>      file_system = optional(object({<br/>        retention_in_days = number<br/>        retention_in_mb   = number<br/>      }))<br/>    }))<br/>  })</pre> | `null` | no |
-| app\_service\_vnet\_integration\_subnet\_id | Id of the subnet to associate with the app service | `string` | `null` | no |
+| app\_service\_vnet\_integration\_subnet\_id | ID of the subnet to associate with the App Service. | `string` | `null` | no |
 | app\_settings | Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings | `map(string)` | `{}` | no |
 | application\_insights\_custom\_name | Name of the Application Insights, generated if not set. | `string` | `""` | no |
 | application\_insights\_daily\_data\_cap | Daily data volume cap (in GB) for Application Insights. | `number` | `null` | no |
@@ -295,7 +295,7 @@ module "windows_web_app" {
 | staging\_slot\_connection\_strings | Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string | `list(map(string))` | `[]` | no |
 | staging\_slot\_custom\_app\_settings | Override staging slot with custom app settings | `map(string)` | `null` | no |
 | staging\_slot\_custom\_name | Custom name of the app service slot | `string` | `null` | no |
-| staging\_slot\_enabled | Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
+| staging\_slot\_enabled | Create a staging slot alongside the App Service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
 | staging\_slot\_mount\_points | Storage Account mount points for Staging slot. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | <pre>list(object({<br/>    name         = optional(string)<br/>    type         = optional(string, "AzureFiles")<br/>    account_name = string<br/>    share_name   = string<br/>    access_key   = string<br/>    mount_path   = optional(string)<br/>  }))</pre> | `[]` | no |
 | staging\_slot\_site\_config | Staging slot site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. | `any` | `{}` | no |
 | sticky\_settings | Lists of connection strings and app settings to prevent from swapping between slots. | <pre>object({<br/>    app_setting_names       = optional(list(string))<br/>    connection_string_names = optional(list(string))<br/>  })</pre> | `null` | no |
@@ -318,14 +318,15 @@ module "windows_web_app" {
 | app\_service\_outbound\_ip\_addresses | Outbound IP adresses of the App Service |
 | app\_service\_possible\_outbound\_ip\_addresses | Possible outbound IP adresses of the App Service |
 | app\_service\_site\_credential | Site credential block of the App Service |
-| app\_service\_slot\_identity\_service\_principal\_id | Id of the Service principal identity of the App Service slot |
-| app\_service\_slot\_name | Name of the App Service slot |
+| app\_service\_slot\_identity\_service\_principal\_id | ID of the Service principal identity of the App Service slot. |
+| app\_service\_slot\_name | Name of the App Service slot. |
 | application\_insights\_app\_id | App id of the Application Insights associated to the App Service |
 | application\_insights\_application\_type | Application Type of the Application Insights associated to the App Service |
 | application\_insights\_id | Id of the Application Insights associated to the App Service |
 | application\_insights\_instrumentation\_key | Instrumentation key of the Application Insights associated to the App Service |
 | application\_insights\_name | Name of the Application Insights associated to the App Service |
 | service\_plan\_id | ID of the Service Plan |
+| slot | Azure App Service slot output object. |
 <!-- END_TF_DOCS -->
 ## Related documentation
 
