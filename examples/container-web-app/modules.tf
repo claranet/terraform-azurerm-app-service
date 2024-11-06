@@ -90,9 +90,8 @@ module "container_web_app" {
     http2_enabled = true
 
     # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
-    acr_use_managed_identity_credentials = true
-
     container_registry_use_managed_identity = true
+    # container_registry_managed_identity_client_id = "my_user_assigned_managed_identity_client_id"
   }
 
   auth_settings = {
