@@ -1,3 +1,13 @@
+## 7.14.1 (2024-11-08)
+
+### Documentation
+
+* **examples:** update ACR usage example 4b56bc3
+
+### Miscellaneous Chores
+
+* **deps:** update tools e4fc8d8
+
 ## 7.14.0 (2024-10-25)
 
 ### Features
