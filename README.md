@@ -111,9 +111,6 @@ module "app_service" {
 
     http2_enabled = true
 
-    # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
-    acr_use_managed_identity_credentials = true
-
     ip_restriction_default_action     = "Deny"
     scm_ip_restriction_default_action = "Deny"
   }
