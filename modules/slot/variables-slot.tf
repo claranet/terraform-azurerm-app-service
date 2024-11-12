@@ -3,37 +3,37 @@ variable "slot_os_type" {
   type        = string
 }
 
-variable "app_service_id" {
+variable "id" {
   description = "The ID of the App Service to create the slot for."
   type        = string
 }
 
 variable "site_config" {
-  description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block."
+  description = "Site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block)."
   type        = any
   default     = {}
 }
 
 variable "app_settings" {
-  description = "Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings"
+  description = "Application settings for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings)."
   type        = map(string)
   default     = {}
 }
 
 variable "connection_strings" {
-  description = "Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string"
+  description = "Connection strings for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string)."
   type        = list(map(string))
   default     = []
 }
 
 variable "auth_settings" {
-  description = "Authentication settings. Issuer URL is generated thanks to the tenant ID. For active_directory block, the allowed_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings"
+  description = "Authentication settings. Issuer URL is generated thanks to the tenant ID. For `active_directory block`, the `allowed_audiences` list is filled with a value generated with the name of the App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings)."
   type        = any
   default     = {}
 }
 
 variable "auth_settings_v2" {
-  description = "Authentication settings V2. See https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#auth_settings_v2"
+  description = "Authentication settings V2. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#auth_settings_v2)."
   type        = any
   default     = {}
 }
@@ -46,19 +46,19 @@ variable "auth_settings_v2_login" {
 }
 
 variable "auth_settings_active_directory" {
-  description = "Active Directory settings. The allowed_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings"
+  description = "Active Directory settings. The `allowed_audiences` list is filled with a value generated with the name of the App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings)."
   type        = any
   default     = {}
 }
 
 variable "client_affinity_enabled" {
-  description = "Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled"
+  description = "Client affinity activation for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled)."
   type        = bool
   default     = false
 }
 
 variable "https_only" {
-  description = "HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only"
+  description = "HTTPS restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only)."
   type        = bool
   default     = false
 }
@@ -76,7 +76,7 @@ variable "identity" {
 }
 
 variable "mount_points" {
-  description = "Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account"
+  description = "Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account)."
   type = list(object({
     name         = optional(string)
     type         = optional(string, "AzureFiles")
@@ -93,8 +93,8 @@ variable "mount_points" {
   nullable = false
 }
 
-variable "app_service_logs" {
-  description = "Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs)"
+variable "logs" {
+  description = "Configuration of the App Service and App Service slot logs. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs)."
   type = object({
     detailed_error_messages = optional(bool)
     failed_request_tracing  = optional(bool)

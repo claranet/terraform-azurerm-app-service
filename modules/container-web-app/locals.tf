@@ -18,14 +18,14 @@ locals {
   site_config      = merge(local.default_site_config, var.site_config)
   slot_site_config = merge(local.default_slot_site_config, var.site_config)
 
-  app_service_id = "/subscriptions/${data.azurerm_subscription.current_subscription.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Web/sites/${local.app_service_name}"
+  id = "/subscriptions/${data.azurerm_subscription.main.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Web/sites/${local.name}"
 
-  app_insights = try(data.azurerm_application_insights.app_insights[0], try(azurerm_application_insights.app_insights[0], {}))
+  application_insights = try(data.azurerm_application_insights.main[0], try(azurerm_application_insights.main[0], {}))
 
-  default_app_settings = var.application_insights_enabled ? {
-    APPLICATION_INSIGHTS_IKEY             = try(local.app_insights.instrumentation_key, "")
-    APPINSIGHTS_INSTRUMENTATIONKEY        = try(local.app_insights.instrumentation_key, "")
-    APPLICATIONINSIGHTS_CONNECTION_STRING = try(local.app_insights.connection_string, "")
+  default_app_settings = var.application_insights.enabled ? {
+    APPLICATION_INSIGHTS_IKEY             = try(local.application_insights.instrumentation_key, "")
+    APPINSIGHTS_INSTRUMENTATIONKEY        = try(local.application_insights.instrumentation_key, "")
+    APPLICATIONINSIGHTS_CONNECTION_STRING = try(local.application_insights.connection_string, "")
   } : {}
 
   app_settings = merge(local.default_app_settings, var.app_settings)
@@ -39,70 +39,70 @@ locals {
 
   ip_restriction_headers = var.ip_restriction_headers != null ? [merge(local.default_ip_restrictions_headers, var.ip_restriction_headers)] : []
 
-  cidrs = [for cidr in var.authorized_ips : {
-    name                      = "ip_restriction_cidr_${join("", [1, index(var.authorized_ips, cidr)])}"
+  cidrs = [for cidr in var.allowed_cidrs : {
+    name                      = "ip_restriction_cidr_${join("", [1, index(var.allowed_cidrs, cidr)])}"
     ip_address                = cidr
     virtual_network_subnet_id = null
     service_tag               = null
     subnet_id                 = null
-    priority                  = join("", [1, index(var.authorized_ips, cidr)])
+    priority                  = join("", [1, index(var.allowed_cidrs, cidr)])
     action                    = "Allow"
     headers                   = local.ip_restriction_headers
   }]
 
-  subnets = [for subnet in var.authorized_subnet_ids : {
-    name                      = "ip_restriction_subnet_${join("", [1, index(var.authorized_subnet_ids, subnet)])}"
+  subnets = [for subnet in var.allowed_subnet_ids : {
+    name                      = "ip_restriction_subnet_${join("", [1, index(var.allowed_subnet_ids, subnet)])}"
     ip_address                = null
     virtual_network_subnet_id = subnet
     service_tag               = null
     subnet_id                 = subnet
-    priority                  = join("", [1, index(var.authorized_subnet_ids, subnet)])
+    priority                  = join("", [1, index(var.allowed_subnet_ids, subnet)])
     action                    = "Allow"
     headers                   = local.ip_restriction_headers
   }]
 
-  service_tags = [for service_tag in var.authorized_service_tags : {
-    name                      = "service_tag_restriction_${join("", [1, index(var.authorized_service_tags, service_tag)])}"
+  service_tags = [for service_tag in var.allowed_service_tags : {
+    name                      = "service_tag_restriction_${join("", [1, index(var.allowed_service_tags, service_tag)])}"
     ip_address                = null
     virtual_network_subnet_id = null
     service_tag               = service_tag
     subnet_id                 = null
-    priority                  = join("", [1, index(var.authorized_service_tags, service_tag)])
+    priority                  = join("", [1, index(var.allowed_service_tags, service_tag)])
     action                    = "Allow"
     headers                   = local.ip_restriction_headers
   }]
 
   scm_ip_restriction_headers = var.scm_ip_restriction_headers != null ? [merge(local.default_ip_restrictions_headers, var.scm_ip_restriction_headers)] : []
 
-  scm_cidrs = [for cidr in var.scm_authorized_ips : {
-    name                      = "scm_ip_restriction_cidr_${join("", [1, index(var.scm_authorized_ips, cidr)])}"
+  scm_cidrs = [for cidr in var.scm_allowed_ips : {
+    name                      = "scm_ip_restriction_cidr_${join("", [1, index(var.scm_allowed_ips, cidr)])}"
     ip_address                = cidr
     virtual_network_subnet_id = null
     service_tag               = null
     subnet_id                 = null
-    priority                  = join("", [1, index(var.scm_authorized_ips, cidr)])
+    priority                  = join("", [1, index(var.scm_allowed_ips, cidr)])
     action                    = "Allow"
     headers                   = local.scm_ip_restriction_headers
   }]
 
-  scm_subnets = [for subnet in var.scm_authorized_subnet_ids : {
-    name                      = "scm_ip_restriction_subnet_${join("", [1, index(var.scm_authorized_subnet_ids, subnet)])}"
+  scm_subnets = [for subnet in var.scm_allowed_subnet_ids : {
+    name                      = "scm_ip_restriction_subnet_${join("", [1, index(var.scm_allowed_subnet_ids, subnet)])}"
     ip_address                = null
     virtual_network_subnet_id = subnet
     service_tag               = null
     subnet_id                 = subnet
-    priority                  = join("", [1, index(var.scm_authorized_subnet_ids, subnet)])
+    priority                  = join("", [1, index(var.scm_allowed_subnet_ids, subnet)])
     action                    = "Allow"
     headers                   = local.scm_ip_restriction_headers
   }]
 
-  scm_service_tags = [for service_tag in var.scm_authorized_service_tags : {
-    name                      = "scm_service_tag_restriction_${join("", [1, index(var.scm_authorized_service_tags, service_tag)])}"
+  scm_service_tags = [for service_tag in var.scm_allowed_service_tags : {
+    name                      = "scm_service_tag_restriction_${join("", [1, index(var.scm_allowed_service_tags, service_tag)])}"
     ip_address                = null
     virtual_network_subnet_id = null
     service_tag               = service_tag
     subnet_id                 = null
-    priority                  = join("", [1, index(var.scm_authorized_service_tags, service_tag)])
+    priority                  = join("", [1, index(var.scm_allowed_service_tags, service_tag)])
     action                    = "Allow"
     headers                   = local.scm_ip_restriction_headers
   }]

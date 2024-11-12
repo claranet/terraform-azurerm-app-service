@@ -9,44 +9,44 @@ variable "location_short" {
 }
 
 variable "client_name" {
-  description = "Client name/account used in naming"
+  description = "Client name/account used in naming."
   type        = string
 }
 
 variable "environment" {
-  description = "Project environment"
+  description = "Project environment."
   type        = string
 }
 
 variable "stack" {
-  description = "Project stack name"
+  description = "Project stack name."
   type        = string
 }
 
 variable "resource_group_name" {
-  description = "Resource group name"
+  description = "Resource group name."
   type        = string
 }
 
 variable "service_plan_id" {
-  description = "ID of the Service Plan that hosts the App Service"
+  description = "ID of the Service Plan that hosts the App Service."
   type        = string
 }
 
 variable "app_settings" {
-  description = "Application settings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings"
+  description = "Application settings for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings)."
   type        = map(string)
   default     = {}
 }
 
 variable "site_config" {
-  description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block."
+  description = "Site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config). IP restriction attribute is no more managed in this block."
   type        = any
   default     = {}
 }
 
 variable "connection_strings" {
-  description = "Connection strings for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string"
+  description = "Connection strings for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#connection_string)."
   type        = list(map(string))
   default     = []
 }
@@ -60,8 +60,8 @@ variable "sticky_settings" {
   default = null
 }
 
-variable "authorized_ips" {
-  description = "IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
+variable "allowed_cidrs" {
+  description = "IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction)."
   type        = list(string)
   default     = []
 }
@@ -72,62 +72,62 @@ variable "public_network_access_enabled" {
   default     = false
 }
 
-variable "authorized_subnet_ids" {
-  description = "Subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
+variable "allowed_subnet_ids" {
+  description = "Subnets restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction)."
   type        = list(string)
   default     = []
 }
 
-variable "authorized_service_tags" {
-  description = "Service Tags restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction"
+variable "allowed_service_tags" {
+  description = "Service Tags restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction)."
   type        = list(string)
   default     = []
 }
 
 variable "ip_restriction_headers" {
-  description = "IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers"
+  description = "IPs restriction headers for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers)."
   type        = map(list(string))
   default     = null
 }
 
-variable "scm_authorized_ips" {
-  description = "SCM IPs restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction"
+variable "scm_allowed_ips" {
+  description = "SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction)."
   type        = list(string)
   default     = []
 }
 
-variable "scm_authorized_subnet_ids" {
-  description = "SCM subnets restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction"
+variable "scm_allowed_subnet_ids" {
+  description = "SCM subnets restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction)."
   type        = list(string)
   default     = []
 }
 
-variable "scm_authorized_service_tags" {
-  description = "SCM Service Tags restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction"
+variable "scm_allowed_service_tags" {
+  description = "SCM Service Tags restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction)."
   type        = list(string)
   default     = []
 }
 
 variable "scm_ip_restriction_headers" {
-  description = "IPs restriction headers for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers"
+  description = "IPs restriction headers for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers)."
   type        = map(list(string))
   default     = null
 }
 
 variable "client_affinity_enabled" {
-  description = "Client affinity activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled"
+  description = "Client affinity activation for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled)."
   type        = bool
   default     = false
 }
 
 variable "https_only" {
-  description = "HTTPS restriction for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only"
+  description = "HTTPS restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only)."
   type        = bool
   default     = false
 }
 
 variable "client_certificate_enabled" {
-  description = "Client certificate activation for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_certificate_enabled"
+  description = "Client certificate activation for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_certificate_enabled)."
   type        = bool
   default     = false
 }
@@ -135,7 +135,7 @@ variable "client_certificate_enabled" {
 # Backup options
 
 variable "backup_enabled" {
-  description = "`true` to enable App Service backup"
+  description = "`true` to enable App Service backup."
   type        = bool
   default     = false
 }
@@ -171,13 +171,13 @@ variable "backup_storage_account_connection_string" {
 }
 
 variable "backup_storage_account_container" {
-  description = "Name of the container in the Storage Account if App Service backup is enabled"
+  description = "Name of the container in the Storage Account if App Service backup is enabled."
   type        = string
   default     = "webapps"
 }
 
 variable "mount_points" {
-  description = "Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account"
+  description = "Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account)."
   type = list(object({
     name         = optional(string)
     type         = optional(string, "AzureFiles")
@@ -195,7 +195,7 @@ variable "mount_points" {
 }
 
 variable "staging_slot_mount_points" {
-  description = "Storage Account mount points for Staging slot. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account"
+  description = "Storage Account mount points for staging slot. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account)."
   type = list(object({
     name         = optional(string)
     type         = optional(string, "AzureFiles")
@@ -213,13 +213,13 @@ variable "staging_slot_mount_points" {
 }
 
 variable "auth_settings" {
-  description = "Authentication settings. Issuer URL is generated thanks to the tenant ID. For active_directory block, the allowed_audiences list is filled with a value generated with the name of the App Service. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings"
+  description = "Authentication settings. Issuer URL is generated thanks to the tenant ID. For `active_directory` block, the `allowed_audiences` list is filled with a value generated with the name of the App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings)."
   type        = any
   default     = {}
 }
 
 variable "auth_settings_v2" {
-  description = "Authentication settings V2. See https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#auth_settings_v2"
+  description = "Authentication settings V2. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#auth_settings_v2)."
   type        = any
   default     = {}
 }
@@ -247,7 +247,7 @@ variable "certificates" {
   default     = {}
 }
 
-variable "app_service_vnet_integration_subnet_id" {
+variable "vnet_integration_subnet_id" {
   description = "ID of the subnet to associate with the App Service."
   type        = string
   default     = null
@@ -255,20 +255,20 @@ variable "app_service_vnet_integration_subnet_id" {
 
 variable "staging_slot_enabled" {
   type        = bool
-  description = "Create a staging slot alongside the App Service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot"
+  description = "Create a staging slot alongside the App Service for blue/green deployment purposes. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot)."
   default     = true
 }
 
 variable "staging_slot_custom_app_settings" {
   type        = map(string)
-  description = "Override staging slot with custom app settings"
+  description = "Override staging slot with custom app settings."
   default     = null
 }
 
 variable "docker_image" {
-  description = "Docker image to use for this App Service"
+  description = "Docker image to use for this App Service."
   type = object({
-    registry          = string
+    registry          = optional(string)
     name              = string
     tag               = string
     registry_username = optional(string)
@@ -278,8 +278,8 @@ variable "docker_image" {
   })
 }
 
-variable "app_service_logs" {
-  description = "Configuration of the App Service and App Service Slot logs. Documentation [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs)"
+variable "logs" {
+  description = "Configuration of the App Service and App Service slot logs. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs)."
   type = object({
     detailed_error_messages = optional(bool)
     failed_request_tracing  = optional(bool)
@@ -315,4 +315,25 @@ variable "identity" {
     type         = "SystemAssigned"
     identity_ids = []
   }
+}
+
+variable "application_insights" {
+  description = "Application Insights parameters."
+  type = object({
+    enabled                               = optional(bool, true)
+    id                                    = optional(string, null)
+    custom_name                           = optional(string, null)
+    type                                  = optional(string, "web")
+    daily_data_cap                        = optional(number, null)
+    daily_data_cap_notifications_disabled = optional(bool, null)
+    retention                             = optional(number, 90)
+    internet_ingestion_enabled            = optional(bool, true)
+    internet_query_enabled                = optional(bool, true)
+    ip_masking_disabled                   = optional(bool, false)
+    local_authentication_disabled         = optional(bool, false)
+    force_customer_storage_for_profiler   = optional(bool, false)
+    log_analytics_workspace_id            = optional(string, null)
+    sampling_percentage                   = optional(number, null)
+  })
+  default = {}
 }

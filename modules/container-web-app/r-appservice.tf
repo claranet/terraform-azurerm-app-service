@@ -1,11 +1,11 @@
-resource "azurerm_linux_web_app" "app_service_linux_container" {
-  name                = local.app_service_name
+resource "azurerm_linux_web_app" "main" {
+  name                = local.name
   location            = var.location
   resource_group_name = var.resource_group_name
   service_plan_id     = var.service_plan_id
 
   public_network_access_enabled = var.public_network_access_enabled
-  virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
+  virtual_network_subnet_id     = var.vnet_integration_subnet_id
 
   dynamic "site_config" {
     for_each = [local.site_config]
@@ -59,13 +59,13 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
-      scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
+      scm_use_main_ip_restriction = length(var.scm_allowed_ips) > 0 || length(var.scm_allowed_subnet_ids) > 0 ? false : true
 
-      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
+      vnet_route_all_enabled = var.vnet_integration_subnet_id != null
 
       application_stack {
         docker_image_name        = format("%s:%s", var.docker_image.name, var.docker_image.tag)
-        docker_registry_url      = var.docker_image.registry
+        docker_registry_url      = coalesce(var.docker_image.registry, "https://index.docker.io")
         docker_registry_username = var.docker_image.registry_username
         docker_registry_password = var.docker_image.registry_password
       }
@@ -114,7 +114,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
         content {
           client_id         = local.auth_settings_active_directory.client_id
           client_secret     = local.auth_settings_active_directory.client_secret
-          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), local.auth_settings_active_directory.allowed_audiences)
+          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.name)]), local.auth_settings_active_directory.allowed_audiences)
         }
       }
     }
@@ -289,7 +289,7 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   }
 
   dynamic "logs" {
-    for_each = var.app_service_logs == null ? [] : [var.app_service_logs]
+    for_each = var.logs == null ? [] : [var.logs]
     content {
       detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
       failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
@@ -341,7 +341,12 @@ resource "azurerm_linux_web_app" "app_service_linux_container" {
   }
 }
 
-resource "azurerm_app_service_certificate" "app_service_certificate" {
+moved {
+  from = azurerm_linux_web_app_slot.app_service_linux_container_slot
+  to   = module.staging_slot.azurerm_linux_web_app_slot.main
+}
+
+resource "azurerm_app_service_certificate" "main" {
   for_each = var.certificates
 
   name                = lookup(each.value, "custom_name", each.key)
@@ -352,12 +357,22 @@ resource "azurerm_app_service_certificate" "app_service_certificate" {
   key_vault_secret_id = try(each.value.certificate_keyvault_certificate_id, null)
 }
 
-resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
+moved {
+  from = azurerm_app_service_certificate.app_service_certificate
+  to   = azurerm_app_service_certificate.main
+}
+
+resource "azurerm_app_service_custom_hostname_binding" "main" {
   for_each = var.custom_domains
 
   hostname            = each.key
-  app_service_name    = azurerm_linux_web_app.app_service_linux_container.name
+  app_service_name    = azurerm_linux_web_app.main.name
   resource_group_name = var.resource_group_name
   ssl_state           = lookup(each.value, "certificate_name", null) != null || lookup(each.value, "certificate_thumbprint", null) != null ? "SniEnabled" : null
-  thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.app_service_certificate[each.value.certificate_name].thumbprint : null
+  thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.main[each.value.certificate_name].thumbprint : null
+}
+
+moved {
+  from = azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding
+  to   = azurerm_app_service_custom_hostname_binding.main
 }
