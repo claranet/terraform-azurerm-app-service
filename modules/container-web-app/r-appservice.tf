@@ -1,3 +1,8 @@
+moved {
+  from = azurerm_linux_web_app.app_service_linux_container
+  to   = azurerm_linux_web_app.main
+}
+
 resource "azurerm_linux_web_app" "main" {
   name                = local.name
   location            = var.location
