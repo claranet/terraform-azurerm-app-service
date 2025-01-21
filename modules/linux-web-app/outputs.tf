@@ -1,96 +1,110 @@
 output "service_plan_id" {
-  description = "ID of the Service Plan"
+  description = "ID of the Service Plan."
   value       = var.service_plan_id
 }
 
-output "app_service_id" {
-  description = "Id of the App Service"
-  value       = azurerm_linux_web_app.app_service_linux.id
+output "id" {
+  description = "ID of the App Service."
+  value       = azurerm_linux_web_app.main.id
 }
 
-output "app_service_name" {
-  description = "Name of the App Service"
-  value       = azurerm_linux_web_app.app_service_linux.name
+output "name" {
+  description = "Name of the App Service."
+  value       = azurerm_linux_web_app.main.name
 }
 
-output "app_service_default_site_hostname" {
-  description = "The Default Hostname associated with the App Service"
-  value       = azurerm_linux_web_app.app_service_linux.default_hostname
+output "resource" {
+  description = "Resource output."
+  value       = azurerm_linux_web_app.main
 }
 
-output "app_service_outbound_ip_addresses" {
-  description = "Outbound IP adresses of the App Service"
-  value       = split(",", azurerm_linux_web_app.app_service_linux.outbound_ip_addresses)
+output "resource_application_insights" {
+  description = "Application insights output."
+  value       = local.application_insights
 }
 
-output "app_service_possible_outbound_ip_addresses" {
-  description = "Possible outbound IP adresses of the App Service"
-  value       = split(",", azurerm_linux_web_app.app_service_linux.possible_outbound_ip_addresses)
+output "module_diagnostics" {
+  description = "Diagnostics Settings module output."
+  value       = module.diagnostics
 }
 
-output "app_service_site_credential" {
-  description = "Site credential block of the App Service"
-  value       = azurerm_linux_web_app.app_service_linux.site_credential
+output "module_slot" {
+  description = "App Service slot output."
+  value       = module.staging_slot
 }
 
-output "app_service_identity_service_principal_id" {
-  description = "Id of the Service principal identity of the App Service"
-  value       = azurerm_linux_web_app.app_service_linux.identity[0].principal_id
+output "module_backup_sas_token" {
+  description = "Backup SAS token module output."
+  value       = module.backup_sas_token
 }
 
-output "app_service_certificates_id" {
+output "default_site_hostname" {
+  description = "The Default Hostname associated with the App Service."
+  value       = azurerm_linux_web_app.main.default_hostname
+}
+
+output "outbound_ip_addresses" {
+  description = "Outbound IP adresses of the App Service."
+  value       = split(",", azurerm_linux_web_app.main.outbound_ip_addresses)
+}
+
+output "possible_outbound_ip_addresses" {
+  description = "Possible outbound IP adresses of the App Service."
+  value       = split(",", azurerm_linux_web_app.main.possible_outbound_ip_addresses)
+}
+
+output "site_credential" {
+  description = "Site credential block of the App Service."
+  value       = azurerm_linux_web_app.main.site_credential
+}
+
+output "identity_service_principal_id" {
+  description = "Id of the Service principal identity of the App Service."
+  value       = azurerm_linux_web_app.main.identity[0].principal_id
+}
+
+output "certificates_id" {
   description = "ID of certificates generated."
-  value       = { for k, v in var.custom_domains : k => azurerm_app_service_certificate.app_service_certificate[k].id if try(v.certificate_id == null, false) }
-}
-
-output "app_insights_id" {
-  description = "Deprecated, use `application_insights_id`"
-  value       = try(local.app_insights.id, null)
+  value       = { for k, v in var.custom_domains : k => azurerm_app_service_certificate.main[k].id if try(v.certificate_id == null, false) }
 }
 
 output "application_insights_id" {
-  description = "Id of the Application Insights associated to the App Service"
-  value       = try(local.app_insights.id, null)
-}
-
-output "app_insights_name" {
-  description = "Deprecated, use `application_insights_name`"
-  value       = try(local.app_insights.name, null)
+  description = "ID of the Application Insights associated to the App Service."
+  value       = try(local.application_insights.id, null)
 }
 
 output "application_insights_name" {
-  description = "Name of the Application Insights associated to the App Service"
-  value       = try(local.app_insights.name, null)
-}
-
-output "app_insights_app_id" {
-  description = "Deprecated, use `application_insights_app_id`"
-  value       = try(local.app_insights.app_id, null)
+  description = "Name of the Application Insights associated to the App Service."
+  value       = try(local.application_insights.name, null)
 }
 
 output "application_insights_app_id" {
-  description = "App id of the Application Insights associated to the App Service"
-  value       = try(local.app_insights.app_id, null)
-}
-
-output "app_insights_instrumentation_key" {
-  description = "Deprecated, use `application_insights_instrumentation_key`"
-  value       = try(local.app_insights.instrumentation_key, null)
-  sensitive   = true
+  description = "App id of the Application Insights associated to the App Service."
+  value       = try(local.application_insights.app_id, null)
 }
 
 output "application_insights_instrumentation_key" {
-  description = "Instrumentation key of the Application Insights associated to the App Service"
-  value       = try(local.app_insights.instrumentation_key, null)
+  description = "Instrumentation key of the Application Insights associated to the App Service."
+  value       = try(local.application_insights.instrumentation_key, null)
   sensitive   = true
 }
 
-output "app_insights_application_type" {
-  description = "Deprecated, use `application_insights_application_type`"
-  value       = try(local.app_insights.application_type, null)
+output "application_insights_application_type" {
+  description = "Application Type of the Application Insights associated to the App Service."
+  value       = try(local.application_insights.application_type, null)
 }
 
-output "application_insights_application_type" {
-  description = "Application Type of the Application Insights associated to the App Service"
-  value       = try(local.app_insights.application_type, null)
+output "slot" {
+  description = "Azure App Service slot output object."
+  value       = one(module.staging_slot[*].slot)
+}
+
+output "slot_name" {
+  description = "Name of the App Service slot."
+  value       = one(module.staging_slot[*].name)
+}
+
+output "slot_identity_service_principal_id" {
+  description = "ID of the Service principal identity of the App Service slot."
+  value       = one(module.staging_slot[*].identity_principal_id)
 }

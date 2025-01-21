@@ -347,11 +347,6 @@ resource "azurerm_linux_web_app" "main" {
   }
 }
 
-moved {
-  from = azurerm_linux_web_app_slot.app_service_linux_container_slot
-  to   = module.staging_slot.azurerm_linux_web_app_slot.main
-}
-
 resource "azurerm_app_service_certificate" "main" {
   for_each = var.certificates
 

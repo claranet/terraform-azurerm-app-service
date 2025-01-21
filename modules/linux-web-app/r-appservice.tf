@@ -1,30 +1,37 @@
-resource "azurerm_linux_web_app" "app_service_linux" {
-  name                = local.app_service_name
+moved {
+  from = azurerm_linux_web_app.app_service_linux
+  to   = azurerm_linux_web_app.main
+}
+
+resource "azurerm_linux_web_app" "main" {
+  name                = local.name
   location            = var.location
   resource_group_name = var.resource_group_name
   service_plan_id     = var.service_plan_id
 
   public_network_access_enabled = var.public_network_access_enabled
-  virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
+  virtual_network_subnet_id     = var.vnet_integration_subnet_id
 
   dynamic "site_config" {
     for_each = [local.site_config]
 
     content {
-      linux_fx_version         = lookup(site_config.value, "linux_fx_version", null)
-      always_on                = lookup(site_config.value, "always_on", null)
-      app_command_line         = lookup(site_config.value, "app_command_line", null)
-      default_documents        = lookup(site_config.value, "default_documents", null)
-      ftps_state               = lookup(site_config.value, "ftps_state", "Disabled")
-      health_check_path        = lookup(site_config.value, "health_check_path", null)
-      http2_enabled            = lookup(site_config.value, "http2_enabled", null)
-      local_mysql_enabled      = lookup(site_config.value, "local_mysql_enabled", false)
-      managed_pipeline_mode    = lookup(site_config.value, "managed_pipeline_mode", null)
-      minimum_tls_version      = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", "1.2"))
-      remote_debugging_enabled = lookup(site_config.value, "remote_debugging_enabled", false)
-      remote_debugging_version = lookup(site_config.value, "remote_debugging_version", null)
-      use_32_bit_worker        = lookup(site_config.value, "use_32_bit_worker", false)
-      websockets_enabled       = lookup(site_config.value, "websockets_enabled", false)
+      linux_fx_version = lookup(site_config.value, "linux_fx_version", null)
+
+      always_on                         = lookup(site_config.value, "always_on", null)
+      app_command_line                  = lookup(site_config.value, "app_command_line", null)
+      default_documents                 = lookup(site_config.value, "default_documents", null)
+      ftps_state                        = lookup(site_config.value, "ftps_state", "Disabled")
+      health_check_path                 = lookup(site_config.value, "health_check_path", null)
+      health_check_eviction_time_in_min = lookup(site_config.value, "health_check_eviction_time_in_min", null)
+      http2_enabled                     = lookup(site_config.value, "http2_enabled", null)
+      local_mysql_enabled               = lookup(site_config.value, "local_mysql_enabled", false)
+      managed_pipeline_mode             = lookup(site_config.value, "managed_pipeline_mode", null)
+      minimum_tls_version               = lookup(site_config.value, "minimum_tls_version", lookup(site_config.value, "min_tls_version", "1.2"))
+      remote_debugging_enabled          = lookup(site_config.value, "remote_debugging_enabled", false)
+      remote_debugging_version          = lookup(site_config.value, "remote_debugging_version", null)
+      use_32_bit_worker                 = lookup(site_config.value, "use_32_bit_worker", false)
+      websockets_enabled                = lookup(site_config.value, "websockets_enabled", false)
 
       ip_restriction_default_action     = lookup(site_config.value, "ip_restriction_default_action", "Deny")
       scm_ip_restriction_default_action = lookup(site_config.value, "scm_ip_restriction_default_action", "Deny")
@@ -57,9 +64,9 @@ resource "azurerm_linux_web_app" "app_service_linux" {
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
-      scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
+      scm_use_main_ip_restriction = length(var.scm_allowed_ips) > 0 || length(var.scm_allowed_subnet_ids) > 0 ? false : true
 
-      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
+      vnet_route_all_enabled = var.vnet_integration_subnet_id != null
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
@@ -119,7 +126,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
         content {
           client_id         = local.auth_settings_active_directory.client_id
           client_secret     = local.auth_settings_active_directory.client_secret
-          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.app_service_name)]), local.auth_settings_active_directory.allowed_audiences)
+          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", local.name)]), local.auth_settings_active_directory.allowed_audiences)
         }
       }
     }
@@ -151,7 +158,6 @@ resource "azurerm_linux_web_app" "app_service_linux" {
 
       dynamic "active_directory_v2" {
         for_each = try(local.auth_settings_v2.active_directory_v2[*], [])
-
         content {
           client_id                            = lookup(active_directory_v2.value, "client_id", null)
           tenant_auth_endpoint                 = lookup(active_directory_v2.value, "tenant_auth_endpoint", null)
@@ -295,7 +301,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
   }
 
   dynamic "logs" {
-    for_each = var.app_service_logs == null ? [] : [var.app_service_logs]
+    for_each = var.logs == null ? [] : [var.logs]
     content {
       detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
       failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)
@@ -347,7 +353,7 @@ resource "azurerm_linux_web_app" "app_service_linux" {
   }
 }
 
-resource "azurerm_app_service_certificate" "app_service_certificate" {
+resource "azurerm_app_service_certificate" "main" {
   for_each = var.certificates
 
   name                = lookup(each.value, "custom_name", each.key)
@@ -358,12 +364,22 @@ resource "azurerm_app_service_certificate" "app_service_certificate" {
   key_vault_secret_id = try(each.value.certificate_keyvault_certificate_id, null)
 }
 
-resource "azurerm_app_service_custom_hostname_binding" "app_service_custom_hostname_binding" {
+moved {
+  from = azurerm_app_service_certificate.app_service_certificate
+  to   = azurerm_app_service_certificate.main
+}
+
+resource "azurerm_app_service_custom_hostname_binding" "main" {
   for_each = var.custom_domains
 
   hostname            = each.key
-  app_service_name    = azurerm_linux_web_app.app_service_linux.name
+  app_service_name    = azurerm_linux_web_app.main.name
   resource_group_name = var.resource_group_name
   ssl_state           = lookup(each.value, "certificate_name", null) != null || lookup(each.value, "certificate_thumbprint", null) != null ? "SniEnabled" : null
-  thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.app_service_certificate[each.value.certificate_name].thumbprint : null
+  thumbprint          = lookup(each.value, "certificate_thumbprint", null) != null ? each.value.certificate_thumbprint : lookup(each.value, "certificate_name", null) != null ? azurerm_app_service_certificate.main[each.value.certificate_name].thumbprint : null
+}
+
+moved {
+  from = azurerm_app_service_custom_hostname_binding.app_service_custom_hostname_binding
+  to   = azurerm_app_service_custom_hostname_binding.main
 }
