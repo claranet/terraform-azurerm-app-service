@@ -236,6 +236,7 @@ module "linux_web_app" {
 | staging\_slot\_custom\_name | Custom name of the app service slot. | `string` | `null` | no |
 | staging\_slot\_enabled | Create a staging slot alongside the App Service for blue/green deployment purposes. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot). | `bool` | `true` | no |
 | staging\_slot\_mount\_points | Storage Account mount points for staging slot. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account). | <pre>list(object({<br/>    name         = optional(string)<br/>    type         = optional(string, "AzureFiles")<br/>    account_name = string<br/>    share_name   = string<br/>    access_key   = string<br/>    mount_path   = optional(string)<br/>  }))</pre> | `[]` | no |
+| staging\_slot\_site\_config | Staging slot site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config). | `any` | `{}` | no |
 | sticky\_settings | Lists of connection strings and app settings to prevent from swapping between slots. | <pre>object({<br/>    app_setting_names       = optional(list(string))<br/>    connection_string_names = optional(list(string))<br/>  })</pre> | `null` | no |
 | vnet\_integration\_subnet\_id | ID of the subnet to associate with the App Service. | `string` | `null` | no |
 

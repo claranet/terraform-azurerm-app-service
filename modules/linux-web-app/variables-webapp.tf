@@ -235,6 +235,13 @@ variable "staging_slot_custom_app_settings" {
   default     = null
 }
 
+variable "staging_slot_site_config" {
+  description = "Staging slot site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config)."
+  type        = any
+  default     = {}
+  nullable    = false
+}
+
 variable "logs" {
   description = "Configuration of the App Service and App Service slot logs. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#logs)."
   type = object({

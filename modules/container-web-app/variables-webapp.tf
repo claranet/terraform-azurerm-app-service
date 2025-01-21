@@ -235,6 +235,13 @@ variable "staging_slot_custom_app_settings" {
   default     = null
 }
 
+variable "staging_slot_site_config" {
+  description = "Staging slot site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config)."
+  type        = any
+  default     = {}
+  nullable    = false
+}
+
 variable "docker_image" {
   description = "Docker image to use for this App Service."
   type = object({

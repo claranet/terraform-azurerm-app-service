@@ -16,7 +16,7 @@ locals {
   }
 
   site_config      = merge(local.default_site_config, var.site_config)
-  slot_site_config = merge(local.default_slot_site_config, var.site_config)
+  slot_site_config = merge(local.default_slot_site_config, var.site_config, var.staging_slot_site_config)
 
   id = "/subscriptions/${data.azurerm_subscription.main.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Web/sites/${local.name}"
 

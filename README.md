@@ -42,35 +42,6 @@ More details about variables set by the `terraform-wrapper` available in the [do
 [Hashicorp Terraform](https://github.com/hashicorp/terraform/). Instead, we recommend to use [OpenTofu](https://github.com/opentofu/opentofu/).
 
 ```hcl
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure_region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
-}
-
-module "logs" {
-  source  = "claranet/run/azurerm//modules/logs"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-}
-
 resource "azurerm_storage_account" "assets_storage" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
@@ -81,9 +52,9 @@ resource "azurerm_storage_account" "assets_storage" {
 }
 
 resource "azurerm_storage_share" "assets_share" {
-  name                 = "assets"
-  storage_account_name = azurerm_storage_account.assets_storage.name
-  quota                = 50
+  name               = "assets"
+  storage_account_id = azurerm_storage_account.assets_storage.id
+  quota              = 50
 }
 
 module "app_service" {
@@ -94,7 +65,7 @@ module "app_service" {
   environment         = var.environment
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   stack               = var.stack
 
   os_type  = "Linux"
@@ -170,11 +141,11 @@ module "app_service" {
     }
   ]
 
-  application_insights_log_analytics_workspace_id = module.logs.log_analytics_workspace_id
+  application_insights_log_analytics_workspace_id = module.run.log_analytics_workspace_id
 
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 }
 ```
@@ -276,6 +247,7 @@ module "app_service" {
 | staging\_slot\_custom\_name | Custom name of the app service slot | `string` | `null` | no |
 | staging\_slot\_enabled | Create a staging slot alongside the app service for blue/green deployment purposes. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_slot | `bool` | `true` | no |
 | staging\_slot\_mount\_points | Storage Account mount points for Staging slot. Name is generated if not set and default type is `AzureFiles`. See https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account | <pre>list(object({<br/>    name         = optional(string)<br/>    type         = optional(string, "AzureFiles")<br/>    account_name = string<br/>    share_name   = string<br/>    access_key   = string<br/>    mount_path   = optional(string)<br/>  }))</pre> | `[]` | no |
+| staging\_slot\_site\_config | Staging slot site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config). | `any` | `{}` | no |
 | sticky\_settings | Lists of connection strings and app settings to prevent from swapping between slots. | <pre>object({<br/>    app_setting_names       = optional(list(string))<br/>    connection_string_names = optional(list(string))<br/>  })</pre> | `null` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | worker\_count | The number of Workers (instances) to be allocated. | `number` | `null` | no |

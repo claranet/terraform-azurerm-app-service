@@ -34,6 +34,7 @@ module "linux_web_app" {
   staging_slot_enabled             = var.staging_slot_enabled
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
+  staging_slot_site_config         = var.staging_slot_site_config
 
   custom_domains = var.custom_domains
   certificates   = var.certificates
@@ -138,6 +139,7 @@ module "container_web_app" {
   staging_slot_enabled             = var.staging_slot_enabled
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
+  staging_slot_site_config         = var.staging_slot_site_config
 
   custom_domains = var.custom_domains
   certificates   = var.certificates
@@ -226,6 +228,7 @@ module "windows_web_app" {
   staging_slot_enabled             = var.staging_slot_enabled
   staging_slot_custom_name         = var.staging_slot_custom_name
   staging_slot_custom_app_settings = var.staging_slot_custom_app_settings
+  staging_slot_site_config         = var.staging_slot_site_config
 
   custom_domains = var.custom_domains
   certificates   = var.certificates
