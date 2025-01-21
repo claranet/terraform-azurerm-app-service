@@ -73,7 +73,7 @@ module "container_web_app" {
   resource_group_name = module.rg.name
   stack               = var.stack
 
-  service_plan_id = module.service_plan.service_plan_id
+  service_plan_id = module.service_plan.id
 
   app_settings = {
     "DOCKER_ENABLE_CI" = true
