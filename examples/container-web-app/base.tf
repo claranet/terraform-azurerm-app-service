@@ -27,3 +27,18 @@ module "run" {
   location_short      = module.azure_region.location_short
   resource_group_name = module.rg.name
 }
+
+resource "azurerm_storage_account" "assets_storage" {
+  account_replication_type = "LRS"
+  account_tier             = "Standard"
+  location                 = module.azure_region.location
+  name                     = "appserviceassets"
+  resource_group_name      = module.rg.resource_group_name
+  min_tls_version          = "TLS1_2"
+}
+
+resource "azurerm_storage_share" "assets_share" {
+  name               = "assets"
+  storage_account_id = azurerm_storage_account.assets_storage.id
+  quota              = 50
+}

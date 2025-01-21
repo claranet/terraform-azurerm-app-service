@@ -1,32 +1,3 @@
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure_region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
-}
-
-module "logs" {
-  source  = "claranet/run/azurerm//modules/logs"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-}
-
 resource "azurerm_storage_account" "assets_storage" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
@@ -37,9 +8,9 @@ resource "azurerm_storage_account" "assets_storage" {
 }
 
 resource "azurerm_storage_share" "assets_share" {
-  name                 = "assets"
-  storage_account_name = azurerm_storage_account.assets_storage.name
-  quota                = 50
+  name               = "assets"
+  storage_account_id = azurerm_storage_account.assets_storage.id
+  quota              = 50
 }
 
 module "app_service" {
@@ -50,7 +21,7 @@ module "app_service" {
   environment         = var.environment
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   stack               = var.stack
 
   os_type  = "Linux"
@@ -126,10 +97,10 @@ module "app_service" {
     }
   ]
 
-  application_insights_log_analytics_workspace_id = module.logs.log_analytics_workspace_id
+  application_insights_log_analytics_workspace_id = module.run.log_analytics_workspace_id
 
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 }

@@ -42,50 +42,6 @@ More details about variables set by the `terraform-wrapper` available in the [do
 [Hashicorp Terraform](https://github.com/hashicorp/terraform/). Instead, we recommend to use [OpenTofu](https://github.com/opentofu/opentofu/).
 
 ```hcl
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure_region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
-}
-
-module "logs" {
-  source  = "claranet/run/azurerm//modules/logs"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-}
-
-resource "azurerm_storage_account" "assets_storage" {
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-  location                 = module.azure_region.location
-  name                     = "appserviceassets"
-  resource_group_name      = module.rg.resource_group_name
-  min_tls_version          = "TLS1_2"
-}
-
-resource "azurerm_storage_share" "assets_share" {
-  name                 = "assets"
-  storage_account_name = azurerm_storage_account.assets_storage.name
-  quota                = 50
-}
-
 module "service_plan" {
   source  = "claranet/app-service-plan/azurerm"
   version = "x.x.x"
@@ -94,12 +50,12 @@ module "service_plan" {
   environment         = var.environment
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   stack               = var.stack
 
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 
   os_type  = "Linux"
@@ -114,7 +70,7 @@ module "container_web_app" {
   environment         = var.environment
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   stack               = var.stack
 
   service_plan_id = module.service_plan.service_plan_id
@@ -194,11 +150,11 @@ module "container_web_app" {
     }
   ]
 
-  application_insights_log_analytics_workspace_id = module.logs.log_analytics_workspace_id
+  application_insights_log_analytics_workspace_id = module.run.log_analytics_workspace_id
 
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 }
 
@@ -211,14 +167,14 @@ module "acr" {
   stack               = var.stack
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   sku                 = "Standard"
 
   azure_services_bypass_allowed = true
 
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 
   extra_tags = {
@@ -227,8 +183,8 @@ module "acr" {
 }
 
 resource "azurerm_role_assignment" "webapp_acr_pull" {
-  scope                = module.acr.acr_id
-  principal_id         = module.container_web_app.app_service_identity_service_principal_id
+  scope                = module.acr.id
+  principal_id         = module.container_web_app.identity_service_principal_id
   role_definition_name = "AcrPull"
 
   lifecycle {
@@ -237,14 +193,14 @@ resource "azurerm_role_assignment" "webapp_acr_pull" {
 }
 
 resource "azurerm_container_registry_webhook" "webhook" {
-  name = "webapp${replace(module.container_web_app.app_service_name, "/-|_|\\W/", "")}"
+  name = "webapp${replace(module.container_web_app.name, "/-|_|\\W/", "")}"
 
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   location            = module.azure_region.location
 
   registry_name = module.acr.acr_name
 
-  service_uri    = "https://${module.container_web_app.app_service_site_credential[0].name}:${module.container_web_app.app_service_site_credential[0].password}@${module.container_web_app.app_service_name}.scm.azurewebsites.net/api/registry/webhook"
+  service_uri    = "https://${module.container_web_app.site_credential[0].name}:${module.container_web_app.site_credential[0].password}@${module.container_web_app.name}.scm.azurewebsites.net/api/registry/webhook"
   status         = "enabled"
   scope          = "myapp:latest"
   actions        = ["push"]
