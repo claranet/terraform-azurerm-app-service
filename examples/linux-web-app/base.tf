@@ -33,7 +33,7 @@ resource "azurerm_storage_account" "assets_storage" {
   account_tier             = "Standard"
   location                 = module.azure_region.location
   name                     = "appserviceassets"
-  resource_group_name      = module.rg.resource_group_name
+  resource_group_name      = module.rg.name
   min_tls_version          = "TLS1_2"
 }
 

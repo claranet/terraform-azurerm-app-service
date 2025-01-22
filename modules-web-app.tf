@@ -10,13 +10,12 @@ module "linux_web_app" {
   resource_group_name = var.resource_group_name
   stack               = var.stack
 
-  use_caf_naming                  = var.use_caf_naming
   name_prefix                     = var.name_prefix
   name_suffix                     = var.name_suffix
-  app_service_custom_name         = var.app_service_custom_name
-  custom_diagnostic_settings_name = var.custom_diagnostic_settings_name
+  custom_name                     = var.app_service_custom_name
+  diagnostic_settings_custom_name = var.diagnostic_settings_custom_name
 
-  service_plan_id = module.service_plan.service_plan_id
+  service_plan_id = module.service_plan.id
 
   app_settings       = var.app_settings
   site_config        = var.site_config
@@ -40,16 +39,16 @@ module "linux_web_app" {
   certificates   = var.certificates
 
   public_network_access_enabled = var.public_network_access_enabled
-  authorized_ips                = var.authorized_ips
+  allowed_cidrs                 = var.allowed_cidrs
   ip_restriction_headers        = var.ip_restriction_headers
-  authorized_subnet_ids         = var.authorized_subnet_ids
-  authorized_service_tags       = var.authorized_service_tags
+  allowed_subnet_ids            = var.allowed_subnet_ids
+  allowed_service_tags          = var.allowed_service_tags
   scm_ip_restriction_headers    = var.scm_ip_restriction_headers
-  scm_authorized_ips            = var.scm_authorized_ips
-  scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
-  scm_authorized_service_tags   = var.scm_authorized_service_tags
+  scm_allowed_cidrs             = var.scm_allowed_cidrs
+  scm_allowed_subnet_ids        = var.scm_allowed_subnet_ids
+  scm_allowed_service_tags      = var.scm_allowed_service_tags
 
-  app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
+  vnet_integration_subnet_id = var.vnet_integration_subnet_id
 
   backup_enabled                           = var.backup_enabled
   backup_custom_name                       = var.backup_custom_name
@@ -60,22 +59,9 @@ module "linux_web_app" {
   backup_frequency_unit                    = var.backup_frequency_unit
   backup_keep_at_least_one_backup          = var.backup_keep_at_least_one_backup
 
-  application_insights_enabled                               = var.application_insights_enabled
-  application_insights_id                                    = var.application_insights_id
-  application_insights_type                                  = var.application_insights_type
-  application_insights_custom_name                           = var.application_insights_custom_name
-  application_insights_daily_data_cap                        = var.application_insights_daily_data_cap
-  application_insights_daily_data_cap_notifications_disabled = var.application_insights_daily_data_cap_notifications_disabled
-  application_insights_sampling_percentage                   = var.application_insights_sampling_percentage
-  application_insights_retention                             = var.application_insights_retention
-  application_insights_internet_ingestion_enabled            = var.application_insights_internet_ingestion_enabled
-  application_insights_internet_query_enabled                = var.application_insights_internet_query_enabled
-  application_insights_ip_masking_disabled                   = var.application_insights_ip_masking_disabled
-  application_insights_local_authentication_disabled         = var.application_insights_local_authentication_disabled
-  application_insights_force_customer_storage_for_profiler   = var.application_insights_force_customer_storage_for_profiler
-  application_insights_log_analytics_workspace_id            = var.application_insights_log_analytics_workspace_id
+  application_insights = var.application_insights
 
-  app_service_logs = var.app_service_logs
+  logs = var.logs
 
   identity = var.identity
 
@@ -114,14 +100,14 @@ module "container_web_app" {
   resource_group_name = var.resource_group_name
   stack               = var.stack
 
-  use_caf_naming                  = var.use_caf_naming
   name_prefix                     = var.name_prefix
   name_suffix                     = var.name_suffix
-  app_service_custom_name         = var.app_service_custom_name
-  custom_diagnostic_settings_name = var.custom_diagnostic_settings_name
+  custom_name                     = var.app_service_custom_name
+  diagnostic_settings_custom_name = var.diagnostic_settings_custom_name
 
-  service_plan_id = module.service_plan.service_plan_id
-  docker_image    = var.docker_image
+  service_plan_id = module.service_plan.id
+
+  docker_image = var.docker_image
 
   app_settings       = var.app_settings
   site_config        = var.site_config
@@ -145,16 +131,16 @@ module "container_web_app" {
   certificates   = var.certificates
 
   public_network_access_enabled = var.public_network_access_enabled
-  authorized_ips                = var.authorized_ips
+  allowed_cidrs                 = var.allowed_cidrs
   ip_restriction_headers        = var.ip_restriction_headers
-  authorized_subnet_ids         = var.authorized_subnet_ids
-  authorized_service_tags       = var.authorized_service_tags
+  allowed_subnet_ids            = var.allowed_subnet_ids
+  allowed_service_tags          = var.allowed_service_tags
   scm_ip_restriction_headers    = var.scm_ip_restriction_headers
-  scm_authorized_ips            = var.scm_authorized_ips
-  scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
-  scm_authorized_service_tags   = var.scm_authorized_service_tags
+  scm_allowed_cidrs             = var.scm_allowed_cidrs
+  scm_allowed_subnet_ids        = var.scm_allowed_subnet_ids
+  scm_allowed_service_tags      = var.scm_allowed_service_tags
 
-  app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
+  vnet_integration_subnet_id = var.vnet_integration_subnet_id
 
   backup_enabled                           = var.backup_enabled
   backup_custom_name                       = var.backup_custom_name
@@ -165,22 +151,9 @@ module "container_web_app" {
   backup_frequency_unit                    = var.backup_frequency_unit
   backup_keep_at_least_one_backup          = var.backup_keep_at_least_one_backup
 
-  application_insights_enabled                               = var.application_insights_enabled
-  application_insights_id                                    = var.application_insights_id
-  application_insights_type                                  = var.application_insights_type
-  application_insights_custom_name                           = var.application_insights_custom_name
-  application_insights_daily_data_cap                        = var.application_insights_daily_data_cap
-  application_insights_daily_data_cap_notifications_disabled = var.application_insights_daily_data_cap_notifications_disabled
-  application_insights_sampling_percentage                   = var.application_insights_sampling_percentage
-  application_insights_retention                             = var.application_insights_retention
-  application_insights_internet_ingestion_enabled            = var.application_insights_internet_ingestion_enabled
-  application_insights_internet_query_enabled                = var.application_insights_internet_query_enabled
-  application_insights_ip_masking_disabled                   = var.application_insights_ip_masking_disabled
-  application_insights_local_authentication_disabled         = var.application_insights_local_authentication_disabled
-  application_insights_force_customer_storage_for_profiler   = var.application_insights_force_customer_storage_for_profiler
-  application_insights_log_analytics_workspace_id            = var.application_insights_log_analytics_workspace_id
+  application_insights = var.application_insights
 
-  app_service_logs = var.app_service_logs
+  logs = var.logs
 
   identity = var.identity
 
@@ -204,13 +177,12 @@ module "windows_web_app" {
   resource_group_name = var.resource_group_name
   stack               = var.stack
 
-  use_caf_naming                  = var.use_caf_naming
   name_prefix                     = var.name_prefix
   name_suffix                     = var.name_suffix
-  app_service_custom_name         = var.app_service_custom_name
-  custom_diagnostic_settings_name = var.custom_diagnostic_settings_name
+  custom_name                     = var.app_service_custom_name
+  diagnostic_settings_custom_name = var.diagnostic_settings_custom_name
 
-  service_plan_id = module.service_plan.service_plan_id
+  service_plan_id = module.service_plan.id
 
   app_settings       = var.app_settings
   site_config        = var.site_config
@@ -234,16 +206,16 @@ module "windows_web_app" {
   certificates   = var.certificates
 
   public_network_access_enabled = var.public_network_access_enabled
-  authorized_ips                = var.authorized_ips
+  allowed_cidrs                 = var.allowed_cidrs
   ip_restriction_headers        = var.ip_restriction_headers
-  authorized_subnet_ids         = var.authorized_subnet_ids
-  authorized_service_tags       = var.authorized_service_tags
+  allowed_subnet_ids            = var.allowed_subnet_ids
+  allowed_service_tags          = var.allowed_service_tags
   scm_ip_restriction_headers    = var.scm_ip_restriction_headers
-  scm_authorized_ips            = var.scm_authorized_ips
-  scm_authorized_subnet_ids     = var.scm_authorized_subnet_ids
-  scm_authorized_service_tags   = var.scm_authorized_service_tags
+  scm_allowed_cidrs             = var.scm_allowed_cidrs
+  scm_allowed_subnet_ids        = var.scm_allowed_subnet_ids
+  scm_allowed_service_tags      = var.scm_allowed_service_tags
 
-  app_service_vnet_integration_subnet_id = var.app_service_vnet_integration_subnet_id
+  vnet_integration_subnet_id = var.vnet_integration_subnet_id
 
   backup_enabled                           = var.backup_enabled
   backup_custom_name                       = var.backup_custom_name
@@ -254,21 +226,9 @@ module "windows_web_app" {
   backup_frequency_unit                    = var.backup_frequency_unit
   backup_keep_at_least_one_backup          = var.backup_keep_at_least_one_backup
 
-  application_insights_enabled                               = var.application_insights_enabled
-  application_insights_id                                    = var.application_insights_id
-  application_insights_type                                  = var.application_insights_type
-  application_insights_custom_name                           = var.application_insights_custom_name
-  application_insights_daily_data_cap                        = var.application_insights_daily_data_cap
-  application_insights_daily_data_cap_notifications_disabled = var.application_insights_daily_data_cap_notifications_disabled
-  application_insights_sampling_percentage                   = var.application_insights_sampling_percentage
-  application_insights_retention                             = var.application_insights_retention
-  application_insights_internet_ingestion_enabled            = var.application_insights_internet_ingestion_enabled
-  application_insights_internet_query_enabled                = var.application_insights_internet_query_enabled
-  application_insights_ip_masking_disabled                   = var.application_insights_ip_masking_disabled
-  application_insights_local_authentication_disabled         = var.application_insights_local_authentication_disabled
-  application_insights_force_customer_storage_for_profiler   = var.application_insights_force_customer_storage_for_profiler
-  application_insights_log_analytics_workspace_id            = var.application_insights_log_analytics_workspace_id
-  app_service_logs                                           = var.app_service_logs
+  application_insights = var.application_insights
+
+  logs = var.logs
 
   identity = var.identity
 

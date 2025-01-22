@@ -3,7 +3,7 @@ resource "azurerm_storage_account" "assets_storage" {
   account_tier             = "Standard"
   location                 = module.azure_region.location
   name                     = "appserviceassets"
-  resource_group_name      = module.rg.resource_group_name
+  resource_group_name      = module.rg.name
   min_tls_version          = "TLS1_2"
 }
 
@@ -71,7 +71,7 @@ module "app_service" {
     }
   }
 
-  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+  allowed_cidrs = ["1.2.3.4/32", "4.3.2.1/32"]
 
   ip_restriction_headers = {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
@@ -96,8 +96,6 @@ module "app_service" {
       mount_path   = "/var/www/html/assets"
     }
   ]
-
-  application_insights_log_analytics_workspace_id = module.run.log_analytics_workspace_id
 
   logs_destinations_ids = [
     module.run.logs_storage_account_id,

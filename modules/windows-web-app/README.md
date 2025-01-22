@@ -42,50 +42,6 @@ More details about variables set by the `terraform-wrapper` available in the [do
 [Hashicorp Terraform](https://github.com/hashicorp/terraform/). Instead, we recommend to use [OpenTofu](https://github.com/opentofu/opentofu/).
 
 ```hcl
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure_region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
-}
-
-module "logs" {
-  source  = "claranet/run/azurerm//modules/logs"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-}
-
-resource "azurerm_storage_account" "assets_storage" {
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-  location                 = module.azure_region.location
-  name                     = "appserviceassets"
-  resource_group_name      = module.rg.resource_group_name
-  min_tls_version          = "TLS1_2"
-}
-
-resource "azurerm_storage_share" "assets_share" {
-  name                 = "assets"
-  storage_account_name = azurerm_storage_account.assets_storage.name
-  quota                = 50
-}
-
 module "service_plan" {
   source  = "claranet/app-service-plan/azurerm"
   version = "x.x.x"
@@ -94,12 +50,12 @@ module "service_plan" {
   environment         = var.environment
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   stack               = var.stack
 
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 
   os_type  = "Windows"
@@ -114,10 +70,10 @@ module "windows_web_app" {
   environment         = var.environment
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   stack               = var.stack
 
-  service_plan_id = module.service_plan.service_plan_id
+  service_plan_id = module.service_plan.id
 
   app_settings = {
     FOO = "bar"
@@ -125,8 +81,6 @@ module "windows_web_app" {
 
   site_config = {
     http2_enabled = true
-    # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
-    acr_use_managed_identity_credentials = true
 
     application_stack = {
       current_stack  = "dotnet"
@@ -163,7 +117,7 @@ module "windows_web_app" {
     }
   }
 
-  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+  allowed_cidrs = ["1.2.3.4/32", "4.3.2.1/32"]
 
   ip_restriction_headers = {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
@@ -189,11 +143,9 @@ module "windows_web_app" {
     }
   ]
 
-  application_insights_log_analytics_workspace_id = module.logs.log_analytics_workspace_id
-
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 }
 ```
@@ -258,7 +210,7 @@ module "windows_web_app" {
 | diagnostic\_settings\_custom\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | environment | Project environment. | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
-| https\_only | HTTPS restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only). | `bool` | `false` | no |
+| https\_only | HTTPS restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only). | `bool` | `true` | no |
 | identity | Map with identity block information. | <pre>object({<br/>    type         = string<br/>    identity_ids = list(string)<br/>  })</pre> | <pre>{<br/>  "identity_ids": [],<br/>  "type": "SystemAssigned"<br/>}</pre> | no |
 | ip\_restriction\_headers | IPs restriction headers for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers). | `map(list(string))` | `null` | no |
 | location | Azure location. | `string` | n/a | yes |
@@ -272,7 +224,7 @@ module "windows_web_app" {
 | name\_suffix | Optional suffix for the generated name. | `string` | `""` | no |
 | public\_network\_access\_enabled | Whether enable public access for the App Service. | `bool` | `false` | no |
 | resource\_group\_name | Resource group name. | `string` | n/a | yes |
-| scm\_allowed\_ips | SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
+| scm\_allowed\_cidrs | SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_allowed\_service\_tags | SCM Service Tags restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_allowed\_subnet\_ids | SCM subnets restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_ip\_restriction\_headers | IPs restriction headers for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers). | `map(list(string))` | `null` | no |

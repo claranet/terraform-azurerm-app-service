@@ -116,7 +116,7 @@ module "linux_web_app" {
     }
   }
 
-  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+  allowed_cidrs = ["1.2.3.4/32", "4.3.2.1/32"]
 
   ip_restriction_headers = {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
@@ -141,8 +141,6 @@ module "linux_web_app" {
       mount_path   = "/var/www/html/assets"
     }
   ]
-
-  application_insights_log_analytics_workspace_id = module.run.log_analytics_workspace_id
 
   logs_destinations_ids = [
     module.run.logs_storage_account_id,
@@ -211,7 +209,7 @@ module "linux_web_app" {
 | diagnostic\_settings\_custom\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | environment | Project environment. | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
-| https\_only | HTTPS restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only). | `bool` | `false` | no |
+| https\_only | HTTPS restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only). | `bool` | `true` | no |
 | identity | Map with identity block information. | <pre>object({<br/>    type         = string<br/>    identity_ids = list(string)<br/>  })</pre> | <pre>{<br/>  "identity_ids": [],<br/>  "type": "SystemAssigned"<br/>}</pre> | no |
 | ip\_restriction\_headers | IPs restriction headers for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers). | `map(list(string))` | `null` | no |
 | location | Azure location. | `string` | n/a | yes |
@@ -225,7 +223,7 @@ module "linux_web_app" {
 | name\_suffix | Optional suffix for the generated name. | `string` | `""` | no |
 | public\_network\_access\_enabled | Whether enable public access for the App Service. | `bool` | `false` | no |
 | resource\_group\_name | Resource group name. | `string` | n/a | yes |
-| scm\_allowed\_ips | SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
+| scm\_allowed\_cidrs | SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_allowed\_service\_tags | SCM Service Tags restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_allowed\_subnet\_ids | SCM subnets restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_ip\_restriction\_headers | IPs restriction headers for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#headers). | `map(list(string))` | `null` | no |

@@ -74,13 +74,13 @@ locals {
 
   scm_ip_restriction_headers = var.scm_ip_restriction_headers != null ? [merge(local.default_ip_restrictions_headers, var.scm_ip_restriction_headers)] : []
 
-  scm_cidrs = [for cidr in var.scm_allowed_ips : {
-    name                      = "scm_ip_restriction_cidr_${join("", [1, index(var.scm_allowed_ips, cidr)])}"
+  scm_cidrs = [for cidr in var.scm_allowed_cidrs : {
+    name                      = "scm_ip_restriction_cidr_${join("", [1, index(var.scm_allowed_cidrs, cidr)])}"
     ip_address                = cidr
     virtual_network_subnet_id = null
     service_tag               = null
     subnet_id                 = null
-    priority                  = join("", [1, index(var.scm_allowed_ips, cidr)])
+    priority                  = join("", [1, index(var.scm_allowed_cidrs, cidr)])
     action                    = "Allow"
     headers                   = local.scm_ip_restriction_headers
   }]

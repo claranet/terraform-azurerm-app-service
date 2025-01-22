@@ -34,70 +34,6 @@ More details about variables set by the `terraform-wrapper` available in the [do
 [Hashicorp Terraform](https://github.com/hashicorp/terraform/). Instead, we recommend to use [OpenTofu](https://github.com/opentofu/opentofu/).
 
 ```hcl
-module "azure_region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
-module "rg" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location    = module.azure_region.location
-  client_name = var.client_name
-  environment = var.environment
-  stack       = var.stack
-}
-
-module "logs" {
-  source  = "claranet/run/azurerm//modules/logs"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-}
-
-resource "azurerm_storage_account" "assets_storage" {
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-  location                 = module.azure_region.location
-  name                     = "appserviceassets"
-  resource_group_name      = module.rg.resource_group_name
-  min_tls_version          = "TLS1_2"
-}
-
-resource "azurerm_storage_share" "assets_share" {
-  name                 = "assets"
-  storage_account_name = azurerm_storage_account.assets_storage.name
-  quota                = 50
-}
-
-module "service_plan" {
-  source  = "claranet/app-service-plan/azurerm"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  location            = module.azure_region.location
-  location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
-  stack               = var.stack
-
-  logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
-  ]
-
-  os_type  = "Linux"
-  sku_name = "S1"
-}
-
 module "linux_web_app" {
   source  = "claranet/app-service/azurerm//modules/linux-web-app"
   version = "x.x.x"
@@ -106,10 +42,10 @@ module "linux_web_app" {
   environment         = var.environment
   location            = module.azure_region.location
   location_short      = module.azure_region.location_short
-  resource_group_name = module.rg.resource_group_name
+  resource_group_name = module.rg.name
   stack               = var.stack
 
-  service_plan_id = module.service_plan.service_plan_id
+  service_plan_id = module.service_plan.id
 
   app_settings = {
     FOO = "bar"
@@ -117,8 +53,6 @@ module "linux_web_app" {
 
   site_config = {
     http2_enabled = true
-    # The "AcrPull" role must be assigned to the managed identity in the target Azure Container Registry
-    acr_use_managed_identity_credentials = true
 
     application_stack = {
       php_version = "8.2"
@@ -154,7 +88,7 @@ module "linux_web_app" {
     }
   }
 
-  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+  allowed_cidrs = ["1.2.3.4/32", "4.3.2.1/32"]
 
   ip_restriction_headers = {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
@@ -180,11 +114,9 @@ module "linux_web_app" {
     }
   ]
 
-  application_insights_log_analytics_workspace_id = module.logs.log_analytics_workspace_id
-
   logs_destinations_ids = [
-    module.logs.logs_storage_account_id,
-    module.logs.log_analytics_workspace_id,
+    module.run.logs_storage_account_id,
+    module.run.log_analytics_workspace_id,
   ]
 }
 
@@ -195,9 +127,9 @@ module "testing_slot" {
   environment = var.environment
   stack       = var.stack
 
-  slot_os_type   = "Linux"
-  slot_name      = "testing-slot"
-  app_service_id = module.linux_web_app.app_service_id
+  slot_os_type = "Linux"
+  name         = "testing-slot"
+  id           = module.linux_web_app.id
 
   public_network_access_enabled = true
 
@@ -259,7 +191,7 @@ No modules.
 | mount\_points | Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account). | <pre>list(object({<br/>    name         = optional(string)<br/>    type         = optional(string, "AzureFiles")<br/>    account_name = string<br/>    share_name   = string<br/>    access_key   = string<br/>    mount_path   = optional(string)<br/>  }))</pre> | `[]` | no |
 | name | Azure App Service slot name. | `string` | n/a | yes |
 | public\_network\_access\_enabled | Whether the Azure App Service slot is available from public network. | `bool` | `false` | no |
-| scm\_allowed\_ips | SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
+| scm\_allowed\_cidrs | SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_allowed\_subnet\_ids | SCM subnets restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction). | `list(string)` | `[]` | no |
 | scm\_ip\_restriction | SCM IP restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction). | `any` | `{}` | no |
 | site\_config | Site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block). | `any` | `{}` | no |

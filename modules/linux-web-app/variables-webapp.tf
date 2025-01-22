@@ -60,7 +60,7 @@ variable "ip_restriction_headers" {
   default     = null
 }
 
-variable "scm_allowed_ips" {
+variable "scm_allowed_cidrs" {
   description = "SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction)."
   type        = list(string)
   default     = []
@@ -93,7 +93,7 @@ variable "client_affinity_enabled" {
 variable "https_only" {
   description = "HTTPS restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#https_only)."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "client_certificate_enabled" {

@@ -72,7 +72,7 @@ module "linux_web_app" {
     }
   }
 
-  authorized_ips = ["1.2.3.4/32", "4.3.2.1/32"]
+  allowed_cidrs = ["1.2.3.4/32", "4.3.2.1/32"]
 
   ip_restriction_headers = {
     x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
@@ -97,8 +97,6 @@ module "linux_web_app" {
       mount_path   = "/var/www/html/assets"
     }
   ]
-
-  application_insights_log_analytics_workspace_id = module.run.log_analytics_workspace_id
 
   logs_destinations_ids = [
     module.run.logs_storage_account_id,

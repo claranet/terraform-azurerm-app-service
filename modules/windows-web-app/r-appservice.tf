@@ -64,7 +64,7 @@ resource "azurerm_windows_web_app" "main" {
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
-      scm_use_main_ip_restriction = length(var.scm_allowed_ips) > 0 || length(var.scm_allowed_subnet_ids) > 0 ? false : true
+      scm_use_main_ip_restriction = length(var.scm_allowed_cidrs) > 0 || length(var.scm_allowed_subnet_ids) > 0 ? false : true
 
       vnet_route_all_enabled = var.vnet_integration_subnet_id != null
 

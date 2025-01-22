@@ -14,7 +14,7 @@ module "staging_slot" {
   vnet_integration_subnet_id    = var.vnet_integration_subnet_id
   ip_restriction                = concat(local.subnets, local.cidrs, local.service_tags)
   scm_ip_restriction            = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
-  scm_allowed_ips               = var.scm_allowed_ips
+  scm_allowed_cidrs             = var.scm_allowed_cidrs
   scm_allowed_subnet_ids        = var.scm_allowed_subnet_ids
 
   site_config                    = local.slot_site_config

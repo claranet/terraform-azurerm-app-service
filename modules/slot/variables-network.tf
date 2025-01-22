@@ -24,7 +24,7 @@ variable "scm_ip_restriction" {
   default     = {}
 }
 
-variable "scm_allowed_ips" {
+variable "scm_allowed_cidrs" {
   description = "SCM IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#scm_ip_restriction)."
   type        = list(string)
   default     = []
