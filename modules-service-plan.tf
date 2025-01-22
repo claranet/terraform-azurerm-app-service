@@ -1,7 +1,7 @@
 # Service Plan
 module "service_plan" {
   source  = "claranet/app-service-plan/azurerm"
-  version = "~> 7.1.0"
+  version = "~> 8.0.0"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -10,7 +10,6 @@ module "service_plan" {
   location            = var.location
   location_short      = var.location_short
 
-  use_caf_naming                  = var.use_caf_naming
   name_prefix                     = var.name_prefix
   name_suffix                     = var.name_suffix
   custom_name                     = var.service_plan_custom_name
