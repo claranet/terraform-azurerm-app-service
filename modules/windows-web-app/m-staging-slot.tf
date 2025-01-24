@@ -36,5 +36,5 @@ module "staging_slot" {
 
 moved {
   from = azurerm_windows_web_app_slot.app_service_windows_slot[0]
-  to   = module.staging[0].app_service_windows_slot.main[0]
+  to   = module.staging[0].azurerm_windows_web_app_slot.main[0]
 }
