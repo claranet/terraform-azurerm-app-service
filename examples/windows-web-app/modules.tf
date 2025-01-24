@@ -40,7 +40,7 @@ module "windows_web_app" {
 
     application_stack = {
       current_stack  = "dotnet"
-      dotnet_version = "v7.0"
+      dotnet_version = "v8.0"
     }
   }
 
@@ -89,15 +89,6 @@ module "windows_web_app" {
   extra_tags = {
     foo = "bar"
   }
-
-  mount_points = [
-    {
-      account_name = azurerm_storage_account.assets_storage.name
-      share_name   = azurerm_storage_share.assets_share.name
-      access_key   = azurerm_storage_account.assets_storage.primary_access_key
-      mount_path   = "/var/www/html/assets"
-    }
-  ]
 
   logs_destinations_ids = [
     module.run.logs_storage_account_id,
