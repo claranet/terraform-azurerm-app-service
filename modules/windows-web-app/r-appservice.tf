@@ -75,7 +75,7 @@ resource "azurerm_windows_web_app" "main" {
           dotnet_version               = lookup(local.site_config.application_stack, "dotnet_version", null)
           dotnet_core_version          = lookup(local.site_config.application_stack, "dotnet_core_version", null)
           tomcat_version               = lookup(local.site_config.application_stack, "tomcat_version", null)
-          java_embedded_server_enabled = lookup(local.site_config.application_stack, "java_embedded_server_enabled", false)
+          java_embedded_server_enabled = lookup(local.site_config.application_stack, "java_embedded_server_enabled", null)
           java_version                 = lookup(local.site_config.application_stack, "java_version", null)
           node_version                 = lookup(local.site_config.application_stack, "node_version", null)
           php_version                  = lookup(local.site_config.application_stack, "php_version", null)
