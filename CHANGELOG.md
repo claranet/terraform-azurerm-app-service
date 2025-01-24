@@ -1,3 +1,51 @@
+## 8.0.0 (2025-01-24)
+
+### ⚠ BREAKING CHANGES
+
+* **AZ-1088:** AzureRM Provider v4+ and OpenTofu 1.8+
+
+### Features
+
+* **AZ-1088:** add health_check_eviction_time_in_min in site_config b8a71c8
+* **AZ-1088:** module v8 structure and updates 3a497a6
+* **AZ-1088:** upgrade `linux-web-app` submodule to v8 d1851a3
+* **AZ-1088:** windows webapp submodule update v8 5858ad5
+
+### Bug Fixes
+
+* **AZ-1088:** add missing moved block ebd8359
+* don't set `java_embedded_server_enabled` by default 8276541
+* move win slot acdefa3
+
+### Documentation
+
+* **AZ-1088:** bump container-webapp example e516e08
+* **AZ-1088:** update linux example 282d8a3
+* fix windows sebapp example c3590c1
+
+### Code Refactoring
+
+* align `var.staging_slot_site_config` variable 187f5e1
+* **AZ-1088:** module update 12709aa
+* **AZ-1088:** update variables 7d24e7b
+
+### Miscellaneous Chores
+
+* **deps:** update dependency claranet/app-service-plan/azurerm to v8 88c9417
+* **deps:** update dependency opentofu to v1.8.6 79eaa22
+* **deps:** update dependency opentofu to v1.8.8 cfa873c
+* **deps:** update dependency opentofu to v1.9.0 2279b12
+* **deps:** update dependency pre-commit to v4.1.0 97fa963
+* **deps:** update dependency tflint to v0.54.0 fda7d7e
+* **deps:** update dependency tflint to v0.55.0 4050bb2
+* **deps:** update dependency trivy to v0.57.1 7835746
+* **deps:** update dependency trivy to v0.58.1 5e5284c
+* **deps:** update dependency trivy to v0.58.2 e9bf5eb
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.19.0 78ab475
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.20.0 b173b88
+* **deps:** update tools a475700
+* update tflint config for v0.55.0 e454b38
+
 ## 7.14.1 (2024-11-08)
 
 ### Documentation
