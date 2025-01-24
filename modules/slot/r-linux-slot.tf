@@ -1,11 +1,11 @@
 resource "azurerm_linux_web_app_slot" "main" {
   count = lower(var.slot_os_type) == "linux" ? 1 : 0
 
-  name           = var.slot_name
-  app_service_id = var.app_service_id
+  name           = var.name
+  app_service_id = var.id
 
   public_network_access_enabled = var.public_network_access_enabled
-  virtual_network_subnet_id     = var.app_service_vnet_integration_subnet_id
+  virtual_network_subnet_id     = var.vnet_integration_subnet_id
 
   dynamic "site_config" {
     for_each = [var.site_config]
@@ -60,9 +60,9 @@ resource "azurerm_linux_web_app_slot" "main" {
 
       scm_type                    = lookup(site_config.value, "scm_type", null)
       scm_minimum_tls_version     = lookup(site_config.value, "scm_minimum_tls_version", "1.2")
-      scm_use_main_ip_restriction = length(var.scm_authorized_ips) > 0 || var.scm_authorized_subnet_ids != null ? false : true
+      scm_use_main_ip_restriction = length(var.scm_allowed_cidrs) > 0 || var.scm_allowed_subnet_ids != null ? false : true
 
-      vnet_route_all_enabled = var.app_service_vnet_integration_subnet_id != null
+      vnet_route_all_enabled = var.vnet_integration_subnet_id != null
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
@@ -118,7 +118,7 @@ resource "azurerm_linux_web_app_slot" "main" {
         content {
           client_id         = var.auth_settings_active_directory.client_id
           client_secret     = var.auth_settings_active_directory.client_secret
-          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", var.slot_name)]), var.auth_settings_active_directory.allowed_audiences)
+          allowed_audiences = concat(formatlist("https://%s", [format("%s.azurewebsites.net", var.name)]), var.auth_settings_active_directory.allowed_audiences)
         }
       }
     }
@@ -278,7 +278,7 @@ resource "azurerm_linux_web_app_slot" "main" {
   }
 
   dynamic "logs" {
-    for_each = var.app_service_logs[*]
+    for_each = var.logs[*]
     content {
       detailed_error_messages = lookup(logs.value, "detailed_error_messages", null)
       failed_request_tracing  = lookup(logs.value, "failed_request_tracing", null)

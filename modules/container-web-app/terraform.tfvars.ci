@@ -4,7 +4,7 @@ client_name         = "test"
 environment         = "test"
 stack               = "ci"
 resource_group_name = "test-rg"
-app_service_plan_id = "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/my-rg/providers/Microsoft.web/serverFarms/my-resource-name"
+service_plan_id     = "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/my-rg/providers/Microsoft.web/serverFarms/my-resource-name"
 app_settings = {
   foo = "bar"
 }
@@ -27,13 +27,9 @@ custom_domains = {
   }
   "example3.com" = null
 }
-enable_logging                           = true
-logs_retention                           = 7
-logs_storage_account_id                  = "/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/rg-test/providers/Microsoft.Storage/storageAccounts/storageaccountname"
-enable_backup                            = true
+backup_enabled                           = true
 backup_storage_account_connection_string = "DefaultEndpointsProtocol=[http];AccountName=myAccountName;AccountKey=myAccountKey"
-custom_diagnostic_settings_name          = "diag-custom-name"
-authorized_ips                           = ["1.2.3.4/32", "4.3.2.1/32"]
+diagnostic_settings_custom_name          = "diag-custom-name"
 ip_restriction_headers = {
   x_forwarded_host = ["myhost1.fr", "myhost2.fr"]
 }

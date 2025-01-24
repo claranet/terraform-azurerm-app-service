@@ -1,4 +1,4 @@
-variable "slot_name" {
+variable "name" {
   description = "Azure App Service slot name."
   type        = string
 }
