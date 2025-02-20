@@ -1,10 +1,10 @@
 variable "os_type" {
-  description = "The O/S type for the App Services to be hosted in this plan. Possible values include `Windows`, `Linux`, and `WindowsContainer`."
+  description = "The O/S type for the App Services to be hosted in this plan. Possible values include `Windows`, `Linux`, `LinuxContainer` and `WindowsContainer`."
   type        = string
 
   validation {
-    condition     = try(contains(["Windows", "Linux", "WindowsContainer"], var.os_type), true)
-    error_message = "The `os_type` value must be valid. Possible values are `Windows`, `Linux`, and `WindowsContainer`."
+    condition     = try(contains(["Windows", "Linux", "LinuxContainer", "WindowsContainer"], var.os_type), true)
+    error_message = "The `os_type` value must be valid. Possible values are `Windows`, `Linux`, `LinuxContainer` and `WindowsContainer`."
   }
 }
 

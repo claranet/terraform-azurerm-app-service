@@ -214,7 +214,7 @@ module "app_service" {
 | mount\_points | Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account). | <pre>list(object({<br/>    name         = optional(string)<br/>    type         = optional(string, "AzureFiles")<br/>    account_name = string<br/>    share_name   = string<br/>    access_key   = string<br/>    mount_path   = optional(string)<br/>  }))</pre> | `[]` | no |
 | name\_prefix | Optional prefix for the generated name. | `string` | `""` | no |
 | name\_suffix | Optional suffix for the generated name. | `string` | `""` | no |
-| os\_type | The O/S type for the App Services to be hosted in this plan. Possible values include `Windows`, `Linux`, and `WindowsContainer`. | `string` | n/a | yes |
+| os\_type | The O/S type for the App Services to be hosted in this plan. Possible values include `Windows`, `Linux`, `LinuxContainer` and `WindowsContainer`. | `string` | n/a | yes |
 | per\_site\_scaling\_enabled | Should Per Site Scaling be enabled. | `bool` | `false` | no |
 | public\_network\_access\_enabled | Whether enable public access for the App Service. | `bool` | `false` | no |
 | resource\_group\_name | Resource group name. | `string` | n/a | yes |

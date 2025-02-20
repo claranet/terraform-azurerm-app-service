@@ -1,5 +1,5 @@
 module "linux_web_app" {
-  for_each = toset(lower(var.os_type) == "linux" ? ["enabled"] : [])
+  count = lower(var.os_type) == "linux" ? 1 : 0
 
   source = "./modules/linux-web-app"
 
@@ -73,8 +73,13 @@ module "linux_web_app" {
   extra_tags           = var.extra_tags
 }
 
+moved {
+  from = module.linux_web_app["enabled"]
+  to   = module.linux_web_app[0]
+}
+
 resource "null_resource" "fake_webapp_container_condition" {
-  count = lower(var.os_type) == "container" ? 1 : 0
+  count = lower(var.os_type) == "linuxcontainer" ? 1 : 0
 
   triggers = {
     webapp_type = var.os_type
@@ -89,7 +94,7 @@ resource "null_resource" "fake_webapp_container_condition" {
 }
 
 module "container_web_app" {
-  for_each = toset(lower(var.os_type) == "container" ? ["enabled"] : [])
+  count = lower(var.os_type) == "linuxcontainer" ? 1 : 0
 
   source = "./modules/container-web-app"
 
@@ -165,8 +170,13 @@ module "container_web_app" {
   extra_tags           = var.extra_tags
 }
 
+moved {
+  from = module.container_web_app["enabled"]
+  to   = module.container_web_app[0]
+}
+
 module "windows_web_app" {
-  for_each = toset(lower(var.os_type) == "windows" ? ["enabled"] : [])
+  count = lower(var.os_type) == "windows" ? 1 : 0
 
   source = "./modules/windows-web-app"
 
@@ -238,4 +248,9 @@ module "windows_web_app" {
 
   default_tags_enabled = var.default_tags_enabled
   extra_tags           = var.extra_tags
+}
+
+moved {
+  from = module.windows_web_app["enabled"]
+  to   = module.windows_web_app[0]
 }
