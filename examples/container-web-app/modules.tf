@@ -138,7 +138,7 @@ module "acr" {
 
 resource "azurerm_role_assignment" "webapp_acr_pull" {
   scope                = module.acr.id
-  principal_id         = module.container_web_app.identity_service_principal_id
+  principal_id         = module.container_web_app.identity_principal_id
   role_definition_name = "AcrPull"
 
   lifecycle {
