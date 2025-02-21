@@ -1,3 +1,19 @@
+## 8.0.1 (2025-02-21)
+
+### Bug Fixes
+
+* fix output 9784256
+* proper condition for `Linux Container` webapp 862d93e
+
+### Miscellaneous Chores
+
+* apply suggestions b6aba97
+* **deps:** update dependency trivy to v0.59.1 e32c5ed
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.21.0 5c49d18
+* **deps:** update terraform claranet/app-service-plan/azurerm to ~> 8.1.0 ccb0c04
+* **deps:** update tools 0186713
+* update Github templates 1d0ada4
+
 ## 8.0.0 (2025-01-24)
 
 ### ⚠ BREAKING CHANGES
