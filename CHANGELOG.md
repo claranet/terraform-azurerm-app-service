@@ -1,3 +1,9 @@
+## 8.0.2 (2025-02-21)
+
+### Bug Fixes
+
+* health check `site_config` val on slot module 74e8973
+
 ## 8.0.1 (2025-02-21)
 
 ### Bug Fixes
