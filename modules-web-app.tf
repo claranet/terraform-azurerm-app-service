@@ -88,7 +88,7 @@ resource "null_resource" "fake_webapp_container_condition" {
   lifecycle {
     precondition {
       condition     = var.docker_image != null
-      error_message = "Variable `docker_image` must be set when `os_type` App Service variable is in 'container' mode."
+      error_message = "Variable `docker_image` must be set when `os_type` App Service variable is in 'LinuxContainer' mode."
     }
   }
 }
