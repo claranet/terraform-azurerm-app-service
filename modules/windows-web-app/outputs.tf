@@ -58,8 +58,8 @@ output "site_credential" {
   value       = azurerm_windows_web_app.main.site_credential
 }
 
-output "identity_service_principal_id" {
-  description = "Id of the Service principal identity of the App Service."
+output "identity_principal_id" {
+  description = "ID of the system principal identity of the App Service."
   value       = azurerm_windows_web_app.main.identity[0].principal_id
 }
 
@@ -104,7 +104,7 @@ output "slot_name" {
   value       = one(module.staging_slot[*].name)
 }
 
-output "slot_identity_service_principal_id" {
-  description = "ID of the Service principal identity of the App Service slot."
+output "slot_identity_principal_id" {
+  description = "ID of the system principal identity of the App Service Slot."
   value       = one(module.staging_slot[*].identity_principal_id)
 }

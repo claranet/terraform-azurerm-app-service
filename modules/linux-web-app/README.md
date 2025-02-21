@@ -250,7 +250,7 @@ module "linux_web_app" {
 | certificates\_id | ID of certificates generated. |
 | default\_site\_hostname | The Default Hostname associated with the App Service. |
 | id | ID of the App Service. |
-| identity\_service\_principal\_id | Id of the Service principal identity of the App Service. |
+| identity\_principal\_id | ID of the system principal identity of the App Service. |
 | module\_backup\_sas\_token | Backup SAS token module output. |
 | module\_diagnostics | Diagnostics Settings module output. |
 | module\_slot | App Service slot output. |
@@ -262,7 +262,7 @@ module "linux_web_app" {
 | service\_plan\_id | ID of the Service Plan. |
 | site\_credential | Site credential block of the App Service. |
 | slot | Azure App Service slot output object. |
-| slot\_identity\_service\_principal\_id | ID of the Service principal identity of the App Service slot. |
+| slot\_identity\_principal\_id | ID of the system principal identity of the App Service Slot. |
 | slot\_name | Name of the App Service slot. |
 <!-- END_TF_DOCS -->
 ## Related documentation
