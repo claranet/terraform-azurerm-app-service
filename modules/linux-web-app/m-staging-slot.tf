@@ -35,6 +35,6 @@ module "staging_slot" {
 }
 
 moved {
-  from = azurerm_linux_web_app_slot.app_service_linux_container_slot[0]
+  from = module.staging[0].azurerm_linux_web_app_slot.main[0]
   to   = module.staging_slot[0].azurerm_linux_web_app_slot.main[0]
 }
