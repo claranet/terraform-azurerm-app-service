@@ -1,3 +1,9 @@
+## 8.0.3 (2025-02-28)
+
+### Bug Fixes
+
+* **AZ-1529:** move blocks for slot app 14ac0a0
+
 ## 8.0.2 (2025-02-21)
 
 ### Bug Fixes
