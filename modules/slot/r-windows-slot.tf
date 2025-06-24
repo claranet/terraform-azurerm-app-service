@@ -316,4 +316,12 @@ resource "azurerm_windows_web_app_slot" "main" {
   }
 
   tags = merge(local.default_tags, var.extra_tags)
+
+  lifecycle {
+    ignore_changes = [
+      tags["hidden-link: /app-insights-instrumentation-key"],
+      tags["hidden-link: /app-insights-resource-id"],
+      tags["hidden-link: acrResourceId"],
+    ]
+  }
 }

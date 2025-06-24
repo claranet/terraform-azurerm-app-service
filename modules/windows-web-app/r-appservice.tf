@@ -350,6 +350,9 @@ resource "azurerm_windows_web_app" "main" {
   lifecycle {
     ignore_changes = [
       backup[0].storage_account_url,
+      tags["hidden-link: /app-insights-instrumentation-key"],
+      tags["hidden-link: /app-insights-resource-id"],
+      tags["hidden-link: acrResourceId"],
     ]
   }
 }
