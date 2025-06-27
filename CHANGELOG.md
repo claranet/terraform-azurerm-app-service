@@ -1,3 +1,29 @@
+## 8.0.4 (2025-06-27)
+
+### Bug Fixes
+
+* ignore known hidden-link prefixed tags that are portal only related e18e9eb
+
+### Miscellaneous Chores
+
+* **⚙️:** ✏️ update template identifier for MR review e236400
+* **deps:** update dependency claranet/storage-sas-token/azurerm to v8 2083390
+* **deps:** update dependency opentofu to v1.10.0 975fc21
+* **deps:** update dependency opentofu to v1.10.1 9636af4
+* **deps:** update dependency opentofu to v1.9.1 1b5f59f
+* **deps:** update dependency pre-commit to v4.2.0 7ccafb4
+* **deps:** update dependency terraform-docs to v0.20.0 6fcf524
+* **deps:** update dependency tflint to v0.56.0 5d0bb34
+* **deps:** update dependency tflint to v0.58.0 8f7a23a
+* **deps:** update dependency trivy to v0.60.0 4f90af6
+* **deps:** update dependency trivy to v0.61.0 7dbeb2f
+* **deps:** update dependency trivy to v0.61.1 263e9cc
+* **deps:** update dependency trivy to v0.63.0 a2a4258
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.22.0 bbbc8f6
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.2.0 62722da
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.2.1 c49ecba
+* **deps:** update tools 71669a0
+
 ## 8.0.3 (2025-02-28)
 
 ### Bug Fixes
