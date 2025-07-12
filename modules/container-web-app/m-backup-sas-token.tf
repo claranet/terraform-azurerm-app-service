@@ -1,6 +1,6 @@
 module "backup_sas_token" {
   source  = "claranet/storage-sas-token/azurerm"
-  version = "~> 8.0.0"
+  version = "~> 8.2.0"
 
   count = var.backup_enabled ? 1 : 0
 
