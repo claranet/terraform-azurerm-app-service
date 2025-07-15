@@ -51,14 +51,15 @@ module "linux_web_app" {
   vnet_integration_subnet_id = var.vnet_integration_subnet_id
   vnet_image_pull_enabled    = var.vnet_image_pull_enabled
 
-  backup_enabled                           = var.backup_enabled
-  backup_custom_name                       = var.backup_custom_name
-  backup_storage_account_connection_string = var.backup_storage_account_connection_string
-  backup_storage_account_container         = var.backup_storage_account_container
-  backup_frequency_interval                = var.backup_frequency_interval
-  backup_retention_period_in_days          = var.backup_retention_period_in_days
-  backup_frequency_unit                    = var.backup_frequency_unit
-  backup_keep_at_least_one_backup          = var.backup_keep_at_least_one_backup
+  backup_enabled                   = var.backup_enabled
+  backup_custom_name               = var.backup_custom_name
+  backup_storage_account_id        = var.backup_storage_account_id
+  backup_storage_account_container = var.backup_storage_account_container
+  backup_frequency_interval        = var.backup_frequency_interval
+  backup_retention_period_in_days  = var.backup_retention_period_in_days
+  backup_frequency_unit            = var.backup_frequency_unit
+  backup_keep_at_least_one_backup  = var.backup_keep_at_least_one_backup
+  backup_token_start_date          = var.backup_token_start_date
 
   application_insights = var.application_insights
 
@@ -149,14 +150,15 @@ module "container_web_app" {
   vnet_integration_subnet_id = var.vnet_integration_subnet_id
   vnet_image_pull_enabled    = var.vnet_image_pull_enabled
 
-  backup_enabled                           = var.backup_enabled
-  backup_custom_name                       = var.backup_custom_name
-  backup_storage_account_connection_string = var.backup_storage_account_connection_string
-  backup_storage_account_container         = var.backup_storage_account_container
-  backup_frequency_interval                = var.backup_frequency_interval
-  backup_retention_period_in_days          = var.backup_retention_period_in_days
-  backup_frequency_unit                    = var.backup_frequency_unit
-  backup_keep_at_least_one_backup          = var.backup_keep_at_least_one_backup
+  backup_enabled                   = var.backup_enabled
+  backup_custom_name               = var.backup_custom_name
+  backup_storage_account_id        = var.backup_storage_account_id
+  backup_storage_account_container = var.backup_storage_account_container
+  backup_frequency_interval        = var.backup_frequency_interval
+  backup_retention_period_in_days  = var.backup_retention_period_in_days
+  backup_frequency_unit            = var.backup_frequency_unit
+  backup_keep_at_least_one_backup  = var.backup_keep_at_least_one_backup
+  backup_token_start_date          = var.backup_token_start_date
 
   application_insights = var.application_insights
 
@@ -229,14 +231,15 @@ module "windows_web_app" {
 
   vnet_integration_subnet_id = var.vnet_integration_subnet_id
 
-  backup_enabled                           = var.backup_enabled
-  backup_custom_name                       = var.backup_custom_name
-  backup_storage_account_connection_string = var.backup_storage_account_connection_string
-  backup_storage_account_container         = var.backup_storage_account_container
-  backup_frequency_interval                = var.backup_frequency_interval
-  backup_retention_period_in_days          = var.backup_retention_period_in_days
-  backup_frequency_unit                    = var.backup_frequency_unit
-  backup_keep_at_least_one_backup          = var.backup_keep_at_least_one_backup
+  backup_enabled                   = var.backup_enabled
+  backup_custom_name               = var.backup_custom_name
+  backup_storage_account_id        = var.backup_storage_account_id
+  backup_storage_account_container = var.backup_storage_account_container
+  backup_frequency_interval        = var.backup_frequency_interval
+  backup_retention_period_in_days  = var.backup_retention_period_in_days
+  backup_frequency_unit            = var.backup_frequency_unit
+  backup_keep_at_least_one_backup  = var.backup_keep_at_least_one_backup
+  backup_token_start_date          = var.backup_token_start_date
 
   application_insights = var.application_insights
 

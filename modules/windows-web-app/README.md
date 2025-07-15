@@ -147,6 +147,7 @@ module "windows_web_app" {
 |------|---------|
 | azurecaf | ~> 1.2.28 |
 | azurerm | ~> 4.0 |
+| time | ~> 0.13 |
 
 ## Modules
 
@@ -164,6 +165,7 @@ module "windows_web_app" {
 | [azurerm_app_service_custom_hostname_binding.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
 | [azurerm_application_insights.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
 | [azurerm_windows_web_app.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app) | resource |
+| [time_static.main](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/static) | resource |
 | [azurecaf_name.app_service_web](https://registry.terraform.io/providers/claranet/azurecaf/latest/docs/data-sources/name) | data source |
 | [azurecaf_name.application_insights](https://registry.terraform.io/providers/claranet/azurecaf/latest/docs/data-sources/name) | data source |
 | [azurerm_application_insights.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
@@ -188,8 +190,9 @@ module "windows_web_app" {
 | backup\_frequency\_unit | Frequency unit for the App Service backup. Possible values are `Day` or `Hour`. | `string` | `"Day"` | no |
 | backup\_keep\_at\_least\_one\_backup | Should the service keep at least one backup, regardless of age of backup. | `bool` | `true` | no |
 | backup\_retention\_period\_in\_days | Retention in days for the App Service backup. | `number` | `30` | no |
-| backup\_storage\_account\_connection\_string | Storage account connection string to use if App Service backup is enabled. | `string` | `null` | no |
 | backup\_storage\_account\_container | Name of the container in the Storage Account if App Service backup is enabled. | `string` | `"webapps"` | no |
+| backup\_storage\_account\_id | Storage account ID to use if App Service backup is enabled. | `string` | `null` | no |
+| backup\_token\_start\_date | Start date for the backup SAS token. | `string` | `null` | no |
 | certificates | Certificates for custom domains | `map(map(string))` | `{}` | no |
 | client\_affinity\_enabled | Client affinity activation for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_affinity_enabled). | `bool` | `false` | no |
 | client\_certificate\_enabled | Client certificate activation for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#client_certificate_enabled). | `bool` | `false` | no |
