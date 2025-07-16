@@ -314,3 +314,9 @@ variable "application_insights" {
   })
   default = {}
 }
+
+variable "vnet_image_pull_enabled" {
+  description = "Controls whether container image pull traffic is routed through the virtual network."
+  type        = bool
+  default     = false
+}

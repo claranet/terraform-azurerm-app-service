@@ -156,7 +156,7 @@ module "testing_slot" {
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 4.0 |
+| azurerm | ~> 4.36 |
 
 ## Modules
 
@@ -197,6 +197,7 @@ No modules.
 | site\_config | Site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is no more managed in this block). | `any` | `{}` | no |
 | slot\_os\_type | The O/S type for the App Services slot. Possible values include `Windows`, `Linux`, and `Container`. | `string` | n/a | yes |
 | stack | Project stack name. | `string` | n/a | yes |
+| vnet\_image\_pull\_enabled | Controls whether container image pull traffic is routed through the virtual network. | `bool` | `false` | no |
 | vnet\_integration\_subnet\_id | ID of the subnet to associate with the App Service slot. | `string` | `null` | no |
 
 ## Outputs

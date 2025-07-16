@@ -49,6 +49,7 @@ module "linux_web_app" {
   scm_allowed_service_tags      = var.scm_allowed_service_tags
 
   vnet_integration_subnet_id = var.vnet_integration_subnet_id
+  vnet_image_pull_enabled    = var.vnet_image_pull_enabled
 
   backup_enabled                           = var.backup_enabled
   backup_custom_name                       = var.backup_custom_name
@@ -146,6 +147,7 @@ module "container_web_app" {
   scm_allowed_service_tags      = var.scm_allowed_service_tags
 
   vnet_integration_subnet_id = var.vnet_integration_subnet_id
+  vnet_image_pull_enabled    = var.vnet_image_pull_enabled
 
   backup_enabled                           = var.backup_enabled
   backup_custom_name                       = var.backup_custom_name
