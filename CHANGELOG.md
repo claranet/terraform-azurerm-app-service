@@ -1,3 +1,22 @@
+## 8.1.0 (2025-07-16)
+
+### Features
+
+* **AZ-1586:** add vnet_image_pull_enabled variable and update related configurations 13aeac8
+* **AZ-1586:** enable vnet image pull based on subnet configuration 48b0768
+* **AZ-1586:** update azurerm provider version to 4.36 in configuration files 25fe275
+
+### Code Refactoring
+
+* **AZ-1586:** update description for vnet_image_pull_enabled variable in README and tf files e937ee7
+
+### Miscellaneous Chores
+
+* 🗑️ remove old commitlint configuration files b255a3d
+* **deps:** update dependency opentofu to v1.10.3 f935055
+* **deps:** update dependency tflint to v0.58.1 ab7da43
+* **deps:** update tools e3b5ed2
+
 ## 8.0.4 (2025-06-27)
 
 ### Bug Fixes
