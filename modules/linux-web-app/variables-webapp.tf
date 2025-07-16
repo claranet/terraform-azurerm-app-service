@@ -301,3 +301,9 @@ variable "application_insights" {
   })
   default = {}
 }
+
+variable "vnet_image_pull_enabled" {
+  description = "Should the traffic for the image pull be routed over virtual network enabled."
+  type        = bool
+  default     = false
+}

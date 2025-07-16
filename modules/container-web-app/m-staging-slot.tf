@@ -12,6 +12,7 @@ module "staging_slot" {
 
   public_network_access_enabled = var.public_network_access_enabled
   vnet_integration_subnet_id    = var.vnet_integration_subnet_id
+  vnet_image_pull_enabled       = var.vnet_image_pull_enabled
   ip_restriction                = concat(local.subnets, local.cidrs, local.service_tags)
   scm_ip_restriction            = concat(local.scm_subnets, local.scm_cidrs, local.scm_service_tags)
   scm_allowed_cidrs             = var.scm_allowed_cidrs
