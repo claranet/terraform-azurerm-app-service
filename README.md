@@ -233,7 +233,7 @@ module "app_service" {
 | staging\_slot\_mount\_points | Storage Account mount points for staging slot. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account). | <pre>list(object({<br/>    name         = optional(string)<br/>    type         = optional(string, "AzureFiles")<br/>    account_name = string<br/>    share_name   = string<br/>    access_key   = string<br/>    mount_path   = optional(string)<br/>  }))</pre> | `[]` | no |
 | staging\_slot\_site\_config | Staging slot site config for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config). | `any` | `{}` | no |
 | sticky\_settings | Lists of connection strings and app settings to prevent from swapping between slots. | <pre>object({<br/>    app_setting_names       = optional(list(string))<br/>    connection_string_names = optional(list(string))<br/>  })</pre> | `null` | no |
-| vnet\_image\_pull\_enabled | Should the traffic for the image pull be routed over virtual network enabled. | `bool` | `false` | no |
+| vnet\_image\_pull\_enabled | Controls whether container image pull traffic is routed through the virtual network. | `bool` | `false` | no |
 | vnet\_integration\_subnet\_id | ID of the subnet to associate with the App Service. | `string` | `null` | no |
 | worker\_count | The number of Workers (instances) to be allocated. | `number` | `3` | no |
 | zone\_balancing\_enabled | Should the Service Plan balance across Availability Zones in the region. | `bool` | `true` | no |

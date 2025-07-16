@@ -121,7 +121,7 @@ variable "logs" {
 }
 
 variable "vnet_image_pull_enabled" {
-  description = "Should the traffic for the image pull be routed over virtual network enabled."
+  description = "Controls whether container image pull traffic is routed through the virtual network."
   type        = bool
   default     = false
 }
