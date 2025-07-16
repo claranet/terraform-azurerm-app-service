@@ -211,7 +211,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.2.28 |
-| azurerm | ~> 4.0 |
+| azurerm | ~> 4.36 |
 
 ## Modules
 

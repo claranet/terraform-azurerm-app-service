@@ -156,7 +156,7 @@ module "testing_slot" {
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 4.0 |
+| azurerm | ~> 4.36 |
 
 ## Modules
 
