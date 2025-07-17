@@ -1,3 +1,14 @@
+## 8.2.0 (2025-07-17)
+
+### Features
+
+* **backup:** ✨ add backup options and update related variables 761edb3
+
+### Miscellaneous Chores
+
+* 🔧 apply IA suggestions 49ed03b
+* **deps:** update dependency claranet/storage-sas-token/azurerm to ~> 8.2.0 b886f7b
+
 ## 8.1.0 (2025-07-16)
 
 ### Features
