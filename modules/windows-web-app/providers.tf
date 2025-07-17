@@ -8,5 +8,9 @@ terraform {
       source  = "claranet/azurecaf"
       version = "~> 1.2.28"
     }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.13"
+    }
   }
 }
