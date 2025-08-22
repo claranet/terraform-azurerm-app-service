@@ -154,7 +154,7 @@ module "windows_web_app" {
 | Name | Source | Version |
 |------|--------|---------|
 | backup\_sas\_token | claranet/storage-sas-token/azurerm | ~> 8.2.0 |
-| diagnostics | claranet/diagnostic-settings/azurerm | ~> 8.0.0 |
+| diagnostics | claranet/diagnostic-settings/azurerm | ~> 8.1.0 |
 | staging\_slot | ../slot | n/a |
 
 ## Resources
