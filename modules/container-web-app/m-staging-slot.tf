@@ -26,9 +26,11 @@ module "staging_slot" {
   auth_settings_v2               = local.auth_settings_v2
   auth_settings_v2_login         = local.auth_settings_v2_login
 
+  key_vault_reference_identity_id = var.key_vault_reference_identity_id
+  identity                        = var.identity
+
   client_affinity_enabled = var.client_affinity_enabled
   https_only              = var.https_only
-  identity                = var.identity
   mount_points            = length(var.staging_slot_mount_points) > 0 ? var.staging_slot_mount_points : var.mount_points
   logs                    = var.logs
 

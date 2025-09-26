@@ -246,6 +246,11 @@ variable "identity" {
   }
 }
 
+variable "key_vault_reference_identity_id" {
+  description = "The User Assigned Identity ID to use for the Key Vault secrets reference. If not set, the system assigned identity of the App Service will be used."
+  type        = string
+  default     = null
+}
 
 variable "vnet_image_pull_enabled" {
   description = "Controls whether container image pull traffic is routed through the virtual network."

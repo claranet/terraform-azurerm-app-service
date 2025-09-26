@@ -65,7 +65,8 @@ module "linux_web_app" {
 
   logs = var.logs
 
-  identity = var.identity
+  key_vault_reference_identity_id = var.key_vault_reference_identity_id
+  identity                        = var.identity
 
   logs_destinations_ids   = var.logs_destinations_ids
   logs_categories         = var.logs_categories
@@ -164,7 +165,8 @@ module "container_web_app" {
 
   logs = var.logs
 
-  identity = var.identity
+  key_vault_reference_identity_id = var.key_vault_reference_identity_id
+  identity                        = var.identity
 
   logs_destinations_ids   = var.logs_destinations_ids
   logs_categories         = var.logs_categories
@@ -245,7 +247,8 @@ module "windows_web_app" {
 
   logs = var.logs
 
-  identity = var.identity
+  key_vault_reference_identity_id = var.key_vault_reference_identity_id
+  identity                        = var.identity
 
   logs_destinations_ids   = var.logs_destinations_ids
   logs_categories         = var.logs_categories

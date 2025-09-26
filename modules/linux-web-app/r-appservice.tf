@@ -261,9 +261,10 @@ resource "azurerm_linux_web_app" "main" {
     }
   }
 
-  client_affinity_enabled    = var.client_affinity_enabled
-  client_certificate_enabled = var.client_certificate_enabled
-  https_only                 = var.https_only
+  client_affinity_enabled         = var.client_affinity_enabled
+  client_certificate_enabled      = var.client_certificate_enabled
+  https_only                      = var.https_only
+  key_vault_reference_identity_id = var.key_vault_reference_identity_id
 
   dynamic "identity" {
     for_each = var.identity[*]
