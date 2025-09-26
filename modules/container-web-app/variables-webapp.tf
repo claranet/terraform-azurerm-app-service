@@ -250,6 +250,12 @@ variable "identity" {
   }
 }
 
+variable "key_vault_reference_identity_id" {
+  description = "The User Assigned Identity ID to use for the Key Vault secrets reference. If not set, the system assigned identity of the App Service will be used."
+  type        = string
+  default     = null
+}
+
 variable "application_insights" {
   description = "Application Insights parameters."
   type = object({

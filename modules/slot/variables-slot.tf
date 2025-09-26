@@ -75,6 +75,12 @@ variable "identity" {
   }
 }
 
+variable "key_vault_reference_identity_id" {
+  description = "The User Assigned Identity ID to use for the Key Vault secrets reference. If not set, the system assigned identity of the App Service will be used."
+  type        = string
+  default     = null
+}
+
 variable "mount_points" {
   description = "Storage Account mount points. Name is generated if not set and default type is `AzureFiles`. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#storage_account)."
   type = list(object({
