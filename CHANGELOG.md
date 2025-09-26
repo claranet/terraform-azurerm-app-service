@@ -1,3 +1,21 @@
+## 8.3.0 (2025-09-26)
+
+### Features
+
+* **GH-20:** ✨ add `key_vault_reference_identity_id` parameter 8e2ac87
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.10.6 1bf211d
+* **deps:** update dependency tflint to v0.59.1 5d9df59
+* **deps:** update dependency trivy to v0.66.0 42c0365
+* **deps:** update pre-commit hook pre-commit/pre-commit-hooks to v6 0743668
+* **deps:** update terraform claranet/app-service-plan/azurerm to ~> 8.2.0 d56a5fb
+* **deps:** update terraform claranet/diagnostic-settings/azurerm to ~> 8.1.0 2281815
+* **deps:** update terraform claranet/diagnostic-settings/azurerm to ~> 8.2.0 d375df6
+* **deps:** update tools 50b84d7
+* **deps:** update tools 8a35c7d
+
 ## 8.2.0 (2025-07-17)
 
 ### Features
