@@ -1,3 +1,17 @@
+## 8.4.0 (2025-11-07)
+
+### Features
+
+* **AZ-1620:** add v4 Premium + Isolated SKUs 321fc43
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.10.7 766be0c
+* **deps:** update dependency trivy to v0.67.1 a60901d
+* **deps:** update dependency trivy to v0.67.2 be6d306
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.2.2 7b68fb4
+* **deps:** update terraform claranet/app-service-plan/azurerm to ~> 8.3.0 e2e5c4a
+
 ## 8.3.1 (2025-09-30)
 
 ### Code Refactoring
