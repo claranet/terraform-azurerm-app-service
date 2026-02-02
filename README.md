@@ -49,6 +49,13 @@ resource "azurerm_storage_account" "assets_storage" {
   name                     = "appserviceassets"
   resource_group_name      = module.rg.name
   min_tls_version          = "TLS1_2"
+
+  network_rules {
+    default_action             = "Deny"
+    bypass                     = ["AzureServices"]
+    ip_rules                   = []
+    virtual_network_subnet_ids = []
+  }
 }
 
 resource "azurerm_storage_share" "assets_share" {
