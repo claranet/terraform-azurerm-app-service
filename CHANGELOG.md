@@ -1,3 +1,13 @@
+## 8.5.0 (2026-02-06)
+
+### Features
+
+* **AZ-1637:** add key_vault_id and precondition for app service certificates d86e8be
+
+### Miscellaneous Chores
+
+* **deps:** update dependency trivy to v0.69.1 742aa4e
+
 ## 8.4.1 (2026-02-02)
 
 ### Documentation
