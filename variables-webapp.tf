@@ -164,8 +164,13 @@ EOD
 
 variable "certificates" {
   description = "Certificates for custom domains"
-  type        = map(map(string))
-  default     = {}
+  type = map(object({
+    certificate_keyvault_certificate_id = optional(string)
+    certificate_keyvault_id             = optional(string)
+    certificate_file                    = optional(string)
+    certificate_password                = optional(string)
+  }))
+  default = {}
 }
 
 variable "vnet_integration_subnet_id" {
