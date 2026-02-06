@@ -367,6 +367,14 @@ resource "azurerm_app_service_certificate" "main" {
   pfx_blob            = each.value.certificate_file != null ? filebase64(each.value.certificate_file) : null
   password            = each.value.certificate_password
   key_vault_secret_id = try(each.value.certificate_keyvault_certificate_id, null)
+  key_vault_id        = try(each.value.certificate_keyvault_id, null)
+
+  lifecycle {
+    precondition {
+      condition     = try(each.value.certificate_keyvault_id, null) == null || try(each.value.certificate_keyvault_certificate_id, null) != null
+      error_message = "The variable `certificates.certificate_keyvault_certificate_id` must be declared if `certificates.certificate_keyvault_id` is set."
+    }
+  }
 }
 
 moved {
