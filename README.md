@@ -56,12 +56,16 @@ resource "azurerm_storage_account" "assets_storage" {
     ip_rules                   = []
     virtual_network_subnet_ids = []
   }
+
+  lifecycle { prevent_destroy = true }
 }
 
 resource "azurerm_storage_share" "assets_share" {
   name               = "assets"
   storage_account_id = azurerm_storage_account.assets_storage.id
   quota              = 50
+
+  lifecycle { prevent_destroy = true }
 }
 
 module "app_service" {
