@@ -1,3 +1,18 @@
+## 8.5.1 (2026-02-16)
+
+### Documentation
+
+* **examples:** 📚️ update with best practices 26050a9
+
+### Code Refactoring
+
+* **gitlab MR template:** ♻️ update default reviewers group with Azure Factory 🔧 554daaa
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.11.5 d88ee5a
+* **deps:** update dependency tflint to v0.61.0 0e8f5be
+
 ## 8.5.0 (2026-02-06)
 
 ### Features
