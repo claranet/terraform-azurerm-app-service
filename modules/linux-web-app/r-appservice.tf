@@ -90,6 +90,28 @@ resource "azurerm_linux_web_app" "main" {
           support_credentials = lookup(cors.value, "support_credentials", null)
         }
       }
+
+      dynamic "auto_heal_setting" {
+        for_each = var.auto_heal_setting[*]
+        content {
+          action {
+            action_type = auto_heal_setting.value.action.action_type
+          }
+          trigger {
+            dynamic "status_code" {
+              for_each = lookup(auto_heal_setting.value.trigger, "status_code", [])
+              content {
+                count             = status_code.value.count
+                interval          = status_code.value.interval
+                status_code_range = status_code.value.status_code_range
+                path              = lookup(status_code.value, "path", null)
+                sub_status        = lookup(status_code.value, "sub_status", null)
+                win32_status_code = lookup(status_code.value, "win32_status_code", null)
+              }
+            }
+          }
+        }
+      }
     }
   }
 

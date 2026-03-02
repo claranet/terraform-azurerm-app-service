@@ -131,3 +131,23 @@ variable "vnet_image_pull_enabled" {
   type        = bool
   default     = false
 }
+
+variable "auto_heal_setting" {
+  description = "Auto-heal settings for the App Service slot. See [documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app_slot#auto_heal_setting)."
+  type = object({
+    action = object({
+      action_type = string
+    })
+    trigger = object({
+      status_code = optional(list(object({
+        count             = number
+        interval          = string
+        status_code_range = string
+        path              = optional(string)
+        sub_status        = optional(number)
+        win32_status_code = optional(number)
+      })))
+    })
+  })
+  default = null
+}

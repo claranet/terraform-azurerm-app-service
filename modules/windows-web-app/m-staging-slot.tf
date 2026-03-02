@@ -31,6 +31,7 @@ module "staging_slot" {
   identity                        = var.identity
   mount_points                    = length(var.staging_slot_mount_points) > 0 ? var.staging_slot_mount_points : var.mount_points
   logs                            = var.logs
+  auto_heal_setting               = var.auto_heal_setting
 
   extra_tags = var.extra_tags
 }
