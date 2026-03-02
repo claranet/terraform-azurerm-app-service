@@ -71,3 +71,8 @@ rule "terraform_unused_required_providers" {
 rule "terraform_standard_module_structure" {
   enabled = false
 }
+
+# Disabled because auto_heal_setting is rendered via a dynamic block which tflint cannot statically analyse
+rule "azurerm_app_service_missing_auto_heal_setting" {
+  enabled = false
+}
