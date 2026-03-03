@@ -99,14 +99,14 @@ resource "azurerm_linux_web_app" "main" {
           }
           trigger {
             dynamic "status_code" {
-              for_each = lookup(auto_heal_setting.value.trigger, "status_code", [])
+              for_each = auto_heal_setting.value.trigger.status_code
               content {
                 count             = status_code.value.count
                 interval          = status_code.value.interval
                 status_code_range = status_code.value.status_code_range
-                path              = lookup(status_code.value, "path", null)
-                sub_status        = lookup(status_code.value, "sub_status", null)
-                win32_status_code = lookup(status_code.value, "win32_status_code", null)
+                path              = status_code.value.path
+                sub_status        = status_code.value.sub_status
+                win32_status_code = status_code.value.win32_status_code
               }
             }
           }

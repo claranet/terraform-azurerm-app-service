@@ -63,6 +63,8 @@ module "linux_web_app" {
 
   application_insights = var.application_insights
 
+  auto_heal_setting = var.auto_heal_setting
+
   logs = var.logs
 
   key_vault_reference_identity_id = var.key_vault_reference_identity_id
@@ -163,6 +165,8 @@ module "container_web_app" {
 
   application_insights = var.application_insights
 
+  auto_heal_setting = var.auto_heal_setting
+
   logs = var.logs
 
   key_vault_reference_identity_id = var.key_vault_reference_identity_id
@@ -244,6 +248,8 @@ module "windows_web_app" {
   backup_token_start_date          = var.backup_token_start_date
 
   application_insights = var.application_insights
+
+  auto_heal_setting = var.auto_heal_setting
 
   logs = var.logs
 

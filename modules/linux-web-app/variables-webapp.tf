@@ -289,7 +289,7 @@ variable "auto_heal_setting" {
         path              = optional(string)
         sub_status        = optional(number)
         win32_status_code = optional(number)
-      })))
+      })), [])
     })
   })
   default = null
