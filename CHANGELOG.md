@@ -1,3 +1,21 @@
+## 8.6.0 (2026-03-06)
+
+### Features
+
+* **site_config:** ✨ add auto_heal_setting support to all submodules f3706d2
+
+### Bug Fixes
+
+* **auto_heal_setting:** ♻️ apply review suggestions to all modules dc8222e
+
+### Miscellaneous Chores
+
+* **deps:** 🔗 bump tflint rules version d89b1aa
+* **deps:** 🔗 bump tflint rules version 15e283b
+* **deps:** update dependency trivy to v0.69.3 295fe78
+* **deps:** update pre-commit hook crate-ci/committed to v1.1.11 717fb6e
+* **tflint:** 🔧 disable rule `azurerm_app_service_missing_auto_heal_setting` 3b5d387
+
 ## 8.5.1 (2026-02-16)
 
 ### Documentation
