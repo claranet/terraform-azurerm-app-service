@@ -162,13 +162,13 @@ module "app_service" {
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | null | ~> 3.0 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | container\_web\_app | ./modules/container-web-app | n/a |
 | linux\_web\_app | ./modules/linux-web-app | n/a |
 | service\_plan | claranet/app-service-plan/azurerm | ~> 8.3.0 |
@@ -177,13 +177,13 @@ module "app_service" {
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [null_resource.fake_webapp_container_condition](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | allowed\_cidrs | IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction). | `list(string)` | `[]` | no |
 | allowed\_service\_tags | Service Tags restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction). | `list(string)` | `[]` | no |
 | allowed\_subnet\_ids | Subnets restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction). | `list(string)` | `[]` | no |
@@ -255,7 +255,7 @@ module "app_service" {
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | module\_container | App Service Container (Container WebApp) output object if Container is choosen. Please refer to `./modules/container-web-app/README.md` |
 | module\_linux | App Service Linux (Linux WebApp) output object if Linux is choosen. Please refer to `./modules/linux-web-app/README.md` |
 | module\_service\_plan | Service Plan output object. Please refer to [module documentation](https://github.com/claranet/terraform-azurerm-app-service-plan/blob/master/README.md#outputs). |

@@ -209,7 +209,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | azurecaf | >= 1.2.28 |
 | azurerm | ~> 4.36 |
 | time | ~> 0.13 |
@@ -217,7 +217,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | backup\_sas\_token | claranet/storage-sas-token/azurerm | ~> 8.2.0 |
 | diagnostics | claranet/diagnostic-settings/azurerm | ~> 8.2.0 |
 | staging\_slot | ../slot | n/a |
@@ -225,7 +225,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_app_service_certificate.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_certificate) | resource |
 | [azurerm_app_service_custom_hostname_binding.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_custom_hostname_binding) | resource |
 | [azurerm_application_insights.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
@@ -240,7 +240,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | allowed\_cidrs | IPs restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction). | `list(string)` | `[]` | no |
 | allowed\_service\_tags | Service Tags restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction). | `list(string)` | `[]` | no |
 | allowed\_subnet\_ids | Subnets restriction for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#ip_restriction). | `list(string)` | `[]` | no |
@@ -305,7 +305,7 @@ resource "azurerm_container_registry_webhook" "webhook" {
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | application\_insights\_app\_id | App id of the Application Insights associated to the App Service. |
 | application\_insights\_application\_type | Application Type of the Application Insights associated to the App Service. |
 | application\_insights\_id | ID of the Application Insights associated to the App Service. |

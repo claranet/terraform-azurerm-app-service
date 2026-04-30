@@ -155,7 +155,7 @@ module "testing_slot" {
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | azurerm | ~> 4.36 |
 
 ## Modules
@@ -165,14 +165,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_linux_web_app_slot.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app_slot) | resource |
 | [azurerm_windows_web_app_slot.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app_slot) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | app\_settings | Application settings for App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#app_settings). | `map(string)` | `{}` | no |
 | auth\_settings | Authentication settings. Issuer URL is generated thanks to the tenant ID. For `active_directory block`, the `allowed_audiences` list is filled with a value generated with the name of the App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings). | `any` | `{}` | no |
 | auth\_settings\_active\_directory | Active Directory settings. The `allowed_audiences` list is filled with a value generated with the name of the App Service. See [documentation](https://www.terraform.io/docs/providers/azurerm/r/app_service.html#auth_settings). | `any` | `{}` | no |
@@ -205,7 +205,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | id | Azure App Service slot ID. |
 | identity\_principal\_id | Azure App Service slot system identity principal ID. |
 | name | Azure App Service slot name. |
