@@ -16,6 +16,7 @@ output "name" {
 output "resource" {
   description = "Resource output."
   value       = azurerm_windows_web_app.main
+  sensitive   = true
 }
 
 output "resource_application_insights" {
