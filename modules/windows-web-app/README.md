@@ -147,7 +147,7 @@ module "windows_web_app" {
 | ---- | ------- |
 | azurecaf | >= 1.2.28 |
 | azurerm | ~> 4.0 |
-| time | ~> 0.13 |
+| time | ~> 0.14 |
 
 ## Modules
 
