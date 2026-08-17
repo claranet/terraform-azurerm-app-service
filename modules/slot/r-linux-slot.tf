@@ -80,7 +80,6 @@ resource "azurerm_linux_web_app_slot" "main" {
           node_version             = lookup(var.site_config.application_stack, "node_version", null)
           php_version              = lookup(var.site_config.application_stack, "php_version", null)
           python_version           = lookup(var.site_config.application_stack, "python_version", null)
-          ruby_version             = lookup(var.site_config.application_stack, "ruby_version", null)
         }
       }
 

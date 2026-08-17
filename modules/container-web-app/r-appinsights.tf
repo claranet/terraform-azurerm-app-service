@@ -9,17 +9,24 @@ resource "azurerm_application_insights" "main" {
   workspace_id     = var.application_insights.log_analytics_workspace_id
   application_type = var.application_insights.type
 
-  daily_data_cap_in_gb                  = var.application_insights.daily_data_cap
-  daily_data_cap_notifications_disabled = var.application_insights.daily_data_cap_notifications_disabled
-  sampling_percentage                   = var.application_insights.sampling_percentage
+  daily_data_cap_in_gb = var.application_insights.daily_data_cap
+  # AzureRM 5.0 replaced the `*_disabled` arguments below with their `*_enabled` counterparts.
+  # The module keeps its existing `_disabled` inputs and negates them here, so consumer
+  # configurations do not have to change. This one is nullable, so it is only negated when set.
+  daily_data_cap_notifications_enabled = (
+    var.application_insights.daily_data_cap_notifications_disabled == null
+    ? null
+    : !var.application_insights.daily_data_cap_notifications_disabled
+  )
+  sampling_percentage = var.application_insights.sampling_percentage
 
   retention_in_days = var.application_insights.retention
 
   internet_ingestion_enabled = var.application_insights.internet_ingestion_enabled
   internet_query_enabled     = var.application_insights.internet_query_enabled
-  disable_ip_masking         = var.application_insights.ip_masking_disabled
+  ip_masking_enabled         = !var.application_insights.ip_masking_disabled
 
-  local_authentication_disabled       = var.application_insights.local_authentication_disabled
+  local_authentication_enabled        = !var.application_insights.local_authentication_disabled
   force_customer_storage_for_profiler = var.application_insights.force_customer_storage_for_profiler
 
   tags = merge(

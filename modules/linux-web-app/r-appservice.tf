@@ -79,7 +79,6 @@ resource "azurerm_linux_web_app" "main" {
           node_version        = lookup(local.site_config.application_stack, "node_version", null)
           php_version         = lookup(local.site_config.application_stack, "php_version", null)
           python_version      = lookup(local.site_config.application_stack, "python_version", null)
-          ruby_version        = lookup(local.site_config.application_stack, "ruby_version", null)
         }
       }
 
