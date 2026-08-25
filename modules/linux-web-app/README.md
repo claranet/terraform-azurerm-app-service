@@ -154,16 +154,16 @@ module "linux_web_app" {
 
 | Name | Version |
 | ---- | ------- |
-| azurecaf | >= 1.2.28 |
-| azurerm | ~> 4.36 |
+| azurecaf | ~> 1.3.0 |
+| azurerm | ~> 5.0 |
 | time | ~> 0.14 |
 
 ## Modules
 
 | Name | Source | Version |
 | ---- | ------ | ------- |
-| backup\_sas\_token | claranet/storage-sas-token/azurerm | ~> 8.2.0 |
-| diagnostics | claranet/diagnostic-settings/azurerm | ~> 8.2.0 |
+| backup\_sas\_token | claranet/storage-sas-token/azurerm | ~> 9.0 |
+| diagnostics | claranet/diagnostic-settings/azurerm | ~> 9.0 |
 | staging\_slot | ../slot | n/a |
 
 ## Resources
