@@ -1,3 +1,37 @@
+## 9.0.0 (2026-08-25)
+
+### ⚠ BREAKING CHANGES
+
+* **SREAA-368:** the minimum OpenTofu version is raised to `1.12` and the AzureRM provider is
+constrained to `~> 5.0`, so consumers must upgrade both before using this release.
+`site_config.application_stack.ruby_version` is no longer supported on Linux Web Apps and Linux
+slots, so configurations setting it must remove it. `site_config.remote_debugging_version` no
+longer accepts `VS2017` or `VS2019`; the module passes the value straight through, so those
+values are rejected by the provider.
+`azurerm_windows_web_app.virtual_network_image_pull_enabled` now defaults to `[secure]`; the module
+does not set it, so Windows Web Apps relying on the previous default must set it explicitly. Two
+provider-level behaviour changes shipped with AzureRM 5.0 also apply:
+`resource_provider_registrations` now defaults to `none` instead of `legacy`, so no resource
+provider is registered automatically anymore, and the `enhanced_validation` block moved inside
+`features` with location and resource provider validation now disabled by default, which defers
+those errors from plan time to apply time. The `app-service-plan`, `storage-sas-[secure]` and
+`diagnostic-settings` submodules move to `~> 9.0`, which require AzureRM `~> 5.0` as well.
+
+### Features
+
+* **SREAA-368:** upgrade module to v9 (OpenTofu >= 1.12, AzureRM ~> 5.0) ed07b85
+
+### Documentation
+
+* **SREAA-368:** regenerate submodule READMEs for v9 cce10fa
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.12.5 a3cb456
+* **deps:** update dependency tflint to v0.64.0 11401fa
+* **SREAA-368:** synchronize committed.toml and AGENTS.md from the ci template 6054a88
+* **v9:** 🐛 synchronize common files and docs 4c74416
+
 ## 8.6.3 (2026-07-20)
 
 ### Bug Fixes
