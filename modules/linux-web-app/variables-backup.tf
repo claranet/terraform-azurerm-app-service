@@ -43,7 +43,19 @@ variable "backup_storage_account_container" {
 }
 
 variable "backup_token_start_date" {
-  description = "Start date for the backup SAS token."
+  description = "Start date for the backup SAS token, as an RFC3339 timestamp. Defaults to 15 minutes before the first apply, to absorb clock skew. Change it to generate a new token."
   type        = string
   default     = null
+}
+
+variable "backup_token_expiration_in_hours" {
+  description = "Validity duration, in hours, of the backup SAS token, counted from its generation. Defaults to 2 years. The token is not renewed automatically: change `backup_token_start_date` to generate a new one before it expires."
+  type        = number
+  default     = 17520
+  nullable    = false
+
+  validation {
+    condition     = var.backup_token_expiration_in_hours > 0 && floor(var.backup_token_expiration_in_hours) == var.backup_token_expiration_in_hours
+    error_message = "`backup_token_expiration_in_hours` must be a whole number of hours greater than 0."
+  }
 }
