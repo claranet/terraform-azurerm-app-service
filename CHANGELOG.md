@@ -1,3 +1,26 @@
+## 9.0.1 (2026-11-27)
+
+### Bug Fixes
+
+* **backup:** make the backup SAS [secure] long-lived and wire it to the backup block 0cc62a2
+* mark the web apps site_credential output as sensitive d7d8c68
+
+### Continuous Integration
+
+* **release:** drop semantic-release-slack-bot, the receiver posts releases 1b5b268
+
+### Miscellaneous Chores
+
+* **deps:** ⬆️ update tools 🔗 4b225cc
+* **deps:** update dependency opentofu to v1.13.0 0dcf4d8
+* **deps:** update dependency opentofu to v1.13.1 3476b4b
+* **deps:** update dependency opentofu to v1.13.2 9a94a88
+* **deps:** update dependency opentofu to v1.13.9 96fb0ce
+* **deps:** update dependency terraform-docs to v0.25.1 0025112
+* **deps:** update dependency tflint to v0.65.0 933dc99
+* **deps:** update dependency tflint to v0.66.0 da2ef6a
+* **deps:** update pre-commit hook crate-ci/committed to v1.1.12 c3893ba
+
 ## 9.0.0 (2026-08-25)
 
 ### ⚠ BREAKING CHANGES
