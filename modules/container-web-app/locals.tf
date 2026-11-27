@@ -149,3 +149,13 @@ locals {
 
   auth_settings_v2_login = try(var.auth_settings_v2.login, local.auth_settings_v2_login_default)
 }
+
+locals {
+  # Container SAS URL expected by the App Service backup: https://<account>.blob.core.windows.net/<container>?<token>
+  backup_storage_account_url = var.backup_enabled ? format(
+    "https://%s.blob.core.windows.net/%s%s",
+    split("/", var.backup_storage_account_id)[8],
+    var.backup_storage_account_container,
+    module.backup_sas_token[0].sas_token,
+  ) : null
+}

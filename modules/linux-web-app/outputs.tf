@@ -57,6 +57,7 @@ output "possible_outbound_ip_addresses" {
 output "site_credential" {
   description = "Site credential block of the App Service."
   value       = azurerm_linux_web_app.main.site_credential
+  sensitive   = true
 }
 
 output "identity_principal_id" {

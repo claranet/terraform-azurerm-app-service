@@ -294,7 +294,7 @@ resource "azurerm_linux_web_app" "main" {
     for_each = var.backup_enabled ? ["backup"] : []
     content {
       name                = local.backup_name
-      storage_account_url = module.backup_sas_token.storage_account_sas_container_uri
+      storage_account_url = local.backup_storage_account_url
 
       schedule {
         frequency_interval       = var.backup_frequency_interval
@@ -366,7 +366,6 @@ resource "azurerm_linux_web_app" "main" {
 
   lifecycle {
     ignore_changes = [
-      backup[0].storage_account_url,
       tags["hidden-link: /app-insights-instrumentation-key"],
       tags["hidden-link: /app-insights-resource-id"],
       tags["hidden-link: acrResourceId"],

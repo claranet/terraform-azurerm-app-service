@@ -60,6 +60,7 @@ module "linux_web_app" {
   backup_frequency_unit            = var.backup_frequency_unit
   backup_keep_at_least_one_backup  = var.backup_keep_at_least_one_backup
   backup_token_start_date          = var.backup_token_start_date
+  backup_token_expiration_in_hours = var.backup_token_expiration_in_hours
 
   application_insights = var.application_insights
 
@@ -162,6 +163,7 @@ module "container_web_app" {
   backup_frequency_unit            = var.backup_frequency_unit
   backup_keep_at_least_one_backup  = var.backup_keep_at_least_one_backup
   backup_token_start_date          = var.backup_token_start_date
+  backup_token_expiration_in_hours = var.backup_token_expiration_in_hours
 
   application_insights = var.application_insights
 
@@ -246,6 +248,7 @@ module "windows_web_app" {
   backup_frequency_unit            = var.backup_frequency_unit
   backup_keep_at_least_one_backup  = var.backup_keep_at_least_one_backup
   backup_token_start_date          = var.backup_token_start_date
+  backup_token_expiration_in_hours = var.backup_token_expiration_in_hours
 
   application_insights = var.application_insights
 
